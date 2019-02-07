@@ -2,3 +2,5 @@
 *.exe
 *.xml
 *.iml
+.idea/.name
+PrimalityTest/cmake-build-debug/CMakeFiles/clion-log.txt

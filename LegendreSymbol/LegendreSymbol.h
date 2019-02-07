@@ -1,8 +1,10 @@
 #ifndef LEGENDRESYMBOL_H
 #define LEGENDRESYMBOL_H
+#include <stdint.h>
+
 class LegendreSequence
 {
 public:
-	int Legendre(const int a, const int p);
+    int Legendre(const uint64_t a, const uint64_t p);
 };
 #endif /* LEGENDRESYMBOL_H*/

@@ -1,6 +1,6 @@
 #include "LegendreSymbol.h"
 
-int LegendreSequence::Legendre(const int a, const int p)
+int LegendreSequence::Legendre(const uint64_t a, const uint64_t p)
 {
 	if(a == 0)
 	{
@@ -11,10 +11,12 @@ int LegendreSequence::Legendre(const int a, const int p)
 		return 1;
 	}
 	int result;
-	if (a % 2 == 0) //TODO: Shift, instead of dividing
+	if ((a & 1) == 0)
 	{
 		result = Legendre(a/2, p); //Reduction to finding a/2's Legendre symbol, and (a/p)=((a/2)/p)*(2/p)
-		//Finding 2's Legendre symbol by the formula: (2/p)=(-1)^((p^2-1)/8), shifting mask bit for division, 
+		//Finding 2's Legendre symbol by the formula: (2/p)=(-1)^((p^2-1)/8)
+		//Division implemented as AND 8
+		//If the bit sequence has 1 at 8's position, then it's quotient with 8 is odd, otherwise its even
 		if(((p*p-1) & 8) != 0)
 		{
 			result = -result;
@@ -22,10 +24,11 @@ int LegendreSequence::Legendre(const int a, const int p)
 	}
 	else
 	{
-		/*Reduction to finding the Legendre symbol in the form:
-		(a/p)=(p/a), if p and a are odd, unless a and p are congruent to 3 mod 4, then (a/p)=-(p/a)*/ 
+		/*Reduction to finding the Legendre symbol in the form, when a and p are co-primes:
+		(a/p)=(-1)^((p-1)*(a-1)/4)*(p/a), alternatively, if p and a are congruent to 3 mod 4, then (a/p)=-(p/a)
+		 otherwise, (a/p)=(p/a)*/
 		result = Legendre(p % a, a);
-		//If (p-1)*(q-1)/4 is not 0, then the result is -1, otherwise 1
+		//Calculating the exponent's parity in the same way as above
 		if(((a-1)*(p-1) & 4) != 0)
 		{
 			result = -result;
