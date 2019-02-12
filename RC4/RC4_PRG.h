@@ -4,27 +4,23 @@
 #include <iostream>
 #include <array>
 #include <cstring>
+#include <vector>
+#include <bitset>
 
-class RC4_PRNG
+class RC4_PRG
 {
 public:
-    RC4_PRNG(const std::string key);
-    RC4_PRNG(const char* key);
-
-    std::array<unsigned char, 256> Generate()
-    {
-        Init();
-        Shuffle();
-        return S;
-    }
-
+    RC4_PRG(const std::string key);
+    RC4_PRG(const char* key);
+    std::vector<std::bitset<8> > GenerateStream(const int);
 private:
     enum Errors {KEY_LENGTH_ERROR};
     void Init();
     void Shuffle();
     void KeySizeCheck();
     unsigned char key_size;
-    std::array<unsigned char, 256> S;
+    std::array<std::bitset<8>, 256> S;
+
     std::string K;
 };
 
