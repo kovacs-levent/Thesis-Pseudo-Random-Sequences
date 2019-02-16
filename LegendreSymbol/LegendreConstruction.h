@@ -1,13 +1,13 @@
-#ifndef LEGENDRESYMBOL_H
-#define LEGENDRESYMBOL_H
+#ifndef LEGENDRE_CONSTRUCTION_H
+#define LEGENDRE_CONSTRUCTION_H
 #include <stdint.h>
 #include <vector>
 #include <bitset>
 
-class LegendreSequence
+class LegendreConstruction
 {
 public:
-    int Legendre(const uint64_t a, const uint64_t p);
+    int LegendreSymbol(const uint64_t a, const uint64_t p);
     //When generating the stream, we need a prime where 2 is a primitive root mod p
     //This function simply checks whether n is a primitive root of p, where p is prime
     //If p is not prime, this function's results may not be accurate, because we don't calculate Euler's totient function
