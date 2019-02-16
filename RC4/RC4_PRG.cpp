@@ -45,7 +45,7 @@ void RC4_PRG::Shuffle()
     //std::cout << "Shuffle OK" << std::endl;
 }
 
-std::vector<std::bitset<8> > RC4_PRG::GenerateStream(const int stream_size)
+std::vector<std::bitset<8> > RC4_PRG::GenerateStream(const u_int64 stream_size)
 {
     Init();
     Shuffle();

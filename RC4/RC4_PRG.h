@@ -6,13 +6,14 @@
 #include <cstring>
 #include <vector>
 #include <bitset>
+#include <stdint.h>
 
 class RC4_PRG
 {
 public:
     RC4_PRG(const std::string key);
     RC4_PRG(const char* key);
-    std::vector<std::bitset<8> > GenerateStream(const int);
+    std::vector<std::bitset<8> > GenerateStream(const u_int64);
 private:
     enum Errors {KEY_LENGTH_ERROR};
     void Init();
@@ -20,7 +21,6 @@ private:
     void KeySizeCheck();
     unsigned char key_size;
     std::array<std::bitset<8>, 256> S;
-
     std::string K;
 };
 

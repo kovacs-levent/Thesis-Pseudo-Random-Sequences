@@ -1,12 +1,11 @@
-#include "Miller-RabinPrimalityTest.h"
+#include "PrimeArithmetic.h"
 #include <random>
 #include <math.h>
 #include <iostream>
-#include "ModPow.h"
 
 //n is the number to be tested, k is the number of rounds for the Miller-Rabin algorithm
 // We know, that if n is prime, then for any i integer, i^(n-1) = 1 (mod n) (Fermat's little theorem)
-bool IsPrime(const uint64_t n, const int k)
+bool MillerRabinTest(const uint64_t n, const int k)
 {
     if(n == 2 || n == 3)
     {
@@ -60,6 +59,23 @@ bool IsPrime(const uint64_t n, const int k)
                 l = false;
             }
         }
+    }
+    return l;
+}
+
+//We assume that p is prime, due to the function being called only for supposed primes, hence, the Euler totient function is p-1
+bool IsPrimitiveRootOfPrime(const uint64_t n, const uint64_t p)
+{
+    //If n < p, then gcd(n, p) = 1, because p is prime
+    if (n >= p) {
+        return false;
+    }
+    bool l = true;
+    //It's enough to test for every (p-1)/q number, where q is a prime factor of p-1
+    std::vector <uint64_t> PrimeFactors = GetPrimeFactors(p - 1);
+    for (std::vector<uint64_t>::iterator it = PrimeFactors.begin(); it != PrimeFactors.end() && l; it++)
+    {
+        l = (ModPow(n, (p-1)/(*it), p) != 1);
     }
     return l;
 }

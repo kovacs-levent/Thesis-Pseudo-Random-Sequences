@@ -1,4 +1,8 @@
 #include "LegendreSymbol.h"
+#include "../Arithmetics/PrimeArithmetic.h"
+#include "../Arithmetics/ModArithmetic.h"
+#include <iostream>
+#include <vector>
 
 int LegendreSequence::Legendre(const uint64_t a, const uint64_t p)
 {
@@ -35,4 +39,30 @@ int LegendreSequence::Legendre(const uint64_t a, const uint64_t p)
 		}
 	}
 	return result;
+}
+
+/*std::vector<std::bitset<8> >*/void LegendreSequence::Generate(const uint64_t stream_size)
+{
+	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
+	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
+	uint64_t n = stream_size*16+1;
+	uint64_t p = GenerateValidPrime(n);
+	std::cout << p;
+}
+
+//Search a prime >=p, and which has 2 as a primitive root
+uint64_t LegendreSequence::GenerateValidPrime(uint64_t p)
+{
+	if(p%3 == 0)
+	{
+		p += 2;
+	}
+	//Check whether the next odd number will be divisible by 3, we use this to figure out how should we generate the next prime candidate
+	bool IsNextDivisibleBy3 = (p%3 == 1);
+	while(!MillerRabinTest(p, NumOfTrialsMillerRabin) || !IsPrimitiveRootOfPrime(2, p))
+	{
+		p += (2 + IsNextDivisibleBy3*2);
+		IsNextDivisibleBy3 = !IsNextDivisibleBy3;
+	}
+	return p;
 }
