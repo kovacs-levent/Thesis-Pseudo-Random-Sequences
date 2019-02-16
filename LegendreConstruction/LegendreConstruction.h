@@ -4,16 +4,13 @@
 #include <vector>
 #include <bitset>
 
+//TODO:: Implement proper way of getting a polynomial with sufficent degree
 class LegendreConstruction
 {
 public:
     int LegendreSymbol(const uint64_t a, const uint64_t p);
-    //When generating the stream, we need a prime where 2 is a primitive root mod p
-    //This function simply checks whether n is a primitive root of p, where p is prime
-    //If p is not prime, this function's results may not be accurate, because we don't calculate Euler's totient function
-    //We can assume, that p is prime, because it's tested beforehand by Miller-Rabin, this means that the totient function is p-1
     uint64_t GenerateValidPrime(const uint64_t n);
-    /*std::vector<std::bitset<8> >*/ void Generate(const uint64_t);
+    std::vector<std::bitset<8> > Generate(const uint64_t);
 private:
     const int NumOfTrialsMillerRabin = 40;
 };

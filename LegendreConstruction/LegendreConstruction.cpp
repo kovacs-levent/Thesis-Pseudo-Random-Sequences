@@ -41,13 +41,47 @@ int LegendreConstruction::LegendreSymbol(const uint64_t a, const uint64_t p)
 	return result;
 }
 
-/*std::vector<std::bitset<8> >*/void LegendreConstruction::Generate(const uint64_t stream_size)
+std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t stream_size)
 {
 	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
 	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
 	uint64_t n = stream_size*16+1;
 	uint64_t p = GenerateValidPrime(n);
-	std::cout << p;
+	std::vector<std::bitset<8> > stream;
+	std::set<uint64_t> polynom = GenerateSimpleModPoly(p, 3);
+	std::cout << p << std::endl;
+	for(std::set<uint64_t>::iterator it = polynom.begin(); it != polynom.end(); it++)
+	{
+		std::cout << *it << " ";
+	}
+	uint64_t i = 0;
+	for(uint64_t j = 0; j < stream_size; j++)
+	{
+		std::bitset<8> tmp_byte;
+		for(short z = 0; z < 7; z++)
+		{
+			uint64_t tmp = ModPolynomValue(polynom, p, i);
+			if(tmp != 0)
+            {
+				int LegSym = LegendreSymbol(i, p);
+				if(LegSym == -1)
+				{
+					tmp_byte[z] = 0;
+				}
+				else
+				{
+					tmp_byte[z] = 1;
+				}
+            }
+			else
+			{
+				tmp_byte[z] = 1;
+			}
+			i++;
+		}
+		stream.push_back(tmp_byte);
+	}
+	return stream;
 }
 
 //Search a prime >=p, and which has 2 as a primitive root

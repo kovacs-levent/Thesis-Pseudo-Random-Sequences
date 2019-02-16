@@ -1,32 +1,77 @@
 #include "ModArithmetic.h"
+#include <random>
 
-uint64_t ModMul(uint64_t a, uint64_t b, uint64_t m)
+uint64_t ModMul(uint64_t a, uint64_t b, const uint64_t mod)
 {
     int64_t result = 0;
     while (a != 0)
     {
         if(a & 1)
         {
-            result = (result + b) % m;
+            result = (result + b) % mod;
         }
         a = a >> 1;
-        b = (b << 1) % m;
+        b = (b << 1) % mod;
     }
     return result;
 }
 
-uint64_t ModPow(uint64_t base, uint64_t exp, const uint64_t modulus)
+uint64_t ModPow(uint64_t base, uint64_t exp, const uint64_t mod)
 {
-    base = base % modulus;
+    base = base % mod;
     uint64_t result = 1;
     while (exp > 0)
     {
         if (exp & 1)
         {
-            result = ModMul(result, base, modulus);
+            result = ModMul(result, base, mod);
         }
-        base = ModMul(base, base, modulus);
+        base = ModMul(base, base, mod);
         exp = exp >> 1;
+    }
+    return result;
+}
+
+uint64_t ModAdd(uint64_t a, uint64_t b, const uint64_t mod)
+{
+    uint64_t result;
+    if(a >= mod)
+    {
+        a = a % mod;
+    }
+    if(b >= mod)
+    {
+        b = b % mod;
+    }
+    if(b == 0)
+    {
+        result = a;
+    }
+    else
+    {
+        result = ModSub(a, mod-b, mod);
+    }
+    return result;
+}
+
+uint64_t ModSub(uint64_t a, uint64_t b, const uint64_t mod)
+{
+    uint64_t result;
+    if(a >= mod)
+    {
+        a = a % mod;
+    }
+    if(b >= mod)
+    {
+        b = b % mod;
+    }
+    if(a >= b)
+    {
+        result = a-b;
+    }
+    else
+    {
+        result = mod - b + a;
     }
     return result;
 }
@@ -67,4 +112,40 @@ std::vector<uint64_t> GetPrimeFactors(uint64_t n)
         v.push_back(n);
     }
     return v;
+}
+
+std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const int degree)
+{
+    if(modulus < degree)
+    {
+        //TODO::Don't generate poly, display error, and give control back
+        //Placeholder code
+        std::set<uint64_t> nothing;
+        return nothing;
+    }
+    //std::random_device random_dev;
+    //TODO::Fix this stupid bug where RNG gets same seed on Windows
+    std::mt19937_64 mersenne_twister(std::random_device{}());
+    std::uniform_int_distribution<> uni_distr(0, modulus-1);
+    std::set<uint64_t> roots;
+    uint64_t m;
+    //Generating random numbers until we get degree number of roots, these are going to represent the polynomial
+    while(roots.size() != degree)
+    {
+        m = uni_distr(mersenne_twister);
+        roots.insert(m);
+    }
+    return roots;
+}
+
+uint64_t ModPolynomValue(const std::set<uint64_t> &poly, const uint64_t mod, uint64_t var)
+{
+    uint64_t result = 1;
+    std::set<uint64_t>::const_iterator it = poly.begin();
+    while(result != 0 && it != poly.end())
+    {
+        result = ModMul(result, ModSub(*it, var, mod), mod);
+        it++;
+    }
+    return result;
 }
