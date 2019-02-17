@@ -1,5 +1,6 @@
 #include "ModArithmetic.h"
 #include <random>
+#include "../GeneralPRNG/SeedGenerator.h"
 
 uint64_t ModMul(uint64_t a, uint64_t b, const uint64_t mod)
 {
@@ -119,13 +120,13 @@ std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const int degre
     if(modulus < degree)
     {
         //TODO::Don't generate poly, display error, and give control back
-        //Placeholder code
+        //Placeholder code until I implement UI
         std::set<uint64_t> nothing;
         return nothing;
     }
     //std::random_device random_dev;
-    //TODO::Fix this stupid bug where RNG gets same seed on Windows
-    std::mt19937_64 mersenne_twister(std::random_device{}());
+    std::seed_seq seed = GenerateRandomSeed();
+    std::mt19937_64 mersenne_twister(seed);
     std::uniform_int_distribution<> uni_distr(0, modulus-1);
     std::set<uint64_t> roots;
     uint64_t m;

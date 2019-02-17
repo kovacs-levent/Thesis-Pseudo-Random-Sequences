@@ -4,7 +4,7 @@
 #include <vector>
 #include <bitset>
 
-//TODO:: Implement proper way of getting a polynomial with sufficent degree
+//TODO:: Implement proper way of getting a polynomial with sufficent degree (make a generator for degrees)
 class LegendreConstruction
 {
 public:

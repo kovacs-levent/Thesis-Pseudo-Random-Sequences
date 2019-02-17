@@ -3,6 +3,7 @@
 #include <math.h>
 #include <iostream>
 #include <chrono>
+#include "../GeneralPRNG/SeedGenerator.h"
 
 //n is the number to be tested, k is the number of rounds for the Miller-Rabin algorithm
 // We know, that if n is prime, then for any i integer, i^(n-1) = 1 (mod n) (Fermat's little theorem)
@@ -28,8 +29,8 @@ bool MillerRabinTest(const uint64_t n, const int k)
     If, m^r != 1 (mod n) and m^((2^j)*r) != -1 (mod n) for all 0 <= j <= s-1, then n is not prime
     otherwise, we can say that n is a strong pseudo-prime to the base m.*/
     //TODO::Fix this stupid bug where RNG gets same seed on Windows
-    std::random_device random_dev;
-    std::mt19937_64 mersenne_twister(std::random_device{}());
+    std::seed_seq seed = GenerateRandomSeed();
+    std::mt19937_64 mersenne_twister(seed);
     std::uniform_int_distribution<> uni_distr(2, n-1);
     uint64_t m;
     uint64_t x;
