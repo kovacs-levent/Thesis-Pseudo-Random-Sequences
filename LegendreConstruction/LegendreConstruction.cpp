@@ -1,8 +1,19 @@
 #include "LegendreConstruction.h"
 #include "../Arithmetics/PrimeArithmetic.h"
 #include "../Arithmetics/ModArithmetic.h"
+#include "../GeneralPRNG/SeedGenerator.h"
 #include <iostream>
 #include <vector>
+#include <random>
+
+uint64_t LegendreConstruction::GenerateDegree(const uint64_t p)
+{
+    std::seed_seq seed = GenerateRandomSeed();
+    std::mt19937_64 mersenne_twister(seed);
+    uint64_t maxDegree = 5*std::pow(p, 1.0/10.0);
+    std::uniform_int_distribution<> uni_distr(2, maxDegree);
+    return uni_distr(mersenne_twister);
+}
 
 int LegendreConstruction::LegendreSymbol(const uint64_t a, const uint64_t p)
 {
@@ -45,10 +56,10 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 {
 	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
 	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
-	uint64_t n = stream_size*16+1;
-	uint64_t p = GenerateValidPrime(n);
+	const uint64_t n = stream_size*16+1;
+	const uint64_t p = GenerateValidPrime(n);
 	std::vector<std::bitset<8> > stream;
-	std::set<uint64_t> polynom = GenerateSimpleModPoly(p, 3);
+	std::set<uint64_t> polynom = GenerateSimpleModPoly(p, GenerateDegree(p));
 	std::cout << p << std::endl;
 	for(std::set<uint64_t>::iterator it = polynom.begin(); it != polynom.end(); it++)
 	{
