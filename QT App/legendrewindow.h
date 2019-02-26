@@ -1,26 +1,23 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef LEGENDREWINDOW_H
+#define LEGENDREWINDOW_H
 #include <QWidget>
 #include <QPushButton>
 #include <QGridLayout>
 #include <QLabel>
 #include "mainwindow.h"
 
-class Window : public QWidget
+class legendreWindow : public QWidget
 {
     Q_OBJECT
 
  public:
-  Window(QWidget *parent = 0);
+  legendreWindow(QWidget *parent = 0);
  private slots:
-  void legendreButtonClicked();
-  void rc4ButtonClicked();
-  void additiveButtonClicked();
-  void chachaButtonClicked();
-  void linearButtonClicked();
-  void measuresButtonClicked();
-  void cryptoButtonClicked();
-  void quitButtonClicked();
+  void polDegButtonClicked();
+  void polGenButtonClicked();
+  void generateButtonClicked();
+  void generatePrimeButtonClicked();
+  void nextPrimeButtonClicked();
  private:
   void makeButtons();
   void setButtonsSize();
@@ -39,4 +36,4 @@ class Window : public QWidget
   mainWindow* parentWindow;
 };
 
-#endif // WINDOW_H
+#endif // LEGENDREWINDOW_H

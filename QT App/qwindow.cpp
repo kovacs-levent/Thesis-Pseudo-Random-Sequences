@@ -1,9 +1,8 @@
 #include "qwindow.h"
 
-Window::Window(QWidget *parent) :
- QWidget(parent)
+Window::Window(QWidget *parent) : QWidget(parent)
  {
- // Set size of the window
+    parentWindow = (mainWindow*)parent;
     setMinimumSize(850, 400);
     setBaseSize(850,400);
     setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
@@ -80,12 +79,12 @@ void Window::setButtonsSender()
     connect(linearButton, SIGNAL(clicked()), this, SLOT(linearButtonClicked()));
     connect(measuresButton, SIGNAL(clicked()), this, SLOT(measuresButtonClicked()));
     connect(cryptoButton, SIGNAL(clicked()), this, SLOT(cryptoButtonClicked()));
-    connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(quitButton, SIGNAL(clicked()), this, SLOT(quitButtonClicked()));
 }
 
 void Window::legendreButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(1);
 }
 
 void Window::rc4ButtonClicked()
@@ -116,4 +115,10 @@ void Window::measuresButtonClicked()
 void Window::cryptoButtonClicked()
 {
 
+}
+
+void Window::quitButtonClicked()
+{
+    close();
+    parentWindow->close();
 }
