@@ -13,3 +13,6 @@ Documentation/pics/elte_cimer_szines.jpg
 Documentation/thesis-doc.aux
 Documentation/thesis-doc.synctex.gz
 Documentation/thesis-doc.log
+*.o
+*.user
+GeneralPRNG/main.cpp
