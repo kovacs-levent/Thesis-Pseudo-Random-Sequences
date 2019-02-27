@@ -115,7 +115,7 @@ std::vector<uint64_t> GetPrimeFactors(uint64_t n)
     return v;
 }
 
-std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const int degree)
+std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const unsigned int degree)
 {
     if(modulus < degree)
     {

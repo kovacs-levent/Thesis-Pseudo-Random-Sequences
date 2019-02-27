@@ -14,7 +14,7 @@ uint64_t ModAdd(uint64_t a,uint64_t b, const uint64_t mod);
 uint64_t ModSub(uint64_t a, uint64_t b, const uint64_t mod);
 
 //This function generates a polynomial which has only simple roots in modular arithmetic, poly represented by it's roots
-std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const int degree);
+std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const unsigned int degree);
 
 //Polynomial is represented by it's roots in a set, we need simple polynomials, which only have simple roots
 uint64_t ModPolynomValue(const std::set<uint64_t> &poly, const uint64_t mod, uint64_t var);

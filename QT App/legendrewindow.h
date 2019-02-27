@@ -4,7 +4,11 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QLabel>
+#include <QLineEdit>
+#include <QGroupBox>
+#include <QTextEdit>
 #include "mainwindow.h"
+#include "../LegendreConstruction/LegendreConstruction.h"
 
 class legendreWindow : public QWidget
 {
@@ -19,20 +23,36 @@ class legendreWindow : public QWidget
   void generatePrimeButtonClicked();
   void nextPrimeButtonClicked();
  private:
-  void makeButtons();
+  void makeLengthForm();
+  void makePolDeg();
+  void makePrimeForm();
+  void makePolForm();
   void setButtonsSize();
   void setButtonsSender();
+  LegendreConstruction legendre;
   QLabel* welcomeMessage;
-  QVBoxLayout* mainLayout;
-  QGridLayout* buttonLayout;
-  QPushButton* legendreButton;
-  QPushButton* rc4Button;
-  QPushButton* additiveButton;
-  QPushButton* chachaButton;
-  QPushButton* linearButton;
-  QPushButton* measuresButton;
-  QPushButton* cryptoButton;
-  QPushButton* quitButton;
+  QGridLayout* mainLayout;
+  QGridLayout* polDegLayout;
+  QGroupBox* polDegGroup;
+  QPushButton* polDegGenButton;
+  QLineEdit* polDegLineEdit;
+
+  QGridLayout* lengthFormLayout;
+  QGroupBox* lengthFormGroup;
+  QLineEdit* lengthEdit;
+
+  QGridLayout* primeLayout;
+  QGroupBox* primeGroup;
+  QPushButton* primeGenButton;
+  QPushButton* primeNextButton;
+  QLineEdit* primeLineEdit;
+
+  QGridLayout* polLayout;
+  QGroupBox* polGroup;
+  QPushButton* polGenButton;
+  QTextEdit* polTextEdit;
+
+  QPushButton* backButton;
   mainWindow* parentWindow;
 };
 

@@ -59,7 +59,7 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 	const uint64_t n = stream_size*16+1;
 	const uint64_t p = GenerateValidPrime(n);
 	std::vector<std::bitset<8> > stream;
-	std::set<uint64_t> polynom = GenerateSimpleModPoly(p, GenerateDegree(p));
+    std::set<uint64_t> polynom = GenerateSimpleModPoly(p, GenerateDegree(p));
 	std::cout << p << std::endl;
 	for(std::set<uint64_t>::iterator it = polynom.begin(); it != polynom.end(); it++)
 	{
@@ -98,6 +98,10 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 //Search a prime >=p, and which has 2 as a primitive root
 uint64_t LegendreConstruction::GenerateValidPrime(uint64_t p)
 {
+	if(p % 2 == 0)
+	{
+		p += 1;
+	}
 	if(p%3 == 0)
 	{
 		p += 2;

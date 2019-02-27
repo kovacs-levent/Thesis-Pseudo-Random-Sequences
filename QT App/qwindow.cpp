@@ -82,6 +82,11 @@ void Window::setButtonsSender()
     connect(quitButton, SIGNAL(clicked()), this, SLOT(quitButtonClicked()));
 }
 
+QVBoxLayout* Window::getLayout()
+{
+    return mainLayout;
+}
+
 void Window::legendreButtonClicked()
 {
     parentWindow->getStack()->setCurrentIndex(1);
