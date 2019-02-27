@@ -2,6 +2,7 @@
 #include <QString>
 #include <sstream>
 #include <set>
+#include <bitset>
 #include "../Arithmetics/PrimeArithmetic.h"
 
 legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
@@ -15,10 +16,16 @@ legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
     makePrimeForm();
     makePolDeg();
     makePolForm();
+    makeSequenceForm();
     mainLayout->addWidget(lengthFormGroup, 0, 0);
     mainLayout->addWidget(primeGroup, 0, 1);
     mainLayout->addWidget(polDegGroup, 1, 0);
     mainLayout->addWidget(polGroup, 1, 1);
+    mainLayout->addWidget(seqGroup, 2, 0, 3, 2);
+
+    backButton = new QPushButton(tr("Vissza"), this);
+    mainLayout->addWidget(backButton, 5, 1);
+    connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonClicked()));
     //setLayout(mainLayout);
 }
 
@@ -75,6 +82,18 @@ void legendreWindow::makePolForm()
     polGroup->setLayout(polLayout);
 }
 
+void legendreWindow::makeSequenceForm()
+{
+    seqGroup = new QGroupBox(tr("Sorozat"), this);
+    seqTextEdit = new QTextEdit(this);
+    seqLayout = new QGridLayout(this);
+    seqLayout->addWidget(seqTextEdit, 0, 0, 1, 3);
+    seqGenButton = new QPushButton("Sorozat generálás", this);
+    seqLayout->addWidget(seqGenButton, 2, 1);
+    connect(seqGenButton, SIGNAL(clicked()), this, SLOT(generateButtonClicked()));
+    seqGroup->setLayout(seqLayout);
+}
+
 void legendreWindow::polDegButtonClicked()
 {
     const QString prime = primeLineEdit->displayText();
@@ -105,7 +124,28 @@ void legendreWindow::polGenButtonClicked()
 
 void legendreWindow::generateButtonClicked()
 {
-
+    const QString length_text = lengthEdit->displayText();
+    const QString p_text = primeLineEdit->displayText();
+    const QString polynom_text = polTextEdit->toPlainText();
+    std::set<uint64_t> polynom;
+    std::stringstream ss;
+    ss.str(polynom_text.toStdString());
+    uint64_t tmp;
+    ss >> tmp;
+    while(!ss.fail())
+    {
+        polynom.insert(tmp);
+        ss >> tmp;
+    }
+    std::vector<std::bitset<8> > sequence = legendre.Generate((uint64_t)length_text.toLongLong(), (uint64_t)p_text.toLongLong(), polynom);
+    ss.clear();
+    ss.str("");
+    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+    {
+        ss << it->to_string();
+    }
+    QString s = QString::fromStdString(ss.str());
+    seqTextEdit->setPlainText(s);
 }
 
 void legendreWindow::generatePrimeButtonClicked()
@@ -126,4 +166,9 @@ void legendreWindow::nextPrimeButtonClicked()
     ss << p;
     QString s = QString::fromStdString(ss.str());
     primeLineEdit->setText(s);
+}
+
+void legendreWindow::backButtonClicked()
+{
+    parentWindow->getStack()->setCurrentIndex(0);
 }

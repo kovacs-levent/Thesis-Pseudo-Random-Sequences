@@ -60,11 +60,6 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 	const uint64_t p = GenerateValidPrime(n);
 	std::vector<std::bitset<8> > stream;
     std::set<uint64_t> polynom = GenerateSimpleModPoly(p, GenerateDegree(p));
-	std::cout << p << std::endl;
-	for(std::set<uint64_t>::iterator it = polynom.begin(); it != polynom.end(); it++)
-	{
-		std::cout << *it << " ";
-	}
 	uint64_t i = 0;
 	for(uint64_t j = 0; j < stream_size; j++)
 	{
@@ -84,6 +79,41 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 					tmp_byte[z] = 1;
 				}
             }
+			else
+			{
+				tmp_byte[z] = 1;
+			}
+			i++;
+		}
+		stream.push_back(tmp_byte);
+	}
+	return stream;
+}
+
+std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
+{
+	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
+	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
+	std::vector<std::bitset<8> > stream;
+	uint64_t i = 0;
+	for(uint64_t j = 0; j < stream_size; j++)
+	{
+		std::bitset<8> tmp_byte;
+		for(short z = 0; z < 7; z++)
+		{
+			uint64_t tmp = ModPolynomValue(poly, p, i);
+			if(tmp != 0)
+			{
+				int LegSym = LegendreSymbol(i, p);
+				if(LegSym == -1)
+				{
+					tmp_byte[z] = 0;
+				}
+				else
+				{
+					tmp_byte[z] = 1;
+				}
+			}
 			else
 			{
 				tmp_byte[z] = 1;

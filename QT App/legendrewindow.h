@@ -22,13 +22,14 @@ class legendreWindow : public QWidget
   void generateButtonClicked();
   void generatePrimeButtonClicked();
   void nextPrimeButtonClicked();
+  void backButtonClicked();
  private:
   void makeLengthForm();
   void makePolDeg();
   void makePrimeForm();
   void makePolForm();
-  void setButtonsSize();
-  void setButtonsSender();
+  void makeSequenceForm();
+
   LegendreConstruction legendre;
   QLabel* welcomeMessage;
   QGridLayout* mainLayout;
@@ -51,6 +52,11 @@ class legendreWindow : public QWidget
   QGroupBox* polGroup;
   QPushButton* polGenButton;
   QTextEdit* polTextEdit;
+
+  QGridLayout* seqLayout;
+  QGroupBox* seqGroup;
+  QPushButton* seqGenButton;
+  QTextEdit* seqTextEdit;
 
   QPushButton* backButton;
   mainWindow* parentWindow;
