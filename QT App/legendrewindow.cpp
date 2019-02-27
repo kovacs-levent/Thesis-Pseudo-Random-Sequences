@@ -1,6 +1,8 @@
 #include "legendrewindow.h"
 #include <QString>
 #include <sstream>
+#include <set>
+#include "../Arithmetics/PrimeArithmetic.h"
 
 legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
 {
@@ -75,11 +77,30 @@ void legendreWindow::makePolForm()
 
 void legendreWindow::polDegButtonClicked()
 {
+    const QString prime = primeLineEdit->displayText();
+    const uint64_t deg = legendre.GenerateDegree(prime.toLongLong());
+    std::stringstream ss;
+    ss << deg;
+    QString s = QString::fromStdString(ss.str());
+    polDegLineEdit->setText(s);
 }
 
 void legendreWindow::polGenButtonClicked()
 {
-
+    const QString deg = polDegLineEdit->displayText();
+    const QString modulus = primeLineEdit->displayText();
+    const std::set<uint64_t> polynom = GenerateSimpleModPoly(modulus.toLongLong(), deg.toUInt());
+    std::stringstream ss;
+    std::set<uint64_t>::const_iterator it = polynom.begin();
+    ss << *it;
+    it++;
+    while(it != polynom.end())
+    {
+        ss << " " << *it;
+        it++;
+    }
+    QString s = QString::fromStdString(ss.str());
+    polTextEdit->setText(s);
 }
 
 void legendreWindow::generateButtonClicked()
