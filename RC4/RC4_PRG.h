@@ -11,9 +11,15 @@
 class RC4_PRG
 {
 public:
+    RC4_PRG();
     RC4_PRG(const std::string key);
     RC4_PRG(const char* key);
-    std::vector<std::bitset<8> > GenerateStream(const u_int64);
+    std::vector<std::bitset<8> > GenerateStream(const uint64_t);
+    void SetKey(const std::string& s)
+    {
+        key_size = s.length();
+        K = s;
+    }
 private:
     enum Errors {KEY_LENGTH_ERROR};
     void Init();

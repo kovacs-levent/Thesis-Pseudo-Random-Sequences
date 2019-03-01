@@ -8,7 +8,9 @@ SOURCES += \
     ../Arithmetics/ModArithmetic.cpp \
     ../Arithmetics/PrimeArithmetic.cpp \
     ../GeneralPRNG/SeedGenerator.cpp \
-    ../LegendreConstruction/LegendreConstruction.cpp
+    ../LegendreConstruction/LegendreConstruction.cpp \
+    ../RC4/RC4_PRG.cpp \
+    rc4window.cpp
 
 HEADERS += \
     qwindow.h \
@@ -17,4 +19,6 @@ HEADERS += \
     ../GeneralPRNG/SeedGenerator.h  \
     ../Arithmetics/ModArithmetic.h \
     ../Arithmetics/PrimeArithmetic.h \
-    ../LegendreConstruction/LegendreConstruction.h
+    ../LegendreConstruction/LegendreConstruction.h \
+    rc4window.h \
+    ../RC4/RC4_PRG.h

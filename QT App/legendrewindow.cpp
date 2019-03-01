@@ -26,7 +26,7 @@ legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
     backButton = new QPushButton(tr("Vissza"), this);
     mainLayout->addWidget(backButton, 5, 1);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonClicked()));
-    //setLayout(mainLayout);
+    setLayout(mainLayout);
 }
 
 void legendreWindow::makeLengthForm()

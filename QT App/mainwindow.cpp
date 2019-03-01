@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "qwindow.h"
 #include "legendrewindow.h"
+#include "rc4window.h"
 
 mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -12,6 +13,8 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
     stack->addWidget(main_menu);
     legendreWindow* leg = new legendreWindow(this);
     stack->addWidget(leg);
+    rc4Window* rc = new rc4Window(this);
+    stack->addWidget(rc);
     stack->setCurrentIndex(0);
     setLayout(stack);
 }

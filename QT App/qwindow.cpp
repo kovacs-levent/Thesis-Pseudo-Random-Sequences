@@ -94,7 +94,7 @@ void Window::legendreButtonClicked()
 
 void Window::rc4ButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(2);
 }
 
 void Window::additiveButtonClicked()
