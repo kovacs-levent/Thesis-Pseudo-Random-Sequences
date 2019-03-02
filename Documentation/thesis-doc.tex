@@ -1,11 +1,13 @@
 \documentclass[12pt]{article}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
 \renewcommand{\baselinestretch}{1.5}
+\setlength{\parskip}{1em}
 \begin{document}
+	\newcommand{\sectionbreak}{\clearpage}
 	\begin{titlepage}
 		\begin{minipage}{0.36\textwidth}
 			\begin{figure}[H]
@@ -39,5 +41,73 @@
 		\\
 		\large \normalfont Budapest, 2019
 	\end{titlepage}
+	\renewcommand*\contentsname{Tartalomjegyzék}
+	\tableofcontents
+	\newpage
+	\section{Bevezető}
+	\subsection{Történeti betekintés}
+	Véletlen sorozatok generálására sok modern területnek igénye van (pl.: statisztika, szimulációk, kriptográfia). Számítógéppel azonban nem lehetséges valódi véletlen számokat generálni, ezért pszeudovéletlen eljárásokra hagyatkozunk. Cél az, hogy olyan eljárásokat használjunk melyek statisztikailag véletlennek tűnnek, attól függetlenül, hogy egy determinisztikus rendszer generálja az eredményt.
+	\par
+	Az ilyen sorozatokra való igény először Gilbert Vernam munkájának következménye. 1917-ben Vernam feltalálta a one-time pad titkosítási eljárást. Az üzeneteket telegráfon bitenként továbbították, viszont az eredeti adatot valamilyen kulcs segítségével megváltoztatták (amit aztán a fogadó fél a kulcs ismeretében vissza tud fejteni). Ha le is hallgatták a küldött adatot, akkor a kulcs nélkül nem lehetett tudni, hogy mi volt az eredeti üzenet.
+	\par
+	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogyha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
+	\par
+	Az is igaz azonban, hogyha nem megfelelő kulcsokat használunk (pl. többször használjuk a kulcsokat), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
+	\par
+	Az ilyen sorozatok előállításához régen fizikai eszközöket használtak, pl. diódákat. A problémája az ilyen eszközöknek, hogy külső tényezők is befolyásolják a véletlenséget, és meghibásodás is történhet. Ezért nagyon fontos, a véletlenség vizsgálása különböző statisztikai tesztekkel, ami azonban időigényes. Emiatt jobb, hogyha "csak" pszeudovéletlen sorozatokat állítunk elő. Így elkerülhető a statisztikai tesztelés, mivel bizonyítottan jó véletlen tulajdonságokkal rendelkező sorozatot kapunk.
+	\par
+	A pszeudovéletlen tulajdonságok mérésével sok évtizede foglalkoznak matematikusok. Elsőként Émile Borel definiálta végtelen bináris sorozatokra a pszeudovéletlenség normalitás mértékét. Később Solomon Wolf Golomb és Donald Knuth próbálkoztak a pszeudovéletlenség matematikai fogalmának definiálására. Ennek a definíciónak alapvető gyengeségei voltak, ezért ezt ma már nem nagyon használják. Ezután Andrej Nyikolajevics Kolmogorov és Gregory John Chaitin bonyolultságelméleti irányból közelítették meg a problémát, de a gyakorlatban ezek a fogalmak nem kaptak nagy jelentőséget, mivel alkalmazásuk nem jól kivitelezhető.
+	\par
+	Ezen próbálkozások inspiráltak egy új, konstruktív megközelítést a pszeudovéletlenség vizsgálatára. Christian Manduit és Sárközy András megközelítése az volt, hogy léteznek olyan sorozatok, melyekről bizonyítható, hogy statisztikailag erős véletlen tulajdonságokkal rendelkeznek (más szóval: erős pszeudovéletlen tulajdonságúak), így az utólagos tesztelés elkerülhető. Ez a fajta vizsgálat az évek során egyre szélesebb körben alkalmazott.
+	\subsection{A program célja}
+	A programom célja, hogy a fent említett konstrukció keretén belül vizsgáljak különböző pszeudovéletlen sorozatokat. A vizsgált konstrukciókat két csoportból válogattam. Egyik kategóriába matematikai hátterű sorozatok tartoznak, melyeknek működése főként számelméleti ismereteken alapulnak. A másik csoport az iparban széles körben használt pszeudovéletlen generátorok, amik nem feltétlenül matematikai hátterűek.
+	\par
+	A programban lehetőség nyílik a pszeudovéletlen konstrukciók kipróbálására, és a generált sorozatok vizsgálatára a statisztikai mértékek szerint. A sorozatokat ki is próbálhatjuk a Vernam-féle one-time pad titkosítási eljárással.
+	\section{Felhasználói dokumentáció}
+	A program pszeudovéletlen sorozatkonstrukciók kipróbálására és a sorozatok vizsgálatára készült a statisztikai mértékekkel.
+	\subsection{Rendszerkövetelmények}
+	\subsection{Futattás}
+	\subsection{Menürendszer}
+	A menürendszer pontjainak 3 fő csoportja van, ezek:
+	\begin{itemize}
+		\item Alapvető funkciók: Kilépés, vissza a főmenübe
+		\item Konstrukciók: A konstrukciók kipróbálása
+		\item Tesztelés: Mértékek és titkosítás
+	\end{itemize}
+	\subsubsection{Főmenü}
+	Amikor a program elindul a felhasználót a főmenü fogadja. Itt elérhető az összes megvalósított konstrukció almenüpontja és a mértékek, illetve titkosításé is.
 	
+	Kilépni a program jobb felső sarkában található "X" gombbal, vagy a főmenüben található "Kilépés" gombbal lehet.
+	\subsection*{Konstrukciók}
+	Ez a pont csak alapvető segítséget nyújt a különböző konstrukciók kipróbálásához. Részletes leírása az algoritmusoknak a fejlesztői dokumentációban találhatóak.
+	\par
+	\subsubsection{Legendre szimbólumos konstrukció}
+	Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják.
+	\par
+	Szükséges paraméterek:
+	\begin{enumerate}\bfseries
+		\item A sorozat hossza
+		\\ \normalfont{A sorozat hosszát bájtokban kell megadni, tehát az 1 bájt hosszú sorozat 8 bitet foglal magába. Bármennyi lehet.}
+		\bfseries \item Prímszám
+		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő legnagyobb jó prímre.
+		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\ \normalfont
+		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
+		\bfseries \item A polinom \\
+		\normalfont
+		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
+	\end{enumerate}
+	Ha fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
+	\subsubsection{RC4 konstrukció}
+	Az RC4 konstrukciót Ron Rivest fejlesztette ki az 1987-ben viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
+	\par
+	Szükséges paraméterek:
+	\begin{enumerate}
+		\bfseries\item A sorozat hossza \\
+		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet.
+		\bfseries \item A kulcs
+		\\
+		\normalfont A kulcs változó méretű lehet, ez alapján fog történni a generálás. Tipikusan 40-2048 bit hosszú a kulcs. Ez a megvalósítás egy szöveget vár kulcsnak, így átfogalmazva a feltételt legalább 5, maximum 256 karakter hosszú lehet a kulcs.
+	\end{enumerate}
+	A fenti paraméterek megadása után megtekinthetjük az RC4 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
+	\section{Fejlesztői dokumentáció}
 \end{document}
