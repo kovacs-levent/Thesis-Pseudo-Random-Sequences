@@ -1,11 +1,33 @@
 \documentclass[12pt]{article}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\parskip}{1em}
+\makeatletter
+\def\legendre@dash#1#2{\hb@xt@#1{%
+		\kern-#2\p@
+		\cleaders\hbox{\kern.5\p@
+			\vrule\@height.2\p@\@depth.2\p@\@width\p@
+			\kern.5\p@}\hfil
+		\kern-#2\p@
+}}
+\def\@legendre#1#2#3#4#5{\mathopen{}\left(
+	\sbox\z@{$\genfrac{}{}{0pt}{#1}{#3#4}{#3#5}$}%
+	\dimen@=\wd\z@
+	\kern-\p@\vcenter{\box0}\kern-\dimen@\vcenter{\legendre@dash\dimen@{#2}}\kern-\p@
+	\right)\mathclose{}}
+\newcommand\legendre[2]{\mathchoice
+	{\@legendre{0}{1}{}{#1}{#2}}
+	{\@legendre{1}{.5}{\vphantom{1}}{#1}{#2}}
+	{\@legendre{2}{0}{\vphantom{1}}{#1}{#2}}
+	{\@legendre{3}{0}{\vphantom{1}}{#1}{#2}}
+}
+\def\dlegendre{\@legendre{0}{1}{}}
+\def\tlegendre{\@legendre{1}{0.5}{\vphantom{1}}}
+\makeatother
 \begin{document}
 	\newcommand{\sectionbreak}{\clearpage}
 	\begin{titlepage}
@@ -89,7 +111,7 @@
 		\item A sorozat hossza
 		\\ \normalfont{A sorozat hosszát bájtokban kell megadni, tehát az 1 bájt hosszú sorozat 8 bitet foglal magába. Bármennyi lehet.}
 		\bfseries \item Prímszám
-		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő legnagyobb jó prímre.
+		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő legkisebb jó prímre.
 		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\ \normalfont
 		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
 		\bfseries \item A polinom \\
@@ -110,4 +132,56 @@
 	\end{enumerate}
 	A fenti paraméterek megadása után megtekinthetjük az RC4 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
 	\section{Fejlesztői dokumentáció}
+	\subsection{Konstrukciók}
+	\subsubsection{Legendre konstrukció}
+	\subsubsection*{Ismertető}
+	\textbf{Def.}: Ha $p$ egy prímszám, és $a \in \mathbb{Z}$, akkor az $\legendre{a}{p}$ Legendre-szimbólum értéke: \par
+	$$\legendre{a}{p} =
+	\begin{cases*}
+	1 & ha $a$ kvadratikus maradék modulo $p$ és $a \not\equiv 0\ (\textrm{mod}\ p)$ \\
+	-1       & ha $a$ nem kvadratikus maradék modulo $p$\\
+	0 & ha $a \equiv 0\ (\textrm{mod}\ p)$
+	\end{cases*}$$
+	A Legendre-szimbólum véletlenségét már régóta vizsgálták, ez volt a motiváció a konstrukció megvalósítására.
+	\subsubsection*{Algoritmus}
+	\begin{enumerate}
+		\item Vegyünk egy olyan $p$ prímet, hogy a $2$ legyen primitív gyök modulo $p$
+		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
+		\item A ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $e_n = 
+		\begin{cases*}
+		\legendre{f(i)}{p} &, ha $f(i) \nmid  p$  \\
+		1 &, ha $f(i) \mid p$ 
+		\end{cases*}
+		$
+	\end{enumerate}
+	\subsubsection*{Extra követelmények}
+	Ha egy $n$ hosszú sorozatot szeretnénk generálni, akkor a használt $p$ prímre legyen igaz, hogy $p > 2n$.
+	\subsubsection{RC4 konstrukció}
+	\subsubsection*{Ismertető}
+	Az RC4 stream cipher algoritmus a bájt hosszúságú bitsorozatok egy permutációjának előállításával kezdődik, ami egy kulcssorozat segítségével történik. Ez a key-scheduling fázisa az algoritmusnak.
+	\par
+	Ez után következik a tényleges sorozat generálás. Ameddig kell a sorozatot generálni (pl. hossz alapján), addig az algoritmus lépésenként keveri a bájtok sorrendjét, és közben egy bájtnyi kimenetet generál.
+	\par
+	Ebben a megvalósításban a klasszikus, módosítások nélküli algoritmust valósítottam meg, hogy ez hogyan viszonyul a megvalósított mértékekhez.
+	A módszernek több változata van, amik javíthatják a véletlenségét a generált sorozatnak.
+	\subsubsection*{Algoritmus}
+	\begin{enumerate}
+		\item Töltsünk fel egy 256 elemű $S$ tömböt úgy, hogy $i$. indexére: $S[i]:=i$. 0-tól indexelünk, és gyakorlatilag az összes 8 hosszúságú bitsorozatot kell előállítani
+		\item Adjunk meg egy $n$ méretű $K$ (ebben a megvalósításban egy $n$ karakterű ASCII kódolású szöveg) kulcstömböt, ahol $1 \leq n \leq 256$
+		\item Ez az algoritmus key-scheduling fázisa. Legyen $i, j:=0$, majd:
+			\begin{enumerate}
+				\item Legyen $j:=(j+S[i]+K[i \ \textrm{mod}\ n]) \ \textrm{mod} \ 256$
+				\item Cseréljük ki $S[i]$ és $S[j]$ értékét
+				\item Inkrementáljuk $i$-t, ha $i < 256$, akkor ugorjunk vissza (a)-ra
+			\end{enumerate}
+		\item Ez a sorozatgeneráló fázis. Legyen $i, j := 0$, $n$-szer kell generálni 1 bájtnyi kimenetet, tehát ennek követésére legyen $l:=0$, majd:
+		\begin{enumerate}
+			\item Legyen: $i := (i+1) \ \textrm{mod} \ 256$, majd $j := (j + S[i]) \ \textrm{mod} \ 256$
+			\item Cseréljük ki $S[i]$ és $S[j]$ értékét
+			\item Legyen $T := S[(S[i] + S[j]) \ \textrm{mod} \ 256]$, T lesz a mostani generálási lépés 1 bájtnyi kimenete
+			\item Inkrementáljuk $l$-t, ha $l < n$, akkor ugorjunk vissza (a)-ra
+		\end{enumerate}
+	\end{enumerate}
+	\subsubsection*{Egyéb követelmények}
+	Elvárjuk, hogy a kulcssorozat ne legyen túl rövid (általában 40 bit az alsó határ). Jelen megvalósításban: $n \geq 5$, vagyis legalább 5 karakter hosszú kulcs kell.
 \end{document}
