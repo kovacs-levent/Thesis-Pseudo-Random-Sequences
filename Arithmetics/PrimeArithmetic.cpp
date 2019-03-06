@@ -28,7 +28,6 @@ bool MillerRabinTest(const uint64_t n, const int k)
     /*A test round consists of: Picking a random number m, in the interval [2,n-1]
     If, m^r != 1 (mod n) and m^((2^j)*r) != -1 (mod n) for all 0 <= j <= s-1, then n is not prime
     otherwise, we can say that n is a strong pseudo-prime to the base m.*/
-    //TODO::Fix this stupid bug where RNG gets same seed on Windows
     std::seed_seq seed = GenerateRandomSeed();
     std::mt19937_64 mersenne_twister(seed);
     std::uniform_int_distribution<> uni_distr(2, n-1);

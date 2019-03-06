@@ -10,7 +10,9 @@ SOURCES += \
     ../GeneralPRNG/SeedGenerator.cpp \
     ../LegendreConstruction/LegendreConstruction.cpp \
     ../RC4/RC4_PRG.cpp \
-    rc4window.cpp
+    rc4window.cpp \
+    ../AdditiveConstruction/AdditiveConstruction.cpp \
+    additivewindow.cpp
 
 HEADERS += \
     qwindow.h \
@@ -21,4 +23,6 @@ HEADERS += \
     ../Arithmetics/PrimeArithmetic.h \
     ../LegendreConstruction/LegendreConstruction.h \
     rc4window.h \
-    ../RC4/RC4_PRG.h
+    ../RC4/RC4_PRG.h \
+    ../AdditiveConstruction/AdditiveConstruction.h \
+    additivewindow.h

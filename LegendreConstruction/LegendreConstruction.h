@@ -9,7 +9,7 @@ class LegendreConstruction
 {
 public:
     int LegendreSymbol(const uint64_t a, const uint64_t p);
-    uint64_t GenerateValidPrime(const uint64_t n);
+    uint64_t GenerateValidPrime(uint64_t p);
     //Get a random polynomial degree which is in the interval [2, 5*p^1/10]
     uint64_t GenerateDegree(const uint64_t p);
     std::vector<std::bitset<8> > Generate(const uint64_t stream_size);

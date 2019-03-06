@@ -99,7 +99,7 @@ void Window::rc4ButtonClicked()
 
 void Window::additiveButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(3);
 }
 
 void Window::chachaButtonClicked()

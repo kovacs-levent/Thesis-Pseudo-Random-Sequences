@@ -92,8 +92,6 @@ std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t strea
 
 std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
 {
-	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
-	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
 	std::vector<std::bitset<8> > stream;
 	uint64_t i = 0;
 	for(uint64_t j = 0; j < stream_size; j++)

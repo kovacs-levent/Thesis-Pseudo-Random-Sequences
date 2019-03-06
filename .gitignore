@@ -15,3 +15,5 @@ Documentation/thesis-doc.synctex.gz
 Documentation/thesis-doc.log
 *.o
 GeneralPRNG/main.cpp
+AdditiveConstruction/main.cpp
+AdditiveConstruction/main.cpp
