@@ -17,3 +17,5 @@ Documentation/thesis-doc.log
 GeneralPRNG/main.cpp
 AdditiveConstruction/main.cpp
 AdditiveConstruction/main.cpp
+*.user
+QT App/project.pro.user

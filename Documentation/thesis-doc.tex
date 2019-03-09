@@ -104,7 +104,7 @@
 	Ez a pont csak alapvető segítséget nyújt a különböző konstrukciók kipróbálásához. Részletes leírása az algoritmusoknak a fejlesztői dokumentációban találhatóak.
 	\par
 	\subsubsection{Legendre szimbólumos konstrukció}
-	Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják.
+		Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják. Mauduit és Sárközy ezen a sorozaton vizsgálta először 1997-ben a véges bináris sorozatokra készített jól-eloszlás és korreláció-mértékeket [C. Mauduit, A. Sárközy, On finite pseudorandom binary sequences I: The measures of pseudorandomness, the Legendre symbol].
 	\par
 	Szükséges paraméterek:
 	\begin{enumerate}\bfseries
@@ -116,7 +116,7 @@
 		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
 		\bfseries \item A polinom \\
 		\normalfont
-		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
+		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
 	\end{enumerate}
 	Ha fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
 	\subsubsection{RC4 konstrukció}
@@ -131,6 +131,19 @@
 		\normalfont A kulcs változó méretű lehet, ez alapján fog történni a generálás. Tipikusan 40-2048 bit hosszú a kulcs. Ez a megvalósítás egy szöveget vár kulcsnak, így átfogalmazva a feltételt legalább 5, maximum 256 karakter hosszú lehet a kulcs.
 	\end{enumerate}
 	A fenti paraméterek megadása után megtekinthetjük az RC4 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
+	\subsubsection{Additív karakteres konstrukció}
+	Ezt a konstrukciót Mauduit, Rivat és Sárközy vezették be  [C.Mauduit, J.Rivat, A.Sárközy, Construction of pseudorandom binary sequences using additive characters]. \par
+	Szükséges paraméterek:
+	\begin{enumerate}
+		\bfseries \item A sorozat hossza \\
+		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet. \\
+		\bfseries \item Prímszám \\
+		\normalfont Ebben a konstrukcióban a prímszám nagyságára nincs igazi nagyságrendi követelmény. A "Generálás" gombbal a legkisebb, sorozat hosszánál nagyobb, prímszámot adja vissza. A "Következő" gomb megkeresi az első jelenleginél nagyobb prímet.
+		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\
+		\normalfont Hasonlóan a Legendre konstrukcióhoz, a fokszámtól elvárjuk, hogy ne legyen túl nagy vagy túl kicsi. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. A "Generálás" gombbal egy fokszámot kapunk a fenti intervallumból.
+		\bfseries \item A polinom \\
+		\normalfont A Legendre konstrukcióhoz hasonlóan fontos, hogy a polinomnak csak egyszeres gyökei legyenek. Ezért a polinomot legenerálhatjuk úgy, hogy a gyökeit soroljuk fel, szóközzel elválasztva. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinomot generálni a fenti követelményeknek eleget téve a "Polinom generálása" gombbal.
+	\end{enumerate}
 	\section{Fejlesztői dokumentáció}
 	\subsection{Konstrukciók}
 	\subsubsection{Legendre konstrukció}
@@ -147,12 +160,12 @@
 	\begin{enumerate}
 		\item Vegyünk egy olyan $p$ prímet, hogy a $2$ legyen primitív gyök modulo $p$
 		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
-		\item A ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $e_n = 
+		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
 		\begin{cases*}
 		\legendre{f(i)}{p} &, ha $f(i) \nmid  p$  \\
 		1 &, ha $f(i) \mid p$ 
 		\end{cases*}
-		$
+		$$
 	\end{enumerate}
 	\subsubsection*{Extra követelmények}
 	Ha egy $n$ hosszú sorozatot szeretnénk generálni, akkor a használt $p$ prímre legyen igaz, hogy $p > 2n$. A polinom fokszáma szeretnénk, ha nem lenne túl kicsi, és a felső határt $p$-hez viszonyítva kell megadni. Jelen megvalósításban ha $k$ a polinom fokszáma, akkor legyen $2 \leq k \leq 5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$.
@@ -182,6 +195,24 @@
 			\item Inkrementáljuk $l$-t, ha $l < n$, akkor ugorjunk vissza (a)-ra
 		\end{enumerate}
 	\end{enumerate}
-	\subsubsection*{Egyéb követelmények}
+	\subsubsection*{Extra követelmények}
 	Elvárjuk, hogy a kulcssorozat ne legyen túl rövid (általában 40 bit az alsó határ). Jelen megvalósításban: $n \geq 5$, vagyis legalább 5 karakter hosszú kulcs kell.
+	\subsubsection{Additív karakteres konstrukció}
+	\subsubsection*{Bevezető}
+	Az additív karakteres konstrukció a Legendre szimbólumoshoz áll legközelebb. A Legendre szimbólumos konstrukció jobb véletlenségi tulajdonságokat mutat. Az additív karakteres sorozat azonban nagyobb sorozatcsaládot képes előállítani, és implementációja egyszerűbb.
+	
+	Nevét a konstrukció jó tulajdonságait bizonyító tételben használt additív karakterekről kapta.
+	\subsubsection*{Algoritmus}
+	\begin{enumerate}
+		\item Vegyünk egy páratlan $p$ prímet
+		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
+		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
+		\begin{cases*}
+		1 &, ha $f(i) \ \textrm{mod} \ p  < \frac{p}{2}$  \\
+		0 &, ha $\frac{p}{2} \leq f(i) \ \textrm{mod} \ p$ 
+		\end{cases*}
+		$$
+	\end{enumerate}
+	\subsubsection*{Extra követelmények}
+	A polinom fokszáma szeretnénk, ha nem lenne túl kicsi, és a felső határt $p$-hez viszonyítva kell megadni. Jelen megvalósításban ha $k$ a polinom fokszáma, akkor legyen $2 \leq k \leq 5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$.
 \end{document}
