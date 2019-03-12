@@ -18,4 +18,5 @@ GeneralPRNG/main.cpp
 AdditiveConstruction/main.cpp
 AdditiveConstruction/main.cpp
 *.user
+build-project-Clone_of_Desktop_Qt_5_12_1_MinGW_64_bit-Debug/
 QT App/project.pro.user

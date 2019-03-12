@@ -7,26 +7,6 @@
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\parskip}{1em}
 \makeatletter
-\def\legendre@dash#1#2{\hb@xt@#1{%
-		\kern-#2\p@
-		\cleaders\hbox{\kern.5\p@
-			\vrule\@height.2\p@\@depth.2\p@\@width\p@
-			\kern.5\p@}\hfil
-		\kern-#2\p@
-}}
-\def\@legendre#1#2#3#4#5{\mathopen{}\left(
-	\sbox\z@{$\genfrac{}{}{0pt}{#1}{#3#4}{#3#5}$}%
-	\dimen@=\wd\z@
-	\kern-\p@\vcenter{\box0}\kern-\dimen@\vcenter{\legendre@dash\dimen@{#2}}\kern-\p@
-	\right)\mathclose{}}
-\newcommand\legendre[2]{\mathchoice
-	{\@legendre{0}{1}{}{#1}{#2}}
-	{\@legendre{1}{.5}{\vphantom{1}}{#1}{#2}}
-	{\@legendre{2}{0}{\vphantom{1}}{#1}{#2}}
-	{\@legendre{3}{0}{\vphantom{1}}{#1}{#2}}
-}
-\def\dlegendre{\@legendre{0}{1}{}}
-\def\tlegendre{\@legendre{1}{0.5}{\vphantom{1}}}
 \makeatother
 \begin{document}
 	\newcommand{\sectionbreak}{\clearpage}
@@ -148,8 +128,8 @@
 	\subsection{Konstrukciók}
 	\subsubsection{Legendre konstrukció}
 	\subsubsection*{Ismertető}
-	\textbf{Def.}: Ha $p$ egy prímszám, és $a \in \mathbb{Z}$, akkor az $\legendre{a}{p}$ Legendre-szimbólum értéke: \par
-	$$\legendre{a}{p} =
+	\textbf{Def.}: Ha $p$ egy prímszám, és $a \in \mathbb{Z}$, akkor az $\left({\frac{a}{p}}\right)$ Legendre-szimbólum értéke: \par
+	$$\left({\frac{a}{p}}\right) =
 	\begin{cases*}
 	1 & ha $a$ kvadratikus maradék modulo $p$ és $a \not\equiv 0\ (\textrm{mod}\ p)$ \\
 	-1       & ha $a$ nem kvadratikus maradék modulo $p$\\
@@ -162,7 +142,7 @@
 		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
 		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
 		\begin{cases*}
-		\legendre{f(i)}{p} &, ha $f(i) \nmid  p$  \\
+		 \left({\frac{f(i)}{p}}\right) &, ha $f(i) \nmid  p$  \\
 		1 &, ha $f(i) \mid p$ 
 		\end{cases*}
 		$$
@@ -205,7 +185,7 @@
 	\subsubsection*{Algoritmus}
 	\begin{enumerate}
 		\item Vegyünk egy páratlan $p$ prímet
-		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
+		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy $p$-hez képest
 		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
 		\begin{cases*}
 		1 &, ha $f(i) \ \textrm{mod} \ p  < \frac{p}{2}$  \\
