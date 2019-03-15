@@ -3,11 +3,7 @@
 Window::Window(QWidget *parent) : QWidget(parent)
  {
     parentWindow = (mainWindow*)parent;
-    setMinimumSize(850, 400);
-    setBaseSize(850,400);
-    setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
-
-    mainLayout = new QVBoxLayout();
+    mainLayout = new QVBoxLayout(this);
     welcomeMessage = new QLabel("Ez a program az ELTE programtervező informatikus BSc szakának szakdolgozataként készült.\n"
                                 "A programhoz tartozó dokumentáció ajánlott az alkalmazásban szereplő konstrukciók ismertetéséhez. \n"
                                 "A kipróbálásához válasszon az alábbi opciók közül.\n"
@@ -20,7 +16,6 @@ Window::Window(QWidget *parent) : QWidget(parent)
     makeButtons();
 
     mainLayout->addLayout(buttonLayout);
-    setLayout(mainLayout);
 }
 
 void Window::makeButtons()
@@ -104,7 +99,7 @@ void Window::additiveButtonClicked()
 
 void Window::chachaButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(4);
 }
 
 void Window::linearButtonClicked()

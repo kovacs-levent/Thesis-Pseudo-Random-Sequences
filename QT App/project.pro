@@ -12,7 +12,9 @@ SOURCES += \
     ../RC4/RC4_PRG.cpp \
     rc4window.cpp \
     ../AdditiveConstruction/AdditiveConstruction.cpp \
-    additivewindow.cpp
+    additivewindow.cpp \
+    ../ChaCha20/ChaCha20Construction.cpp \
+    chachawindow.cpp
 
 HEADERS += \
     qwindow.h \
@@ -25,4 +27,6 @@ HEADERS += \
     rc4window.h \
     ../RC4/RC4_PRG.h \
     ../AdditiveConstruction/AdditiveConstruction.h \
-    additivewindow.h
+    additivewindow.h \
+    ../ChaCha20/ChaCha20Construction.h \
+    chachawindow.h

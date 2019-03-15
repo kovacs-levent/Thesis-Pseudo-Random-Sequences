@@ -16,6 +16,7 @@ public:
     }
 private:
     QStackedLayout* stack;
+    QWidget* layoutWidget;
     QVBoxLayout* mainLayout;
 };
 

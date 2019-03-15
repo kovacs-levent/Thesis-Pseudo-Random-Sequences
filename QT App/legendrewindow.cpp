@@ -8,9 +8,6 @@
 legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
 {
     parentWindow = (mainWindow*)parent;
-    setMinimumSize(850, 400);
-    setBaseSize(850,400);
-    setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     mainLayout = new QGridLayout(this);
     makeLengthForm();
     makePrimeForm();
@@ -26,72 +23,66 @@ legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)
     backButton = new QPushButton(tr("Vissza"), this);
     mainLayout->addWidget(backButton, 5, 1);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonClicked()));
-    setLayout(mainLayout);
 }
 
 void legendreWindow::makeLengthForm()
 {
-    lengthFormLayout = new QGridLayout(this);
     lengthFormGroup = new QGroupBox(tr("Sorozat mérete"), this);
-    lengthEdit = new QLineEdit(this);
+    lengthFormLayout = new QGridLayout(lengthFormGroup);
+    lengthEdit = new QLineEdit(lengthFormGroup);
     lengthEdit->setPlaceholderText("...");
     lengthEdit->setFocus();
     lengthFormLayout->addWidget(lengthEdit, 0, 0, 0, 1);
-    lengthFormGroup->setLayout(lengthFormLayout);
 }
 
 void legendreWindow::makePrimeForm()
 {
-    primeLayout = new QGridLayout(this);
     primeGroup = new QGroupBox(tr("Prímszám"), this);
-    primeLineEdit = new QLineEdit(this);
+    primeLayout = new QGridLayout(primeGroup);
+    primeLineEdit = new QLineEdit(primeGroup);
     primeLineEdit->setPlaceholderText("...");
     primeLayout->addWidget(primeLineEdit, 0, 0, 0, 1);
-    primeGenButton = new QPushButton("Generálás", this);
+    primeGenButton = new QPushButton("Generálás", primeGroup);
     primeLayout->addWidget(primeGenButton, 0, 2);
-    primeNextButton = new QPushButton("Következő", this);
+    primeNextButton = new QPushButton("Következő", primeGroup);
     primeLayout->addWidget(primeNextButton, 0, 3);
     connect(primeGenButton, SIGNAL(clicked()), this, SLOT(generatePrimeButtonClicked()));
     connect(primeNextButton, SIGNAL(clicked()), this, SLOT(nextPrimeButtonClicked()));
-    primeGroup->setLayout(primeLayout);
 }
 
 void legendreWindow::makePolDeg()
 {
     polDegGroup = new QGroupBox(tr("Polinom fokszáma"), this);
-    polDegLineEdit = new QLineEdit(this);
+    polDegLineEdit = new QLineEdit(polDegGroup);
     polDegLineEdit->setPlaceholderText("...");
-    polDegLayout = new QGridLayout(this);
+    polDegLayout = new QGridLayout(polDegGroup);
     polDegLayout->addWidget(polDegLineEdit, 0, 0, 0, 1);
-    polDegGenButton = new QPushButton("Fokszám generálás", this);
+    polDegGenButton = new QPushButton("Fokszám generálás", polDegGroup);
     polDegLayout->addWidget(polDegGenButton, 0, 2);
     connect(polDegGenButton, SIGNAL(clicked()), this, SLOT(polDegButtonClicked()));
-    polDegGroup->setLayout(polDegLayout);
 }
 
 void legendreWindow::makePolForm()
 {
     polGroup = new QGroupBox(tr("Polinom"), this);
-    polTextEdit = new QTextEdit(this);
+    polTextEdit = new QTextEdit(polGroup);
     polTextEdit->setPlaceholderText("...");
-    polLayout = new QGridLayout(this);
+    polLayout = new QGridLayout(polGroup);
     polLayout->addWidget(polTextEdit, 0, 0, 0, 1);
-    polGenButton = new QPushButton("Polinom generálás", this);
+    polGenButton = new QPushButton("Polinom generálás", polGroup);
     polLayout->addWidget(polGenButton, 0, 2);
     connect(polGenButton, SIGNAL(clicked()), this, SLOT(polGenButtonClicked()));
-    polGroup->setLayout(polLayout);
 }
 
 void legendreWindow::makeSequenceForm()
 {
     seqGroup = new QGroupBox(tr("Sorozat"), this);
-    seqTextEdit = new QTextEdit(this);
-    seqLayout = new QGridLayout(this);
+    seqTextEdit = new QTextEdit(seqGroup);
+    seqLayout = new QGridLayout(seqGroup);
     seqLayout->addWidget(seqTextEdit, 0, 0, 1, 3);
-    seqGenButton = new QPushButton("Sorozat generálás", this);
+    seqGenButton = new QPushButton("Sorozat generálás", seqGroup);
     seqLayout->addWidget(seqGenButton, 2, 1);
     connect(seqGenButton, SIGNAL(clicked()), this, SLOT(generateButtonClicked()));
-    seqGroup->setLayout(seqLayout);
 }
 
 void legendreWindow::polDegButtonClicked()
@@ -170,5 +161,10 @@ void legendreWindow::nextPrimeButtonClicked()
 
 void legendreWindow::backButtonClicked()
 {
+    polDegLineEdit->clear();
+    lengthEdit->clear();
+    primeLineEdit->clear();
+    polTextEdit->clear();
+    seqTextEdit->clear();
     parentWindow->getStack()->setCurrentIndex(0);
 }

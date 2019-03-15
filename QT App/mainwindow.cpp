@@ -3,13 +3,14 @@
 #include "legendrewindow.h"
 #include "rc4window.h"
 #include "additivewindow.h"
+#include "chachawindow.h"
 
 mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    setMinimumSize(850, 400);
-    setBaseSize(850,400);
+    setFixedSize(850, 400);
     setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
-    stack = new QStackedLayout(this);
+    layoutWidget = new QWidget(this);
+    stack = new QStackedLayout(layoutWidget);
     Window* main_menu = new Window(this);
     stack->addWidget(main_menu);
     legendreWindow* leg = new legendreWindow(this);
@@ -18,6 +19,8 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
     stack->addWidget(rc);
     additiveWindow* aw = new additiveWindow(this);
     stack->addWidget(aw);
+    chachaWindow* cw = new chachaWindow(this);
+    stack ->addWidget(cw);
     stack->setCurrentIndex(0);
-    setLayout(stack);
+    setCentralWidget(layoutWidget);
 }
