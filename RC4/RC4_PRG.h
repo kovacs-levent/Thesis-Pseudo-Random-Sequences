@@ -26,7 +26,7 @@ private:
     void Shuffle();
     void KeySizeCheck();
     unsigned char key_size;
-    std::array<std::bitset<8>, 256> S;
+    std::array<uint8_t, 256> S;
     std::string K;
 };
 
