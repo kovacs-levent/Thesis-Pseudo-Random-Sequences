@@ -18,12 +18,13 @@ public:
 private slots:
     void generateButtonClicked();
     void keyGenButtonClicked();
+    void nonceGenButtonClicked();
     void backButtonClicked();
 private:
     void makeLengthForm();
     void makeKeyForm();
     void makeCounterForm();
-    void makeNounceForm();
+    void makeNonceForm();
     void makeSequenceForm();
 
     ChaCha20Construction chacha;
@@ -37,6 +38,15 @@ private:
     QGroupBox* keyGroup;
     QPushButton* keyGenButton;
     QTextEdit* keyEdit;
+
+    QGridLayout* counterLayout;
+    QGroupBox* counterGroup;
+    QLineEdit* counterEdit;
+
+    QGridLayout* nonceLayout;
+    QGroupBox* nonceGroup;
+    QPushButton* nonceGenButton;
+    QTextEdit* nonceEdit;
 
     QGridLayout* seqLayout;
     QGroupBox* seqGroup;
