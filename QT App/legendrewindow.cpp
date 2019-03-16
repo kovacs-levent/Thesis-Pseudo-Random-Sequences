@@ -1,5 +1,6 @@
 #include "legendrewindow.h"
 #include <QString>
+#include <QMessageBox>
 #include <sstream>
 #include <set>
 #include <bitset>
@@ -87,76 +88,158 @@ void legendreWindow::makeSequenceForm()
 
 void legendreWindow::polDegButtonClicked()
 {
+    bool isPrimeOk;
     const QString prime = primeLineEdit->displayText();
-    const uint64_t deg = legendre.GenerateDegree(prime.toLongLong());
-    std::stringstream ss;
-    ss << deg;
-    QString s = QString::fromStdString(ss.str());
-    polDegLineEdit->setText(s);
+    const uint64_t p = (uint64_t)prime.toULongLong(&isPrimeOk);
+    if(isPrimeOk && p > 2)
+    {
+        const uint64_t deg = legendre.GenerateDegree(p);
+        std::stringstream ss;
+        ss << deg;
+        QString s = QString::fromStdString(ss.str());
+        polDegLineEdit->setText(s);
+    }
+    else
+    {
+        displayError("Adathiba", "A prímszám mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy szabályos, 2-nél nagyobb prímszámot.");
+    }
 }
 
 void legendreWindow::polGenButtonClicked()
 {
+    bool isDegOk, isPrimeOk;
     const QString deg = polDegLineEdit->displayText();
     const QString modulus = primeLineEdit->displayText();
-    const std::set<uint64_t> polynom = GenerateSimpleModPoly(modulus.toLongLong(), deg.toUInt());
-    std::stringstream ss;
-    std::set<uint64_t>::const_iterator it = polynom.begin();
-    ss << *it;
-    it++;
-    while(it != polynom.end())
+    const uint64_t m = (uint64_t)modulus.toULongLong(&isPrimeOk);
+    const uint32_t d = (uint32_t)deg.toULong(&isDegOk);
+    if(isPrimeOk && isDegOk && d > 1 && m >= d)
     {
-        ss << " " << *it;
+        const std::set<uint64_t> polynom = GenerateSimpleModPoly(m, d);
+        std::stringstream ss;
+        std::set<uint64_t>::const_iterator it = polynom.begin();
+        ss << *it;
         it++;
+        while(it != polynom.end())
+        {
+            ss << " " << *it;
+            it++;
+        }
+        QString s = QString::fromStdString(ss.str());
+        polTextEdit->setText(s);
     }
-    QString s = QString::fromStdString(ss.str());
-    polTextEdit->setText(s);
+    else
+    {
+        if(!isPrimeOk)
+        {
+            displayError("Adathiba", "A prímszám mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy szabályos prímszámot.");
+        }
+        else
+        {
+            displayError("Adathiba", "A fokszám mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy a prímszámnál kisebb, de 1-nél pozitív egész számot.");
+        }
+    }
 }
 
 void legendreWindow::generateButtonClicked()
 {
+    bool isLengthOk, isPrimeOk, isPolTextOk, isDegOk;
     const QString length_text = lengthEdit->displayText();
     const QString p_text = primeLineEdit->displayText();
+    const QString deg_text = polDegLineEdit->displayText();
     const QString polynom_text = polTextEdit->toPlainText();
-    std::set<uint64_t> polynom;
-    std::stringstream ss;
-    ss.str(polynom_text.toStdString());
-    uint64_t tmp;
-    ss >> tmp;
-    while(!ss.fail())
+
+    const std::string pol_str = polynom_text.toStdString();
+    const uint64_t length = (uint64_t)length_text.toULongLong(&isLengthOk);
+    const uint64_t p = (uint64_t)p_text.toULongLong(&isPrimeOk);
+    const uint32_t d = (uint32_t)deg_text.toULong(&isDegOk);
+
+    isPolTextOk = pol_str.find_first_not_of(' ') != std::string::npos;
+    if(isLengthOk && isPrimeOk && isPolTextOk && isDegOk && d > 1 && length > 0 && p > 2)
     {
-        polynom.insert(tmp);
+        std::set<uint64_t> polynom;
+        std::stringstream ss;
+        ss.str(pol_str);
+        uint64_t tmp;
         ss >> tmp;
+        while(!ss.fail())
+        {
+            polynom.insert(tmp);
+            ss >> tmp;
+        }
+        if(ss.eof() && polynom.size() == d)
+        {
+            std::vector<std::bitset<8> > sequence = legendre.Generate(length, p, polynom);
+            ss.clear();
+            ss.str("");
+            for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+            {
+                ss << it->to_string();
+            }
+            QString s = QString::fromStdString(ss.str());
+            seqTextEdit->setPlainText(s);
+        }
+        else
+        {
+            displayError("Adathiba", "A polinom formátuma nem megfelelő! Adjon meg szóközökkel elválasztva, a fokszámmal megegyező számú pozitív egész számot!");
+        }
     }
-    std::vector<std::bitset<8> > sequence = legendre.Generate((uint64_t)length_text.toLongLong(), (uint64_t)p_text.toLongLong(), polynom);
-    ss.clear();
-    ss.str("");
-    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+    else
     {
-        ss << it->to_string();
+        if(!isLengthOk || length <= 0)
+        {
+            displayError("Adathiba", "A méret mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy pozitív egész számot!");
+        }
+        else if(!isPolTextOk)
+        {
+            displayError("Adathiba", "A polinom mező üres! Adjon meg szóközökkel elválasztva pozitív egész számokat!");
+        }
+        else if(!isDegOk || d <= 1)
+        {
+            displayError("Adathiba", "A fokszám mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy 1-nél nagyobb, de a prímszámnál kisebb számot!");
+        }
+        else
+        {
+            displayError("Adathiba" , "A prímszám mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy 2-nél nagyobb prímszámot!");
+        }
     }
-    QString s = QString::fromStdString(ss.str());
-    seqTextEdit->setPlainText(s);
 }
 
 void legendreWindow::generatePrimeButtonClicked()
 {
+    bool isLengthOk;
     const QString len = lengthEdit->displayText();
-    const uint64_t p = legendre.GenerateValidPrime(len.toLongLong()*16+1);
-    std::stringstream ss;
-    ss << p;
-    QString s = QString::fromStdString(ss.str());
-    primeLineEdit->setText(s);
+    const uint64_t length = (uint64_t)len.toULongLong(&isLengthOk);
+    if(isLengthOk && length > 0)
+    {
+        const uint64_t p = legendre.GenerateValidPrime(length*16+1);
+        std::stringstream ss;
+        ss << p;
+        QString s = QString::fromStdString(ss.str());
+        primeLineEdit->setText(s);
+    }
+    else
+    {
+        displayError("Adathiba", "A méret mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy pozitív egész számot!");
+    }
 }
 
 void legendreWindow::nextPrimeButtonClicked()
 {
+    bool isPrimeOk;
     const QString prime = primeLineEdit->displayText();
-    const uint64_t p = legendre.GenerateValidPrime(prime.toLongLong()+2);
-    std::stringstream ss;
-    ss << p;
-    QString s = QString::fromStdString(ss.str());
-    primeLineEdit->setText(s);
+    const uint64_t tmp = (uint64_t)prime.toULongLong(&isPrimeOk);
+    if(isPrimeOk)
+    {
+        const uint64_t p = legendre.GenerateValidPrime(tmp+2);
+        std::stringstream ss;
+        ss << p;
+        QString s = QString::fromStdString(ss.str());
+        primeLineEdit->setText(s);
+    }
+    else
+    {
+        displayError("Adathiba", "A prímszám mezőben nincs adat, vagy nem megfelelő a formátuma! A következő prím kereséséhez adjon meg egy szabályos, pozitív számot!");
+    }
 }
 
 void legendreWindow::backButtonClicked()

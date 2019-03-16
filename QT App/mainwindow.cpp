@@ -5,6 +5,17 @@
 #include "additivewindow.h"
 #include "chachawindow.h"
 
+void displayError(const std::string &errorTitle, const std::string &errorMessage)
+{
+    QMessageBox* error = new QMessageBox;
+    error->setAttribute(Qt::WA_DeleteOnClose, true);
+    const QString title(errorTitle.c_str());
+    const QString message(errorMessage.c_str());
+    error->setWindowTitle(title);
+    error->setText(message);
+    error->show();
+}
+
 mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setFixedSize(850, 400);

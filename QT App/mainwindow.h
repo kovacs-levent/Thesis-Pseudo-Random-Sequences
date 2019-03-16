@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QStackedLayout>
+#include <QMessageBox>
+
+void displayError(const std::string &errorTitle, const std::string &errorMessage);
 
 class mainWindow : public QMainWindow
 {
