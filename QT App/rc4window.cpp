@@ -51,17 +51,35 @@ void rc4Window::makeSequenceForm()
 
 void rc4Window::generateButtonClicked()
 {
+    bool isKeyOk, isLengthOk;
     const QString length_text = lengthEdit->displayText();
     const QString key_text = keyEdit->displayText();
-    rc.SetKey(key_text.toStdString());
-    std::vector<std::bitset<8> > sequence = rc.GenerateStream((uint64_t)length_text.toLongLong());
-    std::stringstream ss;
-    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+    const uint64_t length = (uint64_t)length_text.toULongLong(&isLengthOk);
+    const std::string key = key_text.toStdString();
+    isKeyOk = key.length() >= 5 && key.length() <= 256;
+    if(isLengthOk && isKeyOk && length > 0)
     {
-        ss << it->to_string();
+        rc.SetKey(key);
+        std::vector<std::bitset<8> > sequence = rc.GenerateStream(length);
+        std::stringstream ss;
+        for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+        {
+            ss << it->to_string();
+        }
+        QString s = QString::fromStdString(ss.str());
+        seqTextEdit->setPlainText(s);
     }
-    QString s = QString::fromStdString(ss.str());
-    seqTextEdit->setPlainText(s);
+    else
+    {
+        if(!isLengthOk || length <= 0)
+        {
+            displayError("Adathiba", "A méret mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy pozitív egész számot.");
+        }
+        else
+        {
+            displayError("Adathiba", "A kulcs mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy legalább 5, maximum 256 karakter hosszúságú szöveget!");
+        }
+    }
 }
 
 void rc4Window::backButtonClicked()

@@ -81,6 +81,7 @@ void chachaWindow::makeSequenceForm()
 
 void chachaWindow::generateButtonClicked()
 {
+    bool isLengthOk;
     std::vector<uint32_t> state;
     state.resize(4);
     state[0] = 0x61707865;
@@ -91,40 +92,71 @@ void chachaWindow::generateButtonClicked()
     const QString counter_text = counterEdit->displayText();
     const QString key_text = keyEdit->toPlainText();
     const QString nonce_text = nonceEdit->toPlainText();
-    std::stringstream ss;
-    ss.str(key_text.toStdString());
-    uint32_t tmp;
-    ss >> tmp;
-    while(!ss.fail())
+
+    const uint64_t length = length_text.toULongLong(&isLengthOk);
+    if(isLengthOk)
     {
-        state.push_back(tmp);
+        std::stringstream ss;
+        ss.str(key_text.toStdString());
+        uint32_t tmp;
         ss >> tmp;
+        while(!ss.fail())
+        {
+            state.push_back(tmp);
+            ss >> tmp;
+        }
+        if(ss.eof() && state.size() == 12)
+        {
+            bool isCounterOk;
+            const uint32_t counter = (uint32_t)counter_text.toULong(&isCounterOk);
+            if(isCounterOk)
+            {
+                state.push_back(counter);
+                ss.clear();
+                ss.str(nonce_text.toStdString());
+                ss >> tmp;
+                while(!ss.fail())
+                {
+                    state.push_back(tmp);
+                    ss >> tmp;
+                }
+                if(ss.eof() && state.size() == 16)
+                {
+                    ss.clear();
+                    ss.str("");
+                    chacha.Seed(state);
+                    std::vector<std::bitset<8> > sequence = chacha.GenerateStream(length);
+                    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+                    {
+                        ss << it->to_string();
+                    }
+                    QString s = QString::fromStdString(ss.str());
+                    seqTextEdit->setPlainText(s);
+                }
+                else
+                {
+                    displayError("Adathiba", "Az egyszeri kulcs mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg szóközökkel elválasztva 3 pozitív egész számot!");
+                }
+            }
+            else
+            {
+                displayError("Adathiba", "A számlaló mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy pozitív egész számot!");
+            }
+        }
+        else
+        {
+            displayError("Adathiba", "A kulcs mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg szóközökkel elválasztva 8 pozitív egész számot!");
+        }
     }
-    state.push_back((uint32_t)counter_text.toLong());
-    ss.clear();
-    ss.str(nonce_text.toStdString());
-    ss >> tmp;
-    while(!ss.fail())
+    else
     {
-        state.push_back(tmp);
-        ss >> tmp;
+        displayError("Adathiba", "A méret mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy pozitív egész számot!");
     }
-    ss.clear();
-    ss.str("");
-    chacha.Seed(state);
-    std::vector<std::bitset<8> > sequence = chacha.GenerateStream((uint64_t)length_text.toLongLong());
-    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
-    {
-        ss << it->to_string();
-    }
-    QString s = QString::fromStdString(ss.str());
-    seqTextEdit->setPlainText(s);
 }
 
 void chachaWindow::backButtonClicked()
 {
     parentWindow->getStack()->setCurrentIndex(0);
-
 }
 
 void chachaWindow::keyGenButtonClicked()
