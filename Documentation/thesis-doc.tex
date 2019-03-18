@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -124,6 +124,28 @@
 		\bfseries \item A polinom \\
 		\normalfont A Legendre konstrukcióhoz hasonlóan fontos, hogy a polinomnak csak egyszeres gyökei legyenek. Ezért a polinomot legenerálhatjuk úgy, hogy a gyökeit soroljuk fel, szóközzel elválasztva. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinomot generálni a fenti követelményeknek eleget téve a "Polinom generálása" gombbal.
 	\end{enumerate}
+	\subsubsection{ChaCha20 konstrukció}
+	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először [https://cr.yp.to/snuffle/salsafamily-20071225.pdf], az eSTREAM projekt keretében belül. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen mint a Salsa.
+	
+	Mindkét eljárás eszközei a bitenkénti XOR (kizáró vagy), a 32-bites összeadás $\textrm{mod}\ 2^{32}$, és a konstans távolságú forgatás egy belső állapoton, ahol az állapot 16 db 32-bites adatból (szóból) áll. Csak ezen műveletekkel az algoritmus kivédi az időzítéses támadásokat. Ez olyan támadás, ahol a támadó fél a futtató rendszer hiányosságait kihasználva (tehát nem a szoftver implementációja a baj) a kriptográfiai algoritmus futási idejéből próbálja feltörni a rendszert, mivel a bemenettől függhet a futási idő. Csak fix 32-bites műveleteket használva a futási idő megegyezik minden bemenetre, mivel az algoritmus fixen 20 menetben végzi fel a fenti műveleteket és a műveletek száma is fix minden menetben.
+	
+	A ChaCha algoritmus állapotrendszerének és algoritmusa részletes leírása a fejlesztői dokumentációban található. Jelen megvalósítás az RFC 8439-ben [https://tools.ietf.org/html/rfc8439] definiáltakat követi melyet az IRTF publikált 2018-ban, de ezen kívül több változata van az algoritmusnak, főként a körök számára vonatkozóan.
+	
+	A szükséges bemenetek:
+	\begin{enumerate}
+		\bfseries \item A sorozat hossza \\
+		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet.
+		\bfseries \item Kezdőállapot \\
+		\normalfont A kezdőállapot 16 darab 32 bites szóból áll, jelen implementációban az egyszerűbb használat miatt 16 darab előjel nélküli 32 bites egész számot jelent. Az állapot 4 részre bomlik, ebből az egyik kategória konstans, 4 darab szóval, így ezt nem kell megadni. A maradék 3 csoport 12 szavát kategóriánként kell megadni:
+		\begin{enumerate}
+			{\itshape \item {Kulcs}} \\
+			Ez 8 darab állapotot fed le. Jelen esetben 8 darab számot kell megadni a $[0, 2^{32}-1]$ intervallumban. Tudunk kulcsot generálni a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
+			{\itshape \item {Számláló}} \\
+			A jelen megvalósításban ez egy szót fed le (van verzió, ahol 64 bites a számláló, vagyis 2 szót foglal le), a megvalósításban ez minden "körében" az algoritmusnak növelődik, mondhatni számolja az iterációkat. Egy számot kell megadni a $[0, 2^{32}-1]$ intervallumban.
+			{\itshape \item {Egyszer használatos kulcs (nonce)}}
+			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
+		\end{enumerate}
+	\end{enumerate}
 	\section{Fejlesztői dokumentáció}
 	\subsection{Konstrukciók}
 	\subsubsection{Legendre konstrukció}
@@ -195,4 +217,92 @@
 	\end{enumerate}
 	\subsubsection*{Extra követelmények}
 	A polinom fokszáma szeretnénk, ha nem lenne túl kicsi, és a felső határt $p$-hez viszonyítva kell megadni. Jelen megvalósításban ha $k$ a polinom fokszáma, akkor legyen $2 \leq k \leq 5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$.
+	\subsubsection{ChaCha20 konstrukció}
+	\subsubsection*{Bevezető}
+	A ChaCha20 stream cipher eljárás egy belső állapoton végzett bitenkénti XOR (kizáró vagy), összeadás ($ \textrm{mod} \ 2^{32}$) és konstans távolságú forgatásokkal működik. Az állapot 16 darab 32 bites szóból tevődik össze, melynek kezdeti felépítése:
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\rowcolor{yellow}Const&Const&Const&Const\\\hline
+			\rowcolor[rgb]{0.04313,0.7137,1} Key&Key&Key&Key\\\hline
+			\rowcolor[rgb]{0.04313,0.7137,1} Key&Key&Key&Key\\\hline
+			\cellcolor[rgb]{1,0.3686,0.3686}Counter& \cellcolor[rgb]{0,1, 0.26}Nonce&\cellcolor[rgb]{0,1, 0.26}Nonce&\cellcolor[rgb]{0,1, 0.26}Nonce\\\hline
+		\end{tabular}
+	\end{table}
+
+	A konstans mezők együttes értéke az "expand 32-byte k" szöveget adja ki. A fő művelet az úgynevezett negyedkör (quarter round), ez egy 4 paraméteres eljárás, melynek minden paramétere egy 32-bites szó változója. Jelöljük ezt QR($a$, $b$, $c$, $d$)-vel, ekkor a QR($a$, $b$, $c$, $d$) eljárás (C stílusú pszeudokódként):
+	\begin{center}
+	$a$ += $b$; $d$ $^\wedge$= $a$; $d <<<$= $16$; \\
+	$c$ += $d$; $b$ $^\wedge$= $c$; $b <<<$= $12$; \\
+	$a$ += $b$; $d$ $^\wedge$= $a$; $d <<<$= $8$; \\
+	$c$ += $d$; $b$ $^\wedge$= $c$; $b <<<$= $7$;
+	\end{center}
+	Ahol az $a$ += $b$ az $a$ és $b$ bitenkénti összeadását jelenti $\textrm{mod}\ 2^{32}$. A moduláris összeadás a megvalósításban simán összeadást jelent kettő előjel nélküli 32 bites egész szám között ahol a maradékot az overflow kezeli. Az eredmény az $a$ változóba kerül.
+	
+	Az $a$ $^\wedge$= $b$ a bitenkéni XOR, vagyis kizáró vagy műveletet jelöli. Az eredmény az $a$ változóba kerül.
+	
+	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-szeres balra forgatás egy bitsorozat balra shiftelését (a magasabb helyi értékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
+	\subsubsection*{Algoritmus}
+	Az algoritmus 20 kört hajt végre, egy körben 4 negyedkört csinálva, váltogatva a körök csoportját, hogy éppen melyik indexen hajtódnak végre a negyedkörök. Kétfajta csoport van, az egyik az oszlopos, másik a diagonális kör. Ha a 16 szavas állapot 4x4-es mátrixát az alábbiak szerint indexeljük:
+	\begin{table}
+		[h]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			0&1&2&3\\\hline
+			4&5&6&7\\\hline
+			8&9&10&11\\\hline
+			12&13&14&15 \\\hline
+		\end{tabular}
+	\end{table}
+	\\
+	Akkor a két fajta negyedkör az alábbiak szerint hajtódik végre:
+	\begin{enumerate}
+		\bfseries\item Oszlopos kör \\
+		\normalfont Mindegyik negyedkör az egyik oszlopban lévő elemeken hajtódik végre, sorban az 1. oszloptól kezdve, tehát a pszeudokódja (a fent definiált QR eljárással):
+		\\QR(0, 4, 8, 12); \\
+		QR(1, 5, 9, 13); \\
+		QR(2, 6, 10, 14); \\
+		QR(3, 7, 11, 15);
+		\bfseries \item Diagonális kör \\
+		\normalfont Mindegyik negyedkör az egyik diagonálison álló elemeken hajtódik végre a főátlótól jobbra haladva. A pszeudokódja:
+	    \\QR(0, 5, 10, 15); \\
+	    QR(1, 6, 11, 12); \\
+	    QR(2, 7,  8, 13); \\
+	    QR(3, 4,  9, 14); \\
+	\end{enumerate}
+	Az oszlopos körök csoportját megfeleltetjük a páratlan, a diagonális körökét a páros sorszámú körökkel. A 20 kör tehát 10 darab dupla körből áll, ahol az első kör oszlopos, a második diagonális. Tehát 10 iterációnyi dupla kört kell futtatni, ezzel együtt a ChaCha20 precíz algoritmusa:
+	\begin{enumerate}
+		\item A ChaCha20 állapotát elő kell állítani, ezt a programban számgenerálással, illetve manuálisan lehet megadni. A kezdeti belső ChaCha állapot a fent leírt mátrixos alakban legyen $I$, ezt le kell másolnunk egy átmeneti $X$ állapotba. $I[i]$ az $I$ állapot $i$. indexű elemére hivatkozik a fenti indexeléssel.
+		\item Legyen $i := 1$, majd hajtsunk végre egy dupla kört az $X$, másolt állapoton, vagyis:
+		\begin{enumerate}
+			\item Oszlopos kör: \\
+			QR($X[0]$, $X[4]$, $X[8]$, $X[12]$); \\
+			QR($X[1]$, $X[5]$, $X[9]$, $X[13]$); \\
+			QR($X[2]$, $X[6]$, $X[10]$, $X[14]$); \\
+			QR($X[3]$, $X[7]$, $X[11]$, $X[15]$);
+			\item Diagonális kör:
+			\\QR($X[0]$, $X[5]$, $X[10]$, $X[15]$); \\
+			QR($X[1]$, $X[6]$, $X[11]$, $X[12]$); \\
+			QR($X[2]$, $X[7]$, $X[8]$, $X[13]$); \\
+			QR($X[3]$, $X[4]$, $X[9]$, $X[14]$); \\
+			\item Inkrementáljuk $i$-t, ha $i <= 10$, akkor ugorjunk vissza (a)-ra.
+		\end{enumerate}
+		\item Egy menet kimenete egy 512 bites ($16\cdot32$, az állapot mérete) sorozat, legyen ez $O$, ugyanolyan felépítéssel mint az $X$ és $I$ (16 méretű 32 bites szavak tömbje). Legyen ekkor $\forall \ i \in \{0, 1,..., 15\}$-re:
+		$$O[i] = X[i] + I[i]$$
+		Ezzel előállítottuk a kimeneti $O$ bitsorozatot.
+		\item Növeljük az belső állapot számlálóját, vagyis inkrementáljuk $I[12]$-őt.
+	\end{enumerate}
+	Nyilvánvalóan a tetszőlegesen hosszú stream generáláshoz az $O$ bitsorozat nem elég. A fenti algoritmust $ChaChaRound()$-al jelölve a stream generálás algoritmusa a következőféleképpen alakul:
+	\begin{enumerate}
+		\item Legyen $l$ a generálandó sorozat mérete, ezt fogjuk használni az algoritmusban arra is, hogy számon tartsuk még mennyi bájtnyi adatot kell előállítani. A kimenetnek megfelelő bitsorozat legyen $O$.
+		\item Amíg $l \geq 64$, addig:
+		\begin{enumerate}
+			\item Hajtsuk végre a $ChaChaRound()$ eljárást. Az eljárás teljes kimenetét fűzzük az $O$ kimeneti bitsorozathoz.
+			\item Csökkentsük $l$-t 64-el, vagyis legyen $l := l - 64$.
+		\end{enumerate}
+		\item Ha $l > 0$: Még egyszer hajtsuk végre a $ChaChaRound()$ eljárást. A maradék $l$ bájtnyi kimenetet az eljárás eredményeként kapott első $l$ bájtjából állítjuk össze, a mátrixos indexeléssel élve. Ha már egy teljes szónyi adat nem fér bele $O$-ba, akkor az utolsó szóból ami benne van az első $l$ bájtban már csak az első $l \ \textrm{mod} \ 4$ bájtot fűzzük a kimenethez.
+	\end{enumerate} 
 \end{document}
