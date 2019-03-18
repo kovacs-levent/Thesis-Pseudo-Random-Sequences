@@ -305,4 +305,11 @@
 		\end{enumerate}
 		\item Ha $l > 0$: Még egyszer hajtsuk végre a $ChaChaRound()$ eljárást. A maradék $l$ bájtnyi kimenetet az eljárás eredményeként kapott első $l$ bájtjából állítjuk össze, a mátrixos indexeléssel élve. Ha már egy teljes szónyi adat nem fér bele $O$-ba, akkor az utolsó szóból ami benne van az első $l$ bájtban már csak az első $l \ \textrm{mod} \ 4$ bájtot fűzzük a kimenethez.
 	\end{enumerate} 
+	Jelen körülmények között extra követelményt nem támasztunk az algoritmus felé, de a kezdeti állapotot kifejezetten kell ellenőrizni, ha sokat akarunk az algoritmussal generálni. Ha sok kört fut be ugyanaz az állapot, akkor a számláló körbeér, és ismétlődni fognak a generált értékek. Ekkor mindenképpen új állapotot kell választani, tehát maximálisan $2^{32}-1$ darab $ChaChaRound()$ hívás legyen mielőtt új állapotot készítünk.
+	
+	Ezen kívül a nonce részét az állapotnak minden titkosított adatvitel esetén csak egyszer használjuk egy adott kulccsal, hogy kikerüljük a visszajátszásos támadásokat.
+	
+	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást.
+	
+	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel [https://eprint.iacr.org/2013/328.pdf], hogy a Salsa 128-bites biztonságot jelent a lavinahatásos támadásokkal szemben. Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbál következtetni.
 \end{document}
