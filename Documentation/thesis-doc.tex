@@ -142,7 +142,7 @@
 			Ez 8 darab állapotot fed le. Jelen esetben 8 darab számot kell megadni a $[0, 2^{32}-1]$ intervallumban. Tudunk kulcsot generálni a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 			{\itshape \item {Számláló}} \\
 			A jelen megvalósításban ez egy szót fed le (van verzió, ahol 64 bites a számláló, vagyis 2 szót foglal le), a megvalósításban ez minden "körében" az algoritmusnak növelődik, mondhatni számolja az iterációkat. Egy számot kell megadni a $[0, 2^{32}-1]$ intervallumban.
-			{\itshape \item {Egyszer használatos kulcs (nonce)}}
+			{\itshape \item {Egyszer használatos kulcs (nonce)}} \\ 
 			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 		\end{enumerate}
 	\end{enumerate}
@@ -243,7 +243,7 @@
 	
 	Az $a$ $^\wedge$= $b$ a bitenkéni XOR, vagyis kizáró vagy műveletet jelöli. Az eredmény az $a$ változóba kerül.
 	
-	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-szeres balra forgatás egy bitsorozat balra shiftelését (a magasabb helyi értékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
+	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-vel való balra forgatás egy bitsorozat balra shiftelését (a magasabb helyi értékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
 	\subsubsection*{Algoritmus}
 	Az algoritmus 20 kört hajt végre, egy körben 4 negyedkört csinálva, váltogatva a körök csoportját, hogy éppen melyik indexen hajtódnak végre a negyedkörök. Kétfajta csoport van, az egyik az oszlopos, másik a diagonális kör. Ha a 16 szavas állapot 4x4-es mátrixát az alábbiak szerint indexeljük:
 	\begin{table}
@@ -311,5 +311,5 @@
 	
 	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást.
 	
-	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel [https://eprint.iacr.org/2013/328.pdf], hogy a Salsa 128-bites biztonságot jelent a lavinahatásos támadásokkal szemben. Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbál következtetni.
+	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel [https://eprint.iacr.org/2013/328.pdf], hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
 \end{document}
