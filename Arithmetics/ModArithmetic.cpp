@@ -33,6 +33,21 @@ uint64_t ModPow(uint64_t base, uint64_t exp, const uint64_t mod)
     return result;
 }
 
+uint64_t Pow(uint64_t base, uint64_t exp)
+{
+    uint64_t result = 1;
+    while (exp > 0)
+    {
+        if (exp & 1)
+        {
+            result *= base;
+        }
+        base *= base;
+        exp = exp >> 1;
+    }
+    return result;
+}
+
 uint64_t ModAdd(uint64_t a, uint64_t b, const uint64_t mod)
 {
     uint64_t result;
@@ -117,14 +132,6 @@ std::vector<uint64_t> GetPrimeFactors(uint64_t n)
 
 std::set<uint64_t> GenerateSimpleModPoly(const uint64_t modulus, const unsigned int degree)
 {
-    if(modulus < degree)
-    {
-        //TODO::Don't generate poly, display error, and give control back
-        //Placeholder code until I implement UI
-        std::set<uint64_t> nothing;
-        return nothing;
-    }
-    //std::random_device random_dev;
     std::seed_seq seed = GenerateRandomSeed();
     std::mt19937_64 mersenne_twister(seed);
     std::uniform_int_distribution<> uni_distr(0, modulus-1);

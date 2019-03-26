@@ -1,13 +1,135 @@
 #include "measure.h"
+#include <stdlib.h>
+#include <iostream>
+#include <bitset>
+#include <cmath>
+#include "../Arithmetics/ModArithmetic.h"
 
-int32_t UMeasure(const std::vector<std::bitset<8> > &seq, const uint32_t sum_length, const uint32_t start_pos, const uint32_t step);
+int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_t start_pos, const uint64_t step)
 {
-    int32_t result = 0;
-    uint32_t start_block = start_pos/8;
-    uint32_t start_shift = start_pos % 8;
+    int64_t result = 0;
+    --start_pos;
     for(int j = 1; j <= sum_length; j++)
     {
-        uint32_t tmp = start_pos + j*step;
-        result += seq[tmp/8][tmp % 8];
+        result += seq[start_pos + j*step];
+    }
+    result -= (sum_length - result);
+    return result;
+}
+
+int64_t wellDistributionMeasure(const std::vector<bool> &seq)
+{
+    uint64_t max = 0;
+    uint64_t b = 1;
+    int64_t a;
+    uint64_t t;
+    while(b <= seq.size())
+    {
+        a = 1-b;
+        while(a+b <= seq.size())
+        {
+            t = 1;
+            while(a+t*b <= seq.size())
+            {
+                int64_t tmp = abs(UMeasure(seq, t, a, b));
+                if(tmp > max)
+                {
+                    max = tmp;
+                    std::cout << std::endl << t << " " << a << " " << b << " " << tmp <<  " " <<std::endl;
+                }
+                ++t;
+            }
+            ++a;
+        }
+        ++b;
+    }
+    return max;
+}
+
+uint64_t TMeasure(const std::vector<bool> &seq, uint64_t max_pos, const std::vector<bool> &subSeq)
+{
+    --max_pos;
+    int64_t n = 0;
+    uint64_t result = 0;
+    while(n < max_pos)
+    {
+        bool l = true;
+        for(int i = 0; l && i < subSeq.size(); i++)
+        {
+            l = seq[n+i] == subSeq[i];
+        }
+        result += l;
+        ++n;
+    }
+    return result;
+}
+
+long double kNormality(const std::vector<bool> &seq, const uint32_t k)
+{
+    const uint64_t seq_count = Pow(2, k);
+    std::cout << seq_count << "************* *********" << std::endl;
+    std::vector<bool> bitsequence(k, false);
+    long double max = 0;
+    uint64_t maxStart = seq.size() - k + 1;
+    for(uint64_t bit = 0; bit < seq_count; bit++)
+    {
+        for (uint64_t j = 1; j <= maxStart; j++)
+        {
+            int64_t n = 0;
+            uint64_t result = 0;
+            while(n < j)
+            {
+                bool l = true;
+                for(uint32_t i = 0; l && i < k; i++)
+                {
+                    l = seq[n+i] == bitsequence[i];
+                }
+                result += l;
+                std::cout << bit << " " << j << " " << n << " " << k << std::endl;
+                ++n;
+            }
+            std::cout << (long double)result << std::endl;
+            std::cout << (long double)j/(long double)seq_count << std::endl <<(long double)result - (long double)j/(long double)seq_count << std::endl;
+            long double tmp_measure = std::abs((long double)((long double)result - (long double)j/(long double)seq_count));
+            std::cout << "HALO" << tmp_measure << std::endl;
+            if(tmp_measure > max)
+            {
+                max = tmp_measure;
+            }
+        }
+        vecBoolInc(bitsequence);
+    }
+    return max;
+}
+
+long double Normality(const std::vector<bool> &seq)
+{
+    uint64_t max_k = log2((long double)seq.size());
+    long double max = kNormality(seq, 1);
+    for(uint32_t i = 2; i < max_k; i++)
+    {
+        std::cout << "MEZU";
+        long double tmp = kNormality(seq, i);
+        if(tmp > max)
+        {
+            max = tmp;
+        }
+    }
+    return max;
+}
+
+void vecBoolInc(std::vector<bool> &vec)
+{
+    int i = vec.size()-1;
+    vec[i] = !vec[i];
+    --i;
+    while(i >= 0 && vec[i])
+    {
+        vec[i] = false;
+        --i;
+    }
+    if(i >= 0)
+    {
+        vec[i] = true;
     }
 }

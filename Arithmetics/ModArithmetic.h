@@ -11,6 +11,8 @@ uint64_t ModPow(uint64_t base, uint64_t exp, const uint64_t mod);
 
 uint64_t ModAdd(uint64_t a,uint64_t b, const uint64_t mod);
 
+uint64_t Pow(uint64_t base, uint64_t exp);
+
 uint64_t ModSub(uint64_t a, uint64_t b, const uint64_t mod);
 
 //This function generates a polynomial which has only simple roots in modular arithmetic, poly represented by it's roots
