@@ -14,7 +14,7 @@ public:
     //Get a random polynomial degree which is in the interval [2, 5*p^1/10]
     uint64_t GenerateDegree(const uint64_t p);
     //std::vector<std::bitset<8> > Generate(const uint64_t &stream_size);
-    std::vector<std::bitset<8> > Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly);
+    std::vector<bool> Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly);
 private:
     const int NumOfTrialsMillerRabin = 40;
 };

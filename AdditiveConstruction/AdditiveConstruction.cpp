@@ -39,19 +39,13 @@ uint64_t AdditiveConstruction::GenerateDegree(const uint64_t p)
     return uni_distr(mersenne_twister);
 }
 
-std::vector<std::bitset<8> > AdditiveConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
+std::vector<bool> AdditiveConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
 {
-    std::vector<std::bitset<8> > stream;
-    uint64_t i = 0;
+    std::vector<bool> stream;
+    stream.resize(stream_size);
     for(uint64_t j = 0; j < stream_size; j++)
     {
-        std::bitset<8> tmp_byte;
-        for(short z = 0; z < 7; z++)
-        {
-            tmp_byte[z] = AdditiveChar(i, p, poly);
-            i++;
-        }
-        stream.push_back(tmp_byte);
+        stream[j]= AdditiveChar(j, p, poly);
     }
     return stream;
 }

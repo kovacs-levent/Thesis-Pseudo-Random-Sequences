@@ -172,12 +172,12 @@ void additiveWindow::generateButtonClicked()
         }
         if(ss.eof() && polynom.size() == d)
         {
-            std::vector<std::bitset<8> > sequence = additive.Generate((uint64_t)length_text.toLongLong(), (uint64_t)p_text.toLongLong(), polynom);
+            std::vector<bool> sequence = additive.Generate((uint64_t)length_text.toLongLong(), (uint64_t)p_text.toLongLong(), polynom);
             ss.clear();
             ss.str("");
-            for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+            for(std::vector<bool>::const_iterator it = sequence.begin(); it != sequence.end(); it++)
             {
-                ss << it->to_string();
+                ss << *it;
             }
             QString s = QString::fromStdString(ss.str());
             seqTextEdit->setPlainText(s);
@@ -215,7 +215,7 @@ void additiveWindow::generatePrimeButtonClicked()
     const uint64_t length = (uint64_t)length_text.toULongLong(&isLengthOk);
     if(isLengthOk && length > 0)
     {
-        const uint64_t p = additive.GeneratePrime(length*8+1);
+        const uint64_t p = additive.GeneratePrime(length+1);
         std::stringstream ss;
         ss << p;
         QString s = QString::fromStdString(ss.str());

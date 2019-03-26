@@ -60,11 +60,11 @@ void rc4Window::generateButtonClicked()
     if(isLengthOk && isKeyOk && length > 0)
     {
         rc.SetKey(key);
-        std::vector<std::bitset<8> > sequence = rc.GenerateStream(length);
+        std::vector<bool> sequence = rc.GenerateStream(length);
         std::stringstream ss;
-        for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+        for(std::vector<bool>::const_iterator it = sequence.begin(); it != sequence.end(); it++)
         {
-            ss << it->to_string();
+            ss << *it;
         }
         QString s = QString::fromStdString(ss.str());
         seqTextEdit->setPlainText(s);

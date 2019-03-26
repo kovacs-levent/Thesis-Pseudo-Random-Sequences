@@ -52,73 +52,60 @@ int LegendreConstruction::LegendreSymbol(const uint64_t a, const uint64_t p)
 	return result;
 }
 
-std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t stream_size)
+std::vector<bool> LegendreConstruction::Generate(const uint64_t stream_size)
 {
 	//First prime candidate, which satisfies the bit_stream_size*2 < p property.
 	//Stream_size is given in bytes, that's why we multiply by 16, we add one, to get the first odd number
-	const uint64_t n = stream_size*16+1;
-	const uint64_t p = GenerateValidPrime(n);
-	std::vector<std::bitset<8> > stream;
+	const uint64_t p = GenerateValidPrime(stream_size);
+	std::vector<bool> stream;
+	stream.resize(stream_size);
     std::set<uint64_t> polynom = GenerateSimpleModPoly(p, GenerateDegree(p));
-	uint64_t i = 0;
 	for(uint64_t j = 0; j < stream_size; j++)
 	{
 		std::bitset<8> tmp_byte;
-		for(short z = 0; z < 7; z++)
+		uint64_t tmp = ModPolynomValue(polynom, p, j);
+		if(tmp != 0)
 		{
-			uint64_t tmp = ModPolynomValue(polynom, p, i);
-			if(tmp != 0)
+		    int LegSym = LegendreSymbol(j, p);
+		    if(LegSym == -1)
+		    {
+		        stream[j] = false;
+		    }
+		    else
             {
-				int LegSym = LegendreSymbol(i, p);
-				if(LegSym == -1)
-				{
-					tmp_byte[z] = 0;
-				}
-				else
-				{
-					tmp_byte[z] = 1;
-				}
-            }
-			else
-			{
-				tmp_byte[z] = 1;
-			}
-			i++;
+                stream[j] = true;
+		    }
 		}
-		stream.push_back(tmp_byte);
+		else
+        {
+            stream[j] = true;
+        }
 	}
 	return stream;
 }
 
-std::vector<std::bitset<8> > LegendreConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
+std::vector<bool> LegendreConstruction::Generate(const uint64_t stream_size, const uint64_t p, const std::set<uint64_t>& poly)
 {
-	std::vector<std::bitset<8> > stream;
-	uint64_t i = 0;
+	std::vector<bool> stream;
 	for(uint64_t j = 0; j < stream_size; j++)
-	{
-		std::bitset<8> tmp_byte;
-		for(short z = 0; z < 7; z++)
-		{
-			uint64_t tmp = ModPolynomValue(poly, p, i);
-			if(tmp != 0)
-			{
-				int LegSym = LegendreSymbol(i, p);
-				if(LegSym == -1)
-				{
-					tmp_byte[z] = 0;
-				}
-				else
-				{
-					tmp_byte[z] = 1;
-				}
-			}
-			else
-			{
-				tmp_byte[z] = 1;
-			}
-			i++;
-		}
-		stream.push_back(tmp_byte);
+    {
+	    uint64_t tmp = ModPolynomValue(poly, p, j);
+	    if(tmp != 0)
+	    {
+	        int LegSym = LegendreSymbol(j, p);
+            if(LegSym == -1)
+            {
+                stream.push_back(false);
+            }
+            else
+            {
+                stream.push_back(true);
+            }
+        }
+        else
+        {
+            stream.push_back(true);
+        }
 	}
 	return stream;
 }

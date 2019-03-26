@@ -63,64 +63,55 @@ void ChaCha20Construction::Seed(const std::vector<uint32_t> &inbuf)
     }
 }
 
-std::vector<std::bitset<8> > ChaCha20Construction::GenerateStream(uint64_t length)
+std::vector<bool> ChaCha20Construction::GenerateStream(uint64_t length)
 {
-    std::vector<std::bitset<8> > output;
-    //16*4 bytes is the fixed size of our ChaCha state
+    std::vector<bool> output;
+    output.resize(length);
+    //16*4 (512 bits) bytes is the fixed size of our ChaCha state
     //If the length is bigger than this, then we can append the whole state to the output stream
-    while(length >= 64)
+    uint64_t i = 0;
+    std::array<uint32_t, 16> tmp;
+    std::bitset<32> bit_seq;
+    while(length >= 512)
     {
-        std::array<uint32_t, 16> tmp = ChaChaRound();
+        tmp = ChaChaRound();
         ///Iterate through the ChaCha output
-        for(size_t i = 0; i < 16; i++)
+        for(size_t j = 0; j < 16; j++)
         {
-            std::bitset<32> bit_seq = tmp[i];
+            bit_seq = tmp[j];
             ///Iterate through the 32 bits of one ChaCha state word
-            for(uint8_t z = 0; z < 4; z++)
+            for(uint8_t z = 0; z < 32; z++)
             {
-                ///Copy one 8 bit chunk
-                std::bitset<8> chunk;
-                for(uint8_t j = 0; j < 8; j++)
-                {
-                    chunk[j] = bit_seq[z*8+j];
-                }
-                output.push_back(chunk);
+                output[i] = bit_seq[z];
+                ++i;
             }
         }
-        length -= 64;
+        length -= 512;
     }
 
     if(length)
     {
-        uint8_t i = 0;
-        std::array<uint32_t, 16> tmp = ChaChaRound();
-        while(length >= 4)
+        uint8_t j = 0;
+        tmp = ChaChaRound();
+        while(length >= 32)
         {
-            std::bitset<32> bit_seq = tmp[i];
-            for(uint8_t z = 0; z < 4; z++)
+            bit_seq = tmp[j];
+            for(uint8_t z = 0; z < 32; z++)
             {
-                std::bitset<8> chunk;
-                for(uint8_t j = 0; j < 8; j++)
-                {
-                    chunk[j] = bit_seq[z*8+j];
-                }
-                output.push_back(chunk);
+                output[i] = bit_seq[z];
+                ++i;
             }
-            i++;
-            length -= 4;
+            ++j;
+            length -= 32;
         }
 
         if(length)
         {
-            std::bitset<32> bit_seq = tmp[i];
-            for(uint8_t z = 0; z < length; z++)
+            bit_seq = tmp[j];
+            for(uint8_t z = 0; z < 32; z++)
             {
-                std::bitset<8> chunk;
-                for (uint8_t j = 0; j < 8; j++)
-                {
-                    chunk[j] = bit_seq[z * 8 + j];
-                }
-                output.push_back(chunk);
+                output[i] = bit_seq[z];
+                ++i;
             }
         }
     }

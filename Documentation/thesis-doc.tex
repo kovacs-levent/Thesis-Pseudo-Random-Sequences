@@ -245,6 +245,7 @@
 	
 	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-vel való balra forgatás egy bitsorozat balra shiftelését (a magasabb helyi értékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
 	\subsubsection*{Algoritmus}
+	
 	Az algoritmus 20 kört hajt végre, egy körben 4 negyedkört csinálva, váltogatva a körök csoportját, hogy éppen melyik indexen hajtódnak végre a negyedkörök. Kétfajta csoport van, az egyik az oszlopos, másik a diagonális kör. Ha a 16 szavas állapot 4x4-es mátrixát az alábbiak szerint indexeljük:
 	\begin{table}
 		[h]

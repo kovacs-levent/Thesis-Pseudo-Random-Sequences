@@ -11,7 +11,7 @@ public:
     ChaCha20Construction();
     ChaCha20Construction(const std::vector<uint32_t> &inbuf);
     void Seed(const std::vector<uint32_t> &inbuf);
-    std::vector<std::bitset<8> > GenerateStream(uint64_t);
+    std::vector<bool> GenerateStream(uint64_t);
     void QuarterRound(uint32_t &a, uint32_t &b, uint32_t &c, uint32_t &d);
     std::array<uint32_t, 16> ChaChaRound();
     std::array<uint32_t, 16> state;

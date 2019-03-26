@@ -125,10 +125,10 @@ void chachaWindow::generateButtonClicked()
                     ss.clear();
                     ss.str("");
                     chacha.Seed(state);
-                    std::vector<std::bitset<8> > sequence = chacha.GenerateStream(length);
-                    for(std::vector<std::bitset<8> >::const_iterator it = sequence.begin(); it != sequence.end(); it++)
+                    std::vector<bool> sequence = chacha.GenerateStream(length);
+                    for(std::vector<bool>::const_iterator it = sequence.begin(); it != sequence.end(); it++)
                     {
-                        ss << it->to_string();
+                        ss << *it;
                     }
                     QString s = QString::fromStdString(ss.str());
                     seqTextEdit->setPlainText(s);
