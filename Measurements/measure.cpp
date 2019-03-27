@@ -17,7 +17,7 @@ int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_
     return result;
 }
 
-int64_t wellDistributionMeasure(const std::vector<bool> &seq)
+uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
 {
     uint64_t max = 0;
     uint64_t b = 1;
@@ -127,7 +127,7 @@ void vecBoolInc(std::vector<bool> &vec)
     }
 }
 
-int64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
+uint64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
 {
     return getMaxSum(seq, seq.size(), k);
 }
@@ -191,13 +191,13 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
     }
 }
 
-int64_t correlationMeasure(const std::vector<bool> &seq)
+uint64_t correlationMeasure(const std::vector<bool> &seq)
 {
-    uint64_t max_k = log2((long double)seq.size());
-    long double max = kCorrelation(seq, 1);
+    uint32_t max_k = log2((long double)seq.size());
+    int64_t max = kCorrelation(seq, 1);
     for(uint32_t i = 2; i <= max_k; i++)
     {
-        long double tmp = kCorrelation(seq, i);
+        uint64_t tmp = kCorrelation(seq, i);
         if(tmp > max)
         {
             max = tmp;

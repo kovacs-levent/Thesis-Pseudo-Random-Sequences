@@ -4,6 +4,7 @@
 #include "rc4window.h"
 #include "additivewindow.h"
 #include "chachawindow.h"
+#include "measurewindow.h"
 
 void displayError(const std::string &errorTitle, const std::string &errorMessage)
 {
@@ -32,6 +33,8 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
     stack->addWidget(aw);
     chachaWindow* cw = new chachaWindow(this);
     stack ->addWidget(cw);
+    measureWindow* mw = new measureWindow(this);
+    stack->addWidget(mw);
     stack->setCurrentIndex(0);
     setCentralWidget(layoutWidget);
 }

@@ -14,7 +14,9 @@ SOURCES += \
     ../AdditiveConstruction/AdditiveConstruction.cpp \
     additivewindow.cpp \
     ../ChaCha20/ChaCha20Construction.cpp \
-    chachawindow.cpp
+    chachawindow.cpp \
+    measurewindow.cpp \
+    ../Measurements/measure.cpp
 
 HEADERS += \
     qwindow.h \
@@ -29,4 +31,6 @@ HEADERS += \
     ../AdditiveConstruction/AdditiveConstruction.h \
     additivewindow.h \
     ../ChaCha20/ChaCha20Construction.h \
-    chachawindow.h
+    chachawindow.h \
+    measurewindow.h \
+    ../Measurements/measure.h

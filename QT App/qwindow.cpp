@@ -109,7 +109,7 @@ void Window::linearButtonClicked()
 
 void Window::measuresButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(5);
 }
 
 void Window::cryptoButtonClicked()
