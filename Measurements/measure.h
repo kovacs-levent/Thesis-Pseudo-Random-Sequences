@@ -10,12 +10,22 @@ int64_t UMeasure(const std::vector<bool> &seq, const uint32_t sum_length, const 
 
 long double kNormality(std::vector<bool> &seq, const uint32_t k);
 
-long double Normality(const std::vector<bool> &seq);
+long double normalityMeasure(const std::vector<bool> &seq);
 
 //Adds one to vec<bool> in bitwise addition, needed for listing every k length bit sequence with normality
 void vecBoolInc(std::vector<bool> &vec);
 
 uint64_t TMeasure(const std::vector<bool> &seq, const uint32_t max_pos, const std::vector<bool> &subSeq);
 /*int32_t correlation(std::vector<bool> &seq);*/
+
+int64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k);
+
+int64_t correlationMeasure(const std::vector<bool> &seq);
+
+uint64_t getMaxSum(const std::vector<bool> &seq, const uint64_t n, const uint32_t k);
+
+void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, uint64_t* arr, uint32_t &len, uint64_t &max);
+
+
 
 #endif //DOCUMENTS_MEASURE_H

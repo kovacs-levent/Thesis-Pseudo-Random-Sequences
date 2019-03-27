@@ -35,7 +35,6 @@ int64_t wellDistributionMeasure(const std::vector<bool> &seq)
                 if(tmp > max)
                 {
                     max = tmp;
-                    std::cout << std::endl << t << " " << a << " " << b << " " << tmp <<  " " <<std::endl;
                 }
                 ++t;
             }
@@ -67,7 +66,6 @@ uint64_t TMeasure(const std::vector<bool> &seq, uint64_t max_pos, const std::vec
 long double kNormality(const std::vector<bool> &seq, const uint32_t k)
 {
     const uint64_t seq_count = Pow(2, k);
-    std::cout << seq_count << "************* *********" << std::endl;
     std::vector<bool> bitsequence(k, false);
     long double max = 0;
     uint64_t maxStart = seq.size() - k + 1;
@@ -85,13 +83,9 @@ long double kNormality(const std::vector<bool> &seq, const uint32_t k)
                     l = seq[n+i] == bitsequence[i];
                 }
                 result += l;
-                std::cout << bit << " " << j << " " << n << " " << k << std::endl;
                 ++n;
             }
-            std::cout << (long double)result << std::endl;
-            std::cout << (long double)j/(long double)seq_count << std::endl <<(long double)result - (long double)j/(long double)seq_count << std::endl;
             long double tmp_measure = std::abs((long double)((long double)result - (long double)j/(long double)seq_count));
-            std::cout << "HALO" << tmp_measure << std::endl;
             if(tmp_measure > max)
             {
                 max = tmp_measure;
@@ -102,13 +96,12 @@ long double kNormality(const std::vector<bool> &seq, const uint32_t k)
     return max;
 }
 
-long double Normality(const std::vector<bool> &seq)
+long double normalityMeasure(const std::vector<bool> &seq)
 {
     uint64_t max_k = log2((long double)seq.size());
     long double max = kNormality(seq, 1);
-    for(uint32_t i = 2; i < max_k; i++)
+    for(uint32_t i = 2; i <= max_k; i++)
     {
-        std::cout << "MEZU";
         long double tmp = kNormality(seq, i);
         if(tmp > max)
         {
@@ -132,4 +125,83 @@ void vecBoolInc(std::vector<bool> &vec)
     {
         vec[i] = true;
     }
+}
+
+int64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
+{
+    return getMaxSum(seq, seq.size(), k);
+}
+
+uint64_t getMaxSum(const std::vector<bool> &seq, const uint64_t n, const uint32_t k)
+{
+    uint64_t* arr = new uint64_t[k];
+    uint32_t len = 0;
+    uint64_t max = 0;
+    getMax(seq, n, k, arr, len, max);
+    delete[] arr;
+    return max;
+}
+
+void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, uint64_t* arr, uint32_t &len, uint64_t &max)
+{
+    if(len == k)
+    {
+        uint64_t M = 0;
+        while(M + arr[k-1] <= seq.size())
+        {
+            int sum = 0;
+            int i = 0;
+            while(i < M)
+            {
+                int prod_result = 1;
+                for(int j = 0; j < k; ++j)
+                {
+                    prod_result *= 2*seq[i+arr[j]]-1;
+                }
+                sum += prod_result;
+                ++i;
+            }
+            int abs_sum = abs(sum);
+            if(abs_sum > max)
+            {
+                max = abs_sum;
+            }
+            ++M;
+        }
+    }
+    else
+    {
+        int i;
+        if(len == 0)
+        {
+            i = 0;
+        }
+        else
+        {
+            i = arr[len-1]+1;
+        }
+        ++len;
+        while(i < n)
+        {
+            arr[len-1] = i;
+            getMax(seq, n, k , arr, len ,max);
+            ++i;
+        }
+        --len;
+    }
+}
+
+int64_t correlationMeasure(const std::vector<bool> &seq)
+{
+    uint64_t max_k = log2((long double)seq.size());
+    long double max = kCorrelation(seq, 1);
+    for(uint32_t i = 2; i <= max_k; i++)
+    {
+        long double tmp = kCorrelation(seq, i);
+        if(tmp > max)
+        {
+            max = tmp;
+        }
+    }
+    return max;
 }
