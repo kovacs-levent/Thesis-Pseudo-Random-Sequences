@@ -17,6 +17,7 @@ int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_
     return result;
 }
 
+//TODO: UMeasure doesn't have to be calculated every time, from start on every sum_length, can get max instead.
 uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
 {
     uint64_t max = 0;
@@ -127,6 +128,8 @@ void vecBoolInc(std::vector<bool> &vec)
     }
 }
 
+/*TODO: Actually, increasing order doesn't matter, on the result of the measure, simply unique combinations.
+    These might be easier to compute. Gotta check on this.*/
 uint64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
 {
     return getMaxSum(seq, seq.size(), k);
