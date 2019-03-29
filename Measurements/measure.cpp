@@ -3,6 +3,7 @@
 #include <iostream>
 #include <bitset>
 #include <cmath>
+#include <algorithm>
 #include "../Arithmetics/ModArithmetic.h"
 
 int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_t start_pos, const uint64_t step)
@@ -132,6 +133,48 @@ void vecBoolInc(std::vector<bool> &vec)
 uint64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
 {
     return getMaxSum(seq, seq.size(), k);
+    /*uint64_t max = 0;
+    uint64_t* arr = new uint64_t[k];
+    std::string bitmask(k, 1);
+    uint64_t upperBound = seq.size()-1;
+    bitmask.resize(upperBound, 0);
+    do
+    {
+        int j = 0;
+        for (int i = 0; i < upperBound; ++i) // [0..N-1] integers
+        {
+            if (bitmask[i])
+            {
+                arr[j] = i;
+                ++j;
+            }
+        }
+        uint64_t M = 0;
+        while(M+arr[k-1] < seq.size())
+        {
+            int sum = 0;
+            int i = 0;
+            while(i < M)
+            {
+                int prod_result = 1;
+                for(int j = 0; j < k; ++j)
+                {
+                    prod_result *= 2*seq[i+arr[j]]-1;
+                }
+                sum += prod_result;
+                ++i;
+            }
+            int abs_sum = abs(sum);
+            if(abs_sum > max)
+            {
+                max = abs_sum;
+            }
+            ++M;
+        }
+    }
+    while (std::prev_permutation(bitmask.begin(), bitmask.end()));
+    delete[] arr;
+    return max;*/
 }
 
 uint64_t getMaxSum(const std::vector<bool> &seq, const uint64_t n, const uint32_t k)
@@ -192,6 +235,7 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
         --len;
     }
 }
+
 
 /*TODO: Check on unique combinations. May be able to find an easier way to compute at most k size combinations (without starting from scratch every time), use previous results. Parallel computing is also a possibility.*/
 
