@@ -17,27 +17,26 @@ int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_
     return result;
 }
 
-//TODO: UMeasure doesn't have to be calculated every time, from start on every sum_length, can get max instead.
 uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
 {
     uint64_t max = 0;
     uint64_t b = 1;
     int64_t a;
-    uint64_t t;
     while(b <= seq.size())
     {
         a = 1-b;
         while(a+b <= seq.size())
         {
-            t = 1;
-            while(a+t*b <= seq.size())
+            uint64_t tBound = ceil((long double)(seq.size()-a)/(long double)b);
+            int64_t result = 0;
+            for(uint64_t t = 1; t <= tBound; ++t)
             {
-                int64_t tmp = abs(UMeasure(seq, t, a, b));
+                result += 2*seq[a + t*b]-1;
+                int64_t tmp = abs(result);
                 if(tmp > max)
                 {
                     max = tmp;
                 }
-                ++t;
             }
             ++a;
         }
