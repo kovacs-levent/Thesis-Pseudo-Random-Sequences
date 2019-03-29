@@ -194,6 +194,8 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
     }
 }
 
+/*TODO: Check on unique combinations. May be able to find an easier way to compute at most k size combinations (without starting from scratch every time), use previous results. Parallel computing is also a possibility.*/
+
 uint64_t correlationMeasure(const std::vector<bool> &seq)
 {
     uint32_t max_k = log2((long double)seq.size());
