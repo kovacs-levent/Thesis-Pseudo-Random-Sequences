@@ -67,46 +67,130 @@ uint64_t TMeasure(const std::vector<bool> &seq, uint64_t max_pos, const std::vec
 long double kNormality(const std::vector<bool> &seq, const uint32_t k)
 {
     const uint64_t seq_count = Pow(2, k);
-    std::vector<bool> bitsequence(k, false);
-    long double max = 0;
-    uint64_t maxStart = seq.size() - k + 1;
-    for(uint64_t bit = 0; bit < seq_count; bit++)
+    std::vector<bool> tmpseq;
+    std::vector<std::vector<bool> > bitsequences[k+1][k+1];
+    for (int i = 0; i <= k; i++)
     {
-        for (uint64_t j = 1; j <= maxStart; j++)
+        bitsequences[i][0].push_back(seq);
+        tmpseq.push_back(false);
+    }
+    for (int i = 1; i <= k; i++)
+    {
+        for (int n = 1; n <= i; n++)
         {
-            int64_t n = 0;
-            uint64_t result = 0;
-            while(n < j)
+            // prefix 0 to all combinations of length len-1
+            // with n ones
+            for (std::vector<bool> v : bitsequences[i - 1][n])
             {
-                bool l = true;
-                for(uint32_t i = 0; l && i < k; i++)
-                {
-                    l = seq[n+i] == bitsequence[i];
-                }
-                result += l;
-                ++n;
+                v.insert(v.begin(), false);
+                bitsequences[i][n].push_back(v);
             }
-            long double tmp_measure = std::abs((long double)((long double)result - (long double)j/(long double)seq_count));
-            if(tmp_measure > max)
+
+            // prefix 1 to all combinations of length len-1
+            // with n-1 ones
+            for (std::vector<bool> v : bitsequences[i - 1][n - 1])
             {
-                max = tmp_measure;
+                v.insert(v.begin(), true);
+                bitsequences[i][n].push_back(v);
             }
         }
-        vecBoolInc(bitsequence);
+    }
+    long double max = 0;
+    uint64_t maxStart = seq.size() - k + 1;
+    for (int n = 0; n <= k; n++)
+    {
+        for (std::vector<bool> v : bitsequences[k][n])
+        {
+            for (uint64_t j = 1; j <= maxStart; j++)
+            {
+                int64_t m = 0;
+                uint64_t result = 0;
+                while(m < j)
+                {
+                    bool l = true;
+                    for(uint32_t i = 0; l && i < k; i++)
+                    {
+                        l = seq[m+i] == v[i];
+                    }
+                    result += l;
+                    ++m;
+                }
+                long double tmp_measure = std::abs((long double)((long double)result - (long double)j/(long double)seq_count));
+                if(tmp_measure > max)
+                {
+                    max = tmp_measure;
+                }
+            }
+        }
     }
     return max;
 }
 
+///We can simplify our calculation by not calling kNormality every time
+///We simply generate all at most max_k length sequences and calculate a max for those
 long double normalityMeasure(const std::vector<bool> &seq)
 {
+    //Generating at most max_k length bit sequences in bitsequnces vector
     uint64_t max_k = log2((long double)seq.size());
-    long double max = kNormality(seq, 1);
-    for(uint32_t i = 2; i <= max_k; i++)
+    std::vector<bool> tmpseq;
+    std::vector<std::vector<bool> > bitsequences[max_k+1][max_k+1];
+    for (int i = 0; i <= max_k; i++)
     {
-        long double tmp = kNormality(seq, i);
-        if(tmp > max)
+        bitsequences[i][0].push_back(seq);
+        tmpseq.push_back(false);
+    }
+    for (int i = 1; i <= max_k; i++)
+    {
+        for (int n = 1; n <= i; n++)
         {
-            max = tmp;
+            // prefix 0 to all combinations of length len-1
+            // with n ones
+            for (std::vector<bool> v : bitsequences[i - 1][n])
+            {
+                v.insert(v.begin(), false);
+                bitsequences[i][n].push_back(v);
+            }
+
+            // prefix 1 to all combinations of length len-1
+            // with n-1 ones
+            for (std::vector<bool> v : bitsequences[i - 1][n - 1])
+            {
+                v.insert(v.begin(), true);
+                bitsequences[i][n].push_back(v);
+            }
+        }
+    }
+    //Calcualting maximal value
+    long double max = 0;
+    for(int j = 1; j <= max_k; j++)
+    {
+        uint64_t seq_count = Pow(2, j);
+        uint64_t maxStart = seq.size() - j + 1;
+        for (int n = 0; n <= max_k; n++)
+        {
+            for (std::vector<bool> v : bitsequences[j][n])
+            {
+                for (uint64_t z = 1; z <= maxStart; z++)
+                {
+                    int64_t m = 0;
+                    uint64_t result = 0;
+                    while(m < z)
+                    {
+                        bool l = true;
+                        for(uint32_t i = 0; l && i < j; i++)
+                        {
+                            l = seq[m+i] == v[i];
+                        }
+                        result += l;
+                        ++m;
+                    }
+                    long double tmp_measure = std::abs((long double)((long double)result - (long double)z/(long double)seq_count));
+                    if(tmp_measure > max)
+                    {
+                        max = tmp_measure;
+                    }
+                }
+            }
         }
     }
     return max;
