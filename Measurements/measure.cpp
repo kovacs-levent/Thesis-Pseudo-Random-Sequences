@@ -131,12 +131,13 @@ long double kNormality(const std::vector<bool> &seq, const uint32_t k)
 long double normalityMeasure(const std::vector<bool> &seq)
 {
     //Generating at most max_k length bit sequences in bitsequnces vector
+    long double max = 0;
     uint64_t max_k = log2((long double)seq.size());
     std::vector<bool> tmpseq;
     std::vector<std::vector<bool> > bitsequences[max_k+1][max_k+1];
     for (int i = 0; i <= max_k; i++)
     {
-        bitsequences[i][0].push_back(seq);
+        bitsequences[i][0].push_back(tmpseq);
         tmpseq.push_back(false);
     }
     for (int i = 1; i <= max_k; i++)
@@ -161,34 +162,78 @@ long double normalityMeasure(const std::vector<bool> &seq)
         }
     }
     //Calcualting maximal value
-    long double max = 0;
-    for(int j = 1; j <= max_k; j++)
+    for(int j = 1; j <= max_k; ++j)
     {
-        uint64_t seq_count = Pow(2, j);
-        uint64_t maxStart = seq.size() - j + 1;
-        for (int n = 0; n <= max_k; n++)
+        for (int n = 0; n <= j; n++)
         {
+            uint64_t seq_count = Pow(2, j);
+            uint64_t maxStart = seq.size() - j + 1;
             for (std::vector<bool> v : bitsequences[j][n])
             {
-                for (uint64_t z = 1; z <= maxStart; z++)
+                std::vector<int32_t> failTable(v.size()+1);
+                failTable[0] = -1;
+                uint32_t pos = 1;
+                int32_t candidate = 0;
+                while(pos < v.size())
                 {
-                    int64_t m = 0;
-                    uint64_t result = 0;
-                    while(m < z)
+                    if(v[pos] == v[candidate])
                     {
-                        bool l = true;
-                        for(uint32_t i = 0; l && i < j; i++)
-                        {
-                            l = seq[m+i] == v[i];
-                        }
-                        result += l;
-                        ++m;
+                        failTable[pos] = failTable[candidate];
                     }
-                    long double tmp_measure = std::abs((long double)((long double)result - (long double)z/(long double)seq_count));
+                    else
+                    {
+                        failTable[pos] = candidate;
+                        candidate = failTable[candidate];
+                        while(candidate >= 0 && v[pos] != v[candidate])
+                        {
+                            candidate = failTable[candidate];
+                        }
+                    }
+                    ++pos;
+                    ++candidate;
+                }
+                failTable[pos] = candidate;
+                int32_t k = 0;
+                uint64_t i = 0, match_count = 0;
+                std::vector<uint32_t> counts(seq.size(), 0);
+                while(i < seq.size())
+                {
+                    if(seq[i] == v[k])
+                    {
+                        ++k;
+                        if(k == j)
+                        {
+                            ++match_count;
+                            counts[i] = match_count;
+                            k = failTable[k];
+                        }
+                        else
+                        {
+                            counts[i] = match_count;
+                        }
+                        ++i;
+                    }
+                    else
+                    {
+                        counts[i] = match_count;
+                        k = failTable[k];
+                        if(k < 0)
+                        {
+                            ++i;
+                            ++k;
+                        }
+                    }
+                }
+                uint32_t M = 1;
+                size_t bound = counts.size() + std::min(0, -j+2);
+                for(int n = 0; n  < bound; ++n)
+                {
+                    long double tmp_measure = std::abs((long double)counts[n] - (long double)M/(long double)seq_count);
                     if(tmp_measure > max)
                     {
                         max = tmp_measure;
                     }
+                    ++M;
                 }
             }
         }
