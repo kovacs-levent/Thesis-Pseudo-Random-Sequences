@@ -5,6 +5,7 @@
 #include "additivewindow.h"
 #include "chachawindow.h"
 #include "measurewindow.h"
+#include "vernamwindow.h"
 
 void displayError(const std::string &errorTitle, const std::string &errorMessage)
 {
@@ -35,6 +36,8 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent), savedSeq()
     stack ->addWidget(cw);
     measureWindow* mw = new measureWindow(this);
     stack->addWidget(mw);
+    vernamWindow* vw = new vernamWindow(this);
+    stack->addWidget(vw);
     stack->setCurrentIndex(0);
     setCentralWidget(layoutWidget);
 }

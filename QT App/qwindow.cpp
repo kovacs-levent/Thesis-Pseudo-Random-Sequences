@@ -114,7 +114,7 @@ void Window::measuresButtonClicked()
 
 void Window::cryptoButtonClicked()
 {
-
+    parentWindow->getStack()->setCurrentIndex(6);
 }
 
 void Window::quitButtonClicked()

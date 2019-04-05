@@ -16,7 +16,8 @@ SOURCES += \
     ../ChaCha20/ChaCha20Construction.cpp \
     chachawindow.cpp \
     measurewindow.cpp \
-    ../Measurements/measure.cpp
+    ../Measurements/measure.cpp \
+    vernamwindow.cpp
 
 HEADERS += \
     qwindow.h \
@@ -33,4 +34,5 @@ HEADERS += \
     ../ChaCha20/ChaCha20Construction.h \
     chachawindow.h \
     measurewindow.h \
-    ../Measurements/measure.h
+    ../Measurements/measure.h \
+    vernamwindow.h
