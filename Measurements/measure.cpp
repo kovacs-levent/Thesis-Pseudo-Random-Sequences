@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include "../Arithmetics/ModArithmetic.h"
+#include "../GeneralPRNG/SeedGenerator.h"
 
 int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_t start_pos, const uint64_t step)
 {
@@ -304,6 +305,51 @@ uint64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k)
     while (std::prev_permutation(bitmask.begin(), bitmask.end()));
     delete[] arr;
     return max;*/
+}
+
+uint64_t kCorrelationApprox(const std::vector<bool> &seq, const uint32_t k, const uint32_t rounds)
+{
+    uint64_t max = 0;
+    uint32_t i = 0;
+    while(i < rounds)
+    {
+        std::seed_seq seed = GenerateRandomSeed();
+        std::mt19937_64 mersenne_twister(seed);
+        std::vector<uint64_t> steps;
+        std::uniform_int_distribution<> uni_distr(0, seq.size()-k);
+        steps.push_back(uni_distr(mersenne_twister));
+        uint32_t j = 1;
+        while(j < k)
+        {
+            std::uniform_int_distribution<> tmp_distr(steps[j-1]+1, seq.size()-k+j);
+            steps.push_back(tmp_distr(mersenne_twister));
+            ++j;
+        }
+        uint64_t M = 0;
+        while(M+steps[k-1] < seq.size())
+        {
+            int sum = 0;
+            int z = 0;
+            while(z < M)
+            {
+                int prod_result = 1;
+                for(int n = 0; n < k; ++n)
+                {
+                    prod_result *= 2*seq[z+steps[n]]-1;
+                }
+                sum += prod_result;
+                ++z;
+            }
+            int abs_sum = abs(sum);
+            if(abs_sum > max)
+            {
+                max = abs_sum;
+            }
+            ++M;
+        }
+        ++i;
+    }
+    return max;
 }
 
 uint64_t getMaxSum(const std::vector<bool> &seq, const uint64_t n, const uint32_t k)

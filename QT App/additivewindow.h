@@ -23,6 +23,7 @@ class additiveWindow : public QWidget
   void generateButtonClicked();
   void generatePrimeButtonClicked();
   void nextPrimeButtonClicked();
+  void seqSaveButtonClicked();
   void backButtonClicked();
  private:
   void makeLengthForm();
@@ -58,6 +59,7 @@ class additiveWindow : public QWidget
   QGroupBox* seqGroup;
   QPushButton* seqGenButton;
   QTextEdit* seqTextEdit;
+  QPushButton* seqSaveButton;
 
   QPushButton* backButton;
   mainWindow* parentWindow;

@@ -19,6 +19,7 @@ private slots:
     void generateButtonClicked();
     void keyGenButtonClicked();
     void nonceGenButtonClicked();
+    void seqSaveButtonClicked();
     void backButtonClicked();
 private:
     void makeLengthForm();
@@ -52,6 +53,7 @@ private:
     QGroupBox* seqGroup;
     QPushButton* seqGenButton;
     QTextEdit* seqTextEdit;
+    QPushButton* seqSaveButton;
 
     QPushButton* backButton;
     mainWindow* parentWindow;

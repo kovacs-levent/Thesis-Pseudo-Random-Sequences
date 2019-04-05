@@ -39,6 +39,7 @@ class measureWindow : public QWidget
   QPushButton* distrCalculateButton;
   QLineEdit* distrLineEdit;
 
+
   QGridLayout* normalityLayout;
   QGroupBox* normalityGroup;
   QPushButton* normalityCalculateButton;
@@ -48,6 +49,8 @@ class measureWindow : public QWidget
   QGroupBox* correlationGroup;
   QPushButton* correlationCalculateButton;
   QLineEdit* correlationLineEdit;
+  QLineEdit* correlationDegLineEdit;
+  QLineEdit* correlationRoundsLineEdit;
 
   QPushButton* backButton;
   mainWindow* parentWindow;

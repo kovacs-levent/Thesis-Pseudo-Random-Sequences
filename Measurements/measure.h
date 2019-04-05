@@ -20,6 +20,8 @@ uint64_t TMeasure(const std::vector<bool> &seq, const uint32_t max_pos, const st
 
 uint64_t kCorrelation(const std::vector<bool> &seq, const uint32_t k);
 
+uint64_t kCorrelationApprox(const std::vector<bool> &seq, const uint32_t k, const uint32_t rounds);
+
 uint64_t correlationMeasure(const std::vector<bool> &seq);
 
 uint64_t getMaxSum(const std::vector<bool> &seq, const uint64_t n, const uint32_t k);

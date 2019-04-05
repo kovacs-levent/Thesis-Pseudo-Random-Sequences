@@ -17,7 +17,7 @@ void displayError(const std::string &errorTitle, const std::string &errorMessage
     error->show();
 }
 
-mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
+mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent), savedSeq()
 {
     setFixedSize(850, 400);
     setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));

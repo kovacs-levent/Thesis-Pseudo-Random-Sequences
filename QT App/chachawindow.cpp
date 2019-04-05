@@ -72,10 +72,14 @@ void chachaWindow::makeSequenceForm()
 {
     seqGroup = new QGroupBox(tr("Sorozat"), this);
     seqTextEdit = new QTextEdit(seqGroup);
+    seqTextEdit->setReadOnly(true);
     seqLayout = new QGridLayout(seqGroup);
     seqLayout->addWidget(seqTextEdit, 0, 0, 1, 3);
     seqGenButton = new QPushButton("Sorozat generálás", seqGroup);
     seqLayout->addWidget(seqGenButton, 2, 1);
+    seqSaveButton = new QPushButton("Sorozat mentése", seqGroup);
+    seqLayout->addWidget(seqSaveButton, 2, 2);
+    connect(seqSaveButton, SIGNAL(clicked()), this, SLOT(seqSaveButtonClicked()));
     connect(seqGenButton, SIGNAL(clicked()), this, SLOT(generateButtonClicked()));
 }
 
@@ -192,4 +196,19 @@ void chachaWindow::nonceGenButtonClicked()
     }
     QString s = QString::fromStdString(ss.str());
     nonceEdit->setText(s);
+}
+
+void chachaWindow::seqSaveButtonClicked()
+{
+    std::vector<bool> vec;
+    const QString seq = seqTextEdit->toPlainText();
+    std::stringstream sstream(seq.toStdString());
+    bool l;
+    l = sstream.get() - '0';
+    while(!sstream.fail())
+    {
+        vec.push_back(l);
+        l = sstream.get() - '0';
+    }
+    parentWindow->setSavedSeq(vec);
 }

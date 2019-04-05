@@ -49,7 +49,6 @@ void additiveWindow::makePrimeForm()
     primeLayout->addWidget(primeNextButton, 0, 3);
     connect(primeGenButton, SIGNAL(clicked()), this, SLOT(generatePrimeButtonClicked()));
     connect(primeNextButton, SIGNAL(clicked()), this, SLOT(nextPrimeButtonClicked()));
-    primeGroup->setLayout(primeLayout);
 }
 
 void additiveWindow::makePolDeg()
@@ -62,7 +61,6 @@ void additiveWindow::makePolDeg()
     polDegGenButton = new QPushButton("Fokszám generálás", polDegGroup);
     polDegLayout->addWidget(polDegGenButton, 0, 2);
     connect(polDegGenButton, SIGNAL(clicked()), this, SLOT(polDegButtonClicked()));
-    polDegGroup->setLayout(polDegLayout);
 }
 
 void additiveWindow::makePolForm()
@@ -75,19 +73,21 @@ void additiveWindow::makePolForm()
     polGenButton = new QPushButton("Polinom generálás", polGroup);
     polLayout->addWidget(polGenButton, 0, 2);
     connect(polGenButton, SIGNAL(clicked()), this, SLOT(polGenButtonClicked()));
-    polGroup->setLayout(polLayout);
 }
 
 void additiveWindow::makeSequenceForm()
 {
     seqGroup = new QGroupBox(tr("Sorozat"), this);
     seqTextEdit = new QTextEdit(seqGroup);
+    seqTextEdit->setReadOnly(true);
     seqLayout = new QGridLayout(seqGroup);
     seqLayout->addWidget(seqTextEdit, 0, 0, 1, 3);
     seqGenButton = new QPushButton("Sorozat generálás", seqGroup);
     seqLayout->addWidget(seqGenButton, 2, 1);
+    seqSaveButton = new QPushButton("Sorozat mentése", seqGroup);
+    seqLayout->addWidget(seqSaveButton, 2, 2);
     connect(seqGenButton, SIGNAL(clicked()), this, SLOT(generateButtonClicked()));
-    seqGroup->setLayout(seqLayout);
+    connect(seqSaveButton, SIGNAL(clicked()), this, SLOT(seqSaveButtonClicked()));
 }
 
 void additiveWindow::polDegButtonClicked()
@@ -254,4 +254,19 @@ void additiveWindow::backButtonClicked()
     polTextEdit->clear();
     seqTextEdit->clear();
     parentWindow->getStack()->setCurrentIndex(0);
+}
+
+void additiveWindow::seqSaveButtonClicked()
+{
+    std::vector<bool> vec;
+    const QString seq = seqTextEdit->toPlainText();
+    std::stringstream sstream(seq.toStdString());
+    bool l;
+    l = sstream.get() - '0';
+    while(!sstream.fail())
+    {
+        vec.push_back(l);
+        l = sstream.get() - '0';
+    }
+    parentWindow->setSavedSeq(vec);
 }

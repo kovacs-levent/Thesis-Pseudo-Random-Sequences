@@ -17,6 +17,7 @@ public:
     rc4Window(QWidget *parent = 0);
 private slots:
     void generateButtonClicked();
+    void seqSaveButtonClicked();
     void backButtonClicked();
 private:
     void makeLengthForm();
@@ -38,6 +39,7 @@ private:
     QGroupBox* seqGroup;
     QPushButton* seqGenButton;
     QTextEdit* seqTextEdit;
+    QPushButton* seqSaveButton;
 
     QPushButton* backButton;
     mainWindow* parentWindow;
