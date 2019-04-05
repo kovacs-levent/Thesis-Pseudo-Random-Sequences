@@ -11,7 +11,7 @@ int64_t UMeasure(const std::vector<bool> &seq, const uint64_t sum_length, int64_
 {
     int64_t result = 0;
     --start_pos;
-    for(int j = 1; j <= sum_length; j++)
+    for(size_t j = 1; j <= sum_length; j++)
     {
         result += seq[start_pos + j*step];
     }
@@ -34,7 +34,7 @@ uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
             for(uint64_t t = 1; t <= tBound; ++t)
             {
                 result += 2*seq[a + t*b]-1;
-                int64_t tmp = abs(result);
+                uint64_t tmp = abs(result);
                 if(tmp > max)
                 {
                     max = tmp;
@@ -50,12 +50,12 @@ uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
 uint64_t TMeasure(const std::vector<bool> &seq, uint64_t max_pos, const std::vector<bool> &subSeq)
 {
     --max_pos;
-    int64_t n = 0;
+    uint64_t n = 0;
     uint64_t result = 0;
     while(n < max_pos)
     {
         bool l = true;
-        for(int i = 0; l && i < subSeq.size(); i++)
+        for(size_t i = 0; l && i < subSeq.size(); i++)
         {
             l = seq[n+i] == subSeq[i];
         }
@@ -70,14 +70,14 @@ long double kNormality(const std::vector<bool> &seq, const uint32_t k)
     const uint64_t seq_count = Pow(2, k);
     std::vector<bool> tmpseq;
     std::vector<std::vector<bool> > bitsequences[k+1][k+1];
-    for (int i = 0; i <= k; i++)
+    for (uint32_t i = 0; i <= k; i++)
     {
         bitsequences[i][0].push_back(seq);
         tmpseq.push_back(false);
     }
-    for (int i = 1; i <= k; i++)
+    for (uint32_t i = 1; i <= k; i++)
     {
-        for (int n = 1; n <= i; n++)
+        for (uint32_t n = 1; n <= i; n++)
         {
             // prefix 0 to all combinations of length len-1
             // with n ones
@@ -98,13 +98,13 @@ long double kNormality(const std::vector<bool> &seq, const uint32_t k)
     }
     long double max = 0;
     uint64_t maxStart = seq.size() - k + 1;
-    for (int n = 0; n <= k; n++)
+    for (uint32_t n = 0; n <= k; n++)
     {
         for (std::vector<bool> v : bitsequences[k][n])
         {
             for (uint64_t j = 1; j <= maxStart; j++)
             {
-                int64_t m = 0;
+                uint64_t m = 0;
                 uint64_t result = 0;
                 while(m < j)
                 {
@@ -136,14 +136,14 @@ long double normalityMeasure(const std::vector<bool> &seq)
     uint64_t max_k = log2((long double)seq.size());
     std::vector<bool> tmpseq;
     std::vector<std::vector<bool> > bitsequences[max_k+1][max_k+1];
-    for (int i = 0; i <= max_k; i++)
+    for (uint64_t i = 0; i <= max_k; i++)
     {
         bitsequences[i][0].push_back(tmpseq);
         tmpseq.push_back(false);
     }
-    for (int i = 1; i <= max_k; i++)
+    for (uint64_t i = 1; i <= max_k; i++)
     {
-        for (int n = 1; n <= i; n++)
+        for (uint64_t n = 1; n <= i; n++)
         {
             // prefix 0 to all combinations of length len-1
             // with n ones
@@ -313,29 +313,18 @@ uint64_t kCorrelationApprox(const std::vector<bool> &seq, const uint32_t k, cons
     uint32_t i = 0;
     while(i < rounds)
     {
-        std::seed_seq seed = GenerateRandomSeed();
-        std::mt19937_64 mersenne_twister(seed);
-        std::vector<uint64_t> steps;
-        std::uniform_int_distribution<> uni_distr(0, seq.size()-k);
-        steps.push_back(uni_distr(mersenne_twister));
-        uint32_t j = 1;
-        while(j < k)
-        {
-            std::uniform_int_distribution<> tmp_distr(steps[j-1]+1, seq.size()-k+j);
-            steps.push_back(tmp_distr(mersenne_twister));
-            ++j;
-        }
+        std::set<uint64_t> steps = GenerateSimpleModPoly(seq.size()-1, k);
         uint64_t M = 0;
-        while(M+steps[k-1] < seq.size())
+        while(M+*(steps.rbegin()) < seq.size())
         {
             int sum = 0;
             int z = 0;
             while(z < M)
             {
                 int prod_result = 1;
-                for(int n = 0; n < k; ++n)
+                for(std::set<uint64_t>::iterator n = steps.begin(); n != steps.end(); ++n)
                 {
-                    prod_result *= 2*seq[z+steps[n]]-1;
+                    prod_result *= 2*seq[z+*n]-1;
                 }
                 sum += prod_result;
                 ++z;
@@ -391,7 +380,7 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
     }
     else
     {
-        int i;
+        uint64_t i;
         if(len == 0)
         {
             i = 0;
