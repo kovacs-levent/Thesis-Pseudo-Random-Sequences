@@ -17,6 +17,7 @@ private slots:
     void seqLoadButtonClicked();
     void backButtonClicked();
 private:
+    QString vernamCipher(const std::vector<bool> &key, const QString &inputText);
     void makeTextForm();
     void makeBitSeqForm();
     void makeResultForm();
