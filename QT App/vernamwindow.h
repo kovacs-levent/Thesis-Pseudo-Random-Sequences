@@ -2,9 +2,13 @@
 #define VERNAMWINDOW_H
 #include "mainwindow.h"
 #include <QTextEdit>
+#include <string>
 #include <QWidget>
 #include <QGroupBox>
+#include <QString>
 #include <QPushButton>
+#include <unordered_map>
+#include <bitset>
 
 class vernamWindow : public QWidget
 {
@@ -21,6 +25,7 @@ private:
     void makeTextForm();
     void makeBitSeqForm();
     void makeResultForm();
+    void makeDictionary();
     QGridLayout* mainLayout;
     QGroupBox* inputGroup;
     QGridLayout* inputLayout;
@@ -38,6 +43,9 @@ private:
 
     QPushButton* backButton;
     mainWindow* parentWindow;
+
+    std::unordered_map<unsigned short, std::bitset<7> > letter_dictionary;
+    std::unordered_map<std::string, unsigned short> seq_dictionary;
 };
 
 #endif // VERNAMWINDOW_H

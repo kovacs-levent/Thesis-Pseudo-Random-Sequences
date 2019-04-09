@@ -36,3 +36,6 @@ HEADERS += \
     measurewindow.h \
     ../Measurements/measure.h \
     vernamwindow.h
+
+DISTFILES += \
+    dictionary
