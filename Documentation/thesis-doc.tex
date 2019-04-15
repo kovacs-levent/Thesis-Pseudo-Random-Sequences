@@ -65,6 +65,7 @@
 	A programom célja, hogy a fent említett konstrukció keretén belül vizsgáljak különböző pszeudovéletlen sorozatokat. A vizsgált konstrukciókat két csoportból válogattam. Egyik kategóriába matematikai hátterű sorozatok tartoznak, melyeknek működése főként számelméleti ismereteken alapulnak. A másik csoport az iparban széles körben használt pszeudovéletlen generátorok, amik nem feltétlenül matematikai hátterűek.
 	\par
 	A programban lehetőség nyílik a pszeudovéletlen konstrukciók kipróbálására, és a generált sorozatok vizsgálatára a statisztikai mértékek szerint. A sorozatokat ki is próbálhatjuk a Vernam-féle one-time pad titkosítási eljárással.
+	\newpage
 	\section{Felhasználói dokumentáció}
 	A program pszeudovéletlen sorozatkonstrukciók kipróbálására és a sorozatok vizsgálatára készült a statisztikai mértékekkel.
 	\subsection{Rendszerkövetelmények}
@@ -146,6 +147,27 @@
 			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 		\end{enumerate}
 	\end{enumerate}
+	\subsubsection{Mértékek}
+	Ezen része a programnak az átlagos felhasználónak nem feltétlenül tud sokat nyújtani. Ahhoz, hogy a mértékek eredményeit értelmezni tudjuk szükséges a formulákról és a jelentésükről való ismertség megszerzése. Ezen ismeretek alapjait a fejlesztői dokumentációban részletezem, a dokumentáció ezen részén csak röviden foglalom össze a program funkcióit.
+	
+	Három fő mértékünk van:
+	\begin{enumerate}
+		\bfseries \item Jól-eloszlás
+		\bfseries \item Normalitás 
+		\bfseries \item Korreláció
+	\end{enumerate}
+	Ezekből kettőt közvetlen ki tudunk számolni, de a harmadikra csak közelítő értéket ad a program, mivel a számolás műveletigénye olyan nagyságrendeket ér el, hogy ennek kivárása rengeteg időbe telne a szakdolgozat keretein belül.
+	
+	A számolási paraméterek:
+	\begin{enumerate}
+		\bfseries \item A vizsgálandó sorozat \\
+		\normalfont A sorozat, melyre ki szeretnénk számolni a mértékeket. Korábban mentett sorozat betölthető a "Sorozat betöltése" gombbal, de saját magunk is írhatunk be tetszőleges sorozatot. \\
+		A jól-eloszlás és a normalitás mértékek számolásához további paraméter nem szükséges, ezeket kiszámolhatjuk a "Számolás" gombbal. \\
+		\bfseries \item A k-ad rendű korreláció közelítésének rendje és menetszáma \\
+		\normalfont Ennek a mértéknek a számolása, mint fent említettem, túlságosan nagy műveletigényű a dolgozat keretein belül, ezért csak közelítő eredményt adunk a k-ad rendű korrelációra (gyakorlatilag ezeknek a maximuma a korreláció mérték). Meg kell adnunk, hogy hányad rendű korrelációt szeretnénk vizsgálni, és hogy hány menetes a számolás (hányszor próbálkozik új sorozattal). Hasonlóan a többi mértékhez, a "Számolás" gombbal tudjuk elkezdeni a műveletet.
+	\end{enumerate}
+	\subsubsection{One-time pad titkosítás}
+	\newpage
 	\section{Fejlesztői dokumentáció}
 	\subsection{Konstrukciók}
 	\subsubsection{Legendre konstrukció}
