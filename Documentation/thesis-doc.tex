@@ -1,6 +1,8 @@
 \documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -147,7 +149,7 @@
 			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 		\end{enumerate}
 	\end{enumerate}
-	\subsubsection{Mértékek}
+	\subsection{Mértékek}
 	Ezen része a programnak az átlagos felhasználónak nem feltétlenül tud sokat nyújtani. Ahhoz, hogy a mértékek eredményeit értelmezni tudjuk szükséges a formulákról és a jelentésükről való ismertség megszerzése. Ezen ismeretek alapjait a fejlesztői dokumentációban részletezem, a dokumentáció ezen részén csak röviden foglalom össze a program funkcióit.
 	
 	Három fő mértékünk van:
@@ -166,7 +168,19 @@
 		\bfseries \item A k-ad rendű korreláció közelítésének rendje és menetszáma \\
 		\normalfont Ennek a mértéknek a számolása, mint fent említettem, túlságosan nagy műveletigényű a dolgozat keretein belül, ezért csak közelítő eredményt adunk a k-ad rendű korrelációra (gyakorlatilag ezeknek a maximuma a korreláció mérték). Meg kell adnunk, hogy hányad rendű korrelációt szeretnénk vizsgálni, és hogy hány menetes a számolás (hányszor próbálkozik új sorozattal). Hasonlóan a többi mértékhez, a "Számolás" gombbal tudjuk elkezdeni a műveletet.
 	\end{enumerate}
-	\subsubsection{One-time pad titkosítás}
+	\subsection{One-time pad titkosítás}
+	A One-time pad eljárásnak széleskörű alkalmazásai vannak a titkosításokban. Gilbert S. Vernam fejlesztette ki, és elméletben tökéletes titkosságot nyújt megfelelően véletlen bemenő paraméter esetén.
+	
+	Használatához először egy titkosítandó szöveget kell megadni, mely a magyar billentyűzet legtöbb betűjét tartalmazza. Kivételek a ritkán használt szimbólumkarakterek mint pl. a '˙', teljes listát a fejlesztői dokumentáció tartalmazza. A titkosításhoz használt bitsorozatot kell még megadni, mely fontos, hogy legalább olyan hosszú legyen, mint a bemenő szöveg karaktereinek számának 7-szerese. Eredményként a titkosított szöveget kapjuk a fenti karakteres formában.
+	
+	Bemenő paraméterek:
+	\begin{enumerate}
+		\bfseries \item Titkosítandó szöveg \\
+		\normalfont A szöveget amit titkosítani szeretnénk, a magyar billentyűzet legtöbb karakterét tartalmazhatja. Hosszúsága bármennyi lehet.
+		\bfseries \item Titkosító bitsorozat \\
+		\normalfont A bitsorozat mely a titkosítás kulcsaként szolgál. Betölthető korábban lementett sorozat a "Sorozat betöltése" gombbal, de magunk is írhatunk be sorozatot. Fontos, hogy a bitsorozat hossza legalább annyi legyen, mint a titkosítandó szöveg karakterszámának 7-szerese. A titkosítást különben nem lehet elvégezni. \\
+		Ezután a "Szöveg titkosítása" gombra kattintva lefuttathatjuk a titkosítást és megtekinthetjük az eredményt a "A titkosított szöveg" fülnél. Ezt a szöveget visszafejthetjük az eredetivé, ha az eredeti kulcsként használt bitsorozattal újra lefuttatjuk a titkosítást a titkosított szövegen.
+	\end{enumerate}
 	\newpage
 	\section{Fejlesztői dokumentáció}
 	\subsection{Konstrukciók}
@@ -335,4 +349,72 @@
 	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást.
 	
 	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel [https://eprint.iacr.org/2013/328.pdf], hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
+	\subsection{Mértékek}
+	\subsubsection{Ismertető}
+	A régi próbálkozások a pszeudovéletlenség definiálására nem voltak elég jól alkalmazhatóak a gyakorlatban, mint pl.: Golomb véletlenségi posztulátumai vagy Knuth pszeudovéletlenségi definíciója. Ezek a definíciók ténylegesen jó pszeudovéletlen sorozatokat eredményeznek, de a tesztelés rendkívül költséges, és a kivitelezés is nehéz.
+	
+	1996-ban Christian Mauduit és Sárközy András kidolgoztak egy újféle megközelítést a pszeudovéletlenség vizsgálatára számmal mérhető mértékekkel. Ez a megközelítés eredményesnek bizonyult, belátható a mértékek eredményei alapján, hogy egy sorozat jó pszeudovéletlen tulajdonságú-e. A konstrukciókról így az is bizonyítható, hogy ténylegesen jó a generált sorozat véletlensége.
+	\subsubsection{Alapfogalmak}
+	Először is fontos megjegyezni, hogy az alábbiakban tárgyalt konstrukciók a bináris sorozatoknak a klasszikus $0$-ások és $1$-esek megfeleltetését annyiban változtatják meg, hogy a $0$-ákat $-1$-eseknek veszi. \\
+	Legyen tehát $E=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. A mértékek számolásánál fontos ez a megfeleltetés az egyszerű számoláshoz.
+	\subsubsection*{Jól-eloszlás}
+	A fenti definícióval együtt, legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. Jelölje $U(E_N, M, a, b)$ a következő értéket ($a+M\cdot b \leq N$):
+	$$U(E_N, M, a, b) = \sum_{i=1}^{M}e_{a+i\cdot b}$$
+	Az $U$ függvény megadja, hogy a sorozatnak az $a$ kezdőponttól $b$ lépésközzel a számok összege mennyi a sorozat végéig.
+	
+	Ekkor az \textbf{jól-eloszlási mértéket} definiáljuk a következőféleképpen:
+	$$W(E_N) = \max_{a, b, t}{|U(E_N, t, a, b)|}$$
+	Ahol $a \in \mathbb{Z}$ és $t, b \in \mathbb{N}$ úgy, hogy $1 \leq a+b \leq a+t\cdot b \leq N$.
+	
+	A mérték gyakorlatilag azt vizsgálja, hogy az adott lépésközökkel és kezdőpozíciókkal mi a legnagyobb kitérés az egyenlő, fele-fele $-1$, $1$ elosztástól.
+	
+	\subsubsection*{Normalitás}
+	Legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. Az $X=(x_1, x_2, ..., x_k) \in \{-1,1\}^k$ is bináris sorozat, ahol $k, M \in \mathbb{N}$ és $1 \leq M \leq N-k+1$. Ekkor legyen $T(E_N, M, X)$ a következő:
+	$$T(E_N, M, X) = |\{n : 0 \leq n < M, (e_{n+1}, e_{n+2}, ..., e_{n+k}) = X\}|$$
+	Vagyis azon pozíciók száma az $M$. kezdőpozícióig, amiktől vett $k$ hosszú részsorozat megegyezik az $X$ részsorozattal. Gyakorlatilag az előfordulásait számolja meg $X$-nek, $M$-ig.
+	
+	Ekkor a \textbf{k-ad rendű normalitás mértéket} a következőképpen definiáljuk:
+	$$N_k(E_N) = \max_{x \in \{-1, 1\}^{k}}\max_{0 < M \leq N-k+1}{\left| T(E_N, M, x) - \frac{M}{2^k}\right|}$$
+	Vagyis a $k$ hosszú részsorozatok esetében az átlagos előfordulási számtól való legnagyobb eltérést fejezi ez ki. \par
+	Így már definiálható a \textbf{normalitás mérték}, mely a következőféleképpen alakul:
+	$$N(E_N) = \max_{k \leq \lfloor\log_2{N}\rfloor}{N_k(E_N)}$$
+	Vagyis a legfeljebb $\lfloor\log_2{N}\rfloor$ rendű $k$-ad rendű normalitás mértékek maximumát vesszük.
+	\subsubsection*{Korreláció}
+	Legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. $D = (d_1, ..., d_k) \in \mathbb{N}^k$ és $M \in \mathbb{N}$ úgy, hogy $0 \leq d_1 < d_2 < ... < d_k < M+d_k \leq N$ esetén legyen $V(E_N, M, D)$ a következő mennyiség:
+	$$V(E_N, M, D) = \sum_{n=0}^{M-1}{\prod_{i=1}^{k}{e_{n+d_i}}}$$
+	Vagyis a $V$ függvény összegzi az összes lehetséges pozícióból kezdve a $d_1, ..., d_k$-val eltolt pozícióban lévő elemek szorzatát.
+	\par
+	Ekkor definiálhatjuk a \textbf{k-ad rendű korreláció mértéket} a következőféleképpen:
+	$$C_k(E_N) = \max_{M, D}{|V(E_N, M, D)|}$$
+	ahol $D \in \mathbb{N}^k$ és $M \in \mathbb{N}$ úgy ahogy előbb a $V$ függvény definiálásakor voltak állítva kritériumok, vagyis $D = (d_1, ..., d_k)$ esetén $0 \leq d_1 < d_2 < ... < d_k < M+d_k \leq N$. Ez a kifejezés azt keresi gyakorlatilag, hogy melyik az az ugrássorozat, amivel a legnagyobbnak tűnik az összefüggés mértéke. 
+	\par
+	Így a \textbf{korreláció mértéket} a következőféleképpen definiáljuk:
+	$$C(E_N) = \max_{k \leq \lfloor\log_2{N}\rfloor}{C_k(E_N)}$$
+	Vagyis a legfeljebb $\lfloor\log_2{N}\rfloor$-ed rendű korrelációk maximuma.
+	\subsubsection*{Követelmények}
+	Ezzel egy bináris sorozat esetén a pszeudovéletlenségéhez támasztott tulajdonságokat követeljük meg, melyek a következők (a régi, klasszikus követelmények szerint):
+	\begin{enumerate}
+		\bfseries \item Normalitás:
+		\normalfont	Legyen $E: \mathbb{N} \to \{e_1, ..., e_N\}$, és $E(n) = e_{1+(n \mod N)}$, így $E$ egy végtelenített bináris sorozat, és tetszőleges $E_N$ esetén kiterjeszthető a végtelenítés. Ekkor $E$-t felfoghatjuk sorozatként is: $E=(e_1, ..., e_N, e_1, e_2, ..., e_N, e_1, ...)$, így ha a sorozatra:
+		$$\left|T(E, M, X) - \frac{M}{2^k}\right| = o(M)$$
+		minden rögzített $k$ és $X$ esetén, ahol $M \to \infty$, akkor $E$ \textbf{normális}.
+		\par
+		\bfseries \item Jól-eloszlás:
+		\normalfont A fenti $E$ végtelenített sorozattal, $E$ \textbf{jól-eloszlású}, ha:
+		$$U(E, M, a, b) = o (M)$$
+		minden fix $a$ és $b$ esetén, ahol $M \to \infty$.
+		\bfseries \item Kis többszörös korreláció:
+		\normalfont $E$ végtelenített sorozat, $E$-nek \textbf{kicsi a többszörös korrelációja}, ha:
+		$$V(E, M, D) = o(M)$$
+		minden rögzített $D$ esetén, ahol $M \to \infty$. \par
+		Új követelések pedig:
+		\item Olyan valós értékű függvényekkel szeretnénk jellemezni a a sorozatok pszeudovéletlenségét, melyek az összes véges hosszúságú bináris sorozaton értelmezve vannak. Így bármely két sorozat összehasonlítható az eredmények szerint.
+		\item A mértékeket jó tulajdonságú sorozatok esetén tudjuk becsülni.
+		\item Legyen értelmezve a mértékek alacsonyabb szintje is, vagyis a pszeudovéletlen jelleg kimutatható legyen. 
+	\end{enumerate}
+	A legfontosabb mértékek között vannak a fent tárgyalt jól-eloszlás-, k-ad rendű normalitás-, normalitás-, k-ad rendű korreláció- és korreláció-mértékek. Ezen kívül fontos még a \textbf{k-ad rendű kombinált mérték}, ez a jól-eloszlást és k-ad rendű korrelációt ötvözi és az ehhez tartozó \textbf{kombinált mérték}, mely a normalitáséhoz hasonlóan adódik a $k$-ad rendű mértékből.
+	
+	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans.
+	\subsection{One-time pad titkosítás}
+	
 \end{document}

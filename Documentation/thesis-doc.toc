@@ -1,3 +1,4 @@
+\babel@toc {nil}{}
 \contentsline {section}{\numberline {1}Bevezet\IeC {\H o}}{3}% 
 \contentsline {subsection}{\numberline {1.1}T\IeC {\"o}rt\IeC {\'e}neti betekint\IeC {\'e}s}{3}% 
 \contentsline {subsection}{\numberline {1.2}A program c\IeC {\'e}lja}{4}% 
@@ -10,11 +11,15 @@
 \contentsline {subsubsection}{\numberline {2.3.3}RC4 konstrukci\IeC {\'o}}{7}% 
 \contentsline {subsubsection}{\numberline {2.3.4}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{7}% 
 \contentsline {subsubsection}{\numberline {2.3.5}ChaCha20 konstrukci\IeC {\'o}}{8}% 
-\contentsline {subsubsection}{\numberline {2.3.6}M\IeC {\'e}rt\IeC {\'e}kek}{10}% 
-\contentsline {subsubsection}{\numberline {2.3.7}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{11}% 
-\contentsline {section}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{12}% 
-\contentsline {subsection}{\numberline {3.1}Konstrukci\IeC {\'o}k}{12}% 
-\contentsline {subsubsection}{\numberline {3.1.1}Legendre konstrukci\IeC {\'o}}{12}% 
-\contentsline {subsubsection}{\numberline {3.1.2}RC4 konstrukci\IeC {\'o}}{13}% 
-\contentsline {subsubsection}{\numberline {3.1.3}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{14}% 
-\contentsline {subsubsection}{\numberline {3.1.4}ChaCha20 konstrukci\IeC {\'o}}{15}% 
+\contentsline {subsection}{\numberline {2.4}M\IeC {\'e}rt\IeC {\'e}kek}{10}% 
+\contentsline {subsection}{\numberline {2.5}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{11}% 
+\contentsline {section}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{13}% 
+\contentsline {subsection}{\numberline {3.1}Konstrukci\IeC {\'o}k}{13}% 
+\contentsline {subsubsection}{\numberline {3.1.1}Legendre konstrukci\IeC {\'o}}{13}% 
+\contentsline {subsubsection}{\numberline {3.1.2}RC4 konstrukci\IeC {\'o}}{14}% 
+\contentsline {subsubsection}{\numberline {3.1.3}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{15}% 
+\contentsline {subsubsection}{\numberline {3.1.4}ChaCha20 konstrukci\IeC {\'o}}{16}% 
+\contentsline {subsection}{\numberline {3.2}M\IeC {\'e}rt\IeC {\'e}kek}{20}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Ismertet\IeC {\H o}}{20}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{20}% 
+\contentsline {subsection}{\numberline {3.3}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{24}% 
