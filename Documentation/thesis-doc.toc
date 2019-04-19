@@ -24,3 +24,5 @@
 \contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{20}% 
 \contentsline {subsection}{\numberline {3.3}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{24}% 
 \contentsline {subsubsection}{\numberline {3.3.1}Ismertet\IeC {\H o}}{24}% 
+\contentsline {subsubsection}{\numberline {3.3.2}Algoritmus}{27}% 
+\contentsline {subsubsection}{\numberline {3.3.3}Extra k\IeC {\"o}vetelm\IeC {\'e}nyek}{27}% 

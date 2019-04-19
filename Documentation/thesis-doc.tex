@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{eurosym}
 \usepackage{textcomp}
 \usepackage[document]{ragged2e}
 \usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel}
@@ -7,6 +8,7 @@
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
 \renewcommand{\baselinestretch}{1.5}
+\renewcommand{\arraystretch}{0.8}
 \setlength{\parskip}{1em}
 \makeatletter
 \makeatother
@@ -437,9 +439,12 @@
 	
 	A naiv elképzelés az volt, hogy valamilyen már létező fix hosszúságú karakterkódolást használjon a program, de ezt nem lehetett megvalósítani mivel mindenféle kódolásban vannak vezérlőkarakterek. Ezeket a képernyőn nem tudjuk szabályosan megjeleníteni, mivel ezeknek nem célja az olvasható szöveg reprezentációja. A bemenetben még ez nem is okoz gondot, de amikor lefut a titkosítás, akkor nincs garancia arra, hogy olyan karakter lesz az eredmény amely megjeleníthető. Sőt, minden karakterre van olyan bitsorozat, amellyel vett kizáró vagy eredménye vezérlőkarakter.
 	
-	Kell tehát egy olyan karaktertábla, mely tartalmazza a magyar szövegekben széles körben használt karaktereket, így született meg a jelenlegi karakterkészlet, mely a magyar billentyűzettel leírható karakterek nagy részét tartalmazza. Összesen 128 karaktert tartalmaz a program, így fixen 7 biten tudunk kódolni minden használt karaktert. A kódolás bővíthető, de ekkor mindig valamilyen hatványát kell használni a 2-nek, hogy fix hosszúságú biten tudjuk kódolni, pl. a 128-ról az első lehetséges bővítés a 256 karakteres tábla lenne. Kód szintjén a karaktereket a Unicode kódolásból vett számukkal azonosítjuk, és ehhez rendelünk egy 7 hosszúságú bitsorozatot. A kódolás a következő:
+	Kell tehát egy olyan karaktertábla, mely tartalmazza a magyar szövegekben széles körben használt karaktereket, így született meg a jelenlegi karakterkészlet, mely a magyar billentyűzettel leírható karakterek nagy részét tartalmazza. Összesen 128 karaktert tartalmaz a program, így fixen 7 biten tudunk kódolni minden használt karaktert. A kódolás bővíthető, de ekkor mindig valamilyen hatványát kell használni a 2-nek, hogy fix hosszúságú biten tudjuk kódolni, pl. a 128-ról az első lehetséges bővítés a 256 karakteres tábla lenne.
+	
+	Kód szintjén a karaktereket a Unicode kódolásból vett számukkal azonosítjuk, és ehhez rendeljük a 7 hosszúságú bitsorozatot. A program fájlból építi fel ezt a szótárat, szóval egyedi kódolás is megadható, a dictionary.txt fájl megfelelő módosításával (a program egyenlőre csak a 7 bites kódolást kezeli, tehát a karaktertábla méretét bővíteni csak a fájl módosításával nem lehet).
+	\begin{table}
 	\begin{center}
-		\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|}
 			\hline 0 & 0000000 & 1 & 0000001 & 2 & 0000010 & 3 & 0000011 \\
 			\hline 4 & 0000100 & 5 & 0000101 &
 			6 & 0000110 & 7 & 0000111 \\
@@ -487,37 +492,37 @@
 		  B & 1011010 & N & 1011011 \\
 		  \hline M & 1011100 & ? & 1011101 
 		  & : & 1011110 & \_ & 1011111 \\
-		  % \hline ~ & 1100000 \\
-		  % \hline ˇ & 1100001 \\
-		  % \hline ^ & 1100010 \\
-		  % \hline ˘ & 1100011 \\
-		  % \hline ` & 1100100 \\
-		  % \hline ´ & 1100101 \\
-		  % \hline ˝ & 1100110 \\
-		  % \hline ¨ & 1100111 \\
-		  % \hline ¸ & 1101000 \\
-		  % \hline \ & 1101001 \\
-		  % \hline | & 1101010 \\
-		  % \hline Ä & 1101011 \\
-		  % \hline € & 1101100 \\
-		  % \hline ÷ & 1101101 \\
-		  % \hline × & 1101110 \\
-		  % \hline ä & 1101111 \\
-		  % \hline đ & 1110000 \\
-		  % \hline [ & 1110001 \\
-		  % \hline ] & 1110010 \\
-		  % \hline ł & 1110011 \\
-		  % \hline Ł & 1110100 \\
-		  % \hline \$ & 1110101 \\
-		  % \hline < & 1110110 \\
-		 %   \hline > & 1110111 \\
-			%\hline # & 1111000 \\
-			%\hline \& & 1111001 \\
-			%\hline @ & 1111010 \\
-			%\hline { & 1111011 \\
-			%\hline } & 1111100 \\
-			%\hline ; & 1111101 \\
-			%\hline * & 1111110 \\
+		  \hline $\sim$ & 1100000 & ˇ & 1100001 &
+		  \textasciicircum & 1100010 & ˘ & 1100011 \\
+		  \hline ` & 1100100 & ´ & 1100101 &
+		  ˝ & 1100110 & ¨ & 1100111 \\
+		  \hline ¸ & 1101000 & $\setminus$ & 1101001 &
+		  $|$ & 1101010 & Ä & 1101011 \\
+		  \hline \euro & 1101100 & ÷ & 1101101 &
+		  × & 1101110 & ä & 1101111 \\
+		  \hline đ & 1110000 & [ & 1110001 &
+		  ] & 1110010 & ł & 1110011 \\
+		  \hline Ł & 1110100 & \$ & 1110101&
+		   $<$ & 1110110 & $>$ & 1110111 \\
+		  \hline \# & 1111000 & \& & 1111001 &
+		   @ & 1111010 & \{ & 1111011 \\
+			\hline \} & 1111100 & ; & 1111101 &
+		 * & 1111110 & & 1111111 \\ \hline
 		\end{tabular}
 	\end{center}
+	 \begin{center}
+	 	\textit{Ábra: A teljes kódolás}
+	 \end{center}
+	\end{table}
+\newpage
+\subsubsection{Algoritmus}
+A fentiek figyelembevételével az általános algoritmus a következőképpen alakul:
+\begin{enumerate}
+	\item Hozzuk létre a kódolást reprezentáló adatszerkezetet. Ajánlott valamilyen formájú hash táblát használni, hogy az elemek elérése konstans műveletigényű legyen. Jelen megvalósításban ez két std::unordered\_map-al valósul meg, hogy mindkét irányból el tudjuk érni az adatokat.
+	\item Adjuk meg a titkosítandó üzenetet és a titkosításhoz kulcsként használt bitsorozatot.
+	\item Az így kapott két bitsorozattal végezzünk el egy bitenkénti kizáró vagy műveletet. Ha a kulcs hosszabb mint a titkosítandó sorozat, akkor a kulcsból vehetjük az első $l$ bitet, ahol $l$ a titkosítandó bitsorozat hossza. Az eredmény a titkosított üzenet bitsorozatos alakja.
+	\item Az előbb kiszámított sorozatot alakítsuk vissza a kódolás szerint karakteres formába. Az eredmény a titkosított üzenet szöveges alakja.
+\end{enumerate}
+\subsubsection{Extra követelmények}
+A titkosítandó szöveg nem tartalmazhat a kódolásban nem szereplő karaktert.  Ezen felül a titkosításhoz használt kulcssorozat hossza legalább akkora kell legyen mint a titkosítandó üzenet bitsorozatos alakban vett hossza.
 \end{document}
