@@ -416,5 +416,108 @@
 	
 	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans.
 	\subsection{One-time pad titkosítás}
+	\subsubsection{Ismertető}
+	A One-time pad titkosítás működése kifejezetten egyszerű. Kapunk egy kódolandó bitsorozatot (üzenet), majd ezt egy titkosító kulcs bitsorozattal (mely ugyanolyan hosszú mint az üzenet hossza) bitenkénti kizáró vagy művelettel (XOR) titkosítjuk. Az eredményként kapott bitsorozat a titkosított üzenet. Ezt az üzenetet elküldhetjük a másik félnek, és ha ezen a másik fél elvégzi ugyanezt az eljárást ugyanazzal a kulccsal, akkor visszakapja az eredeti üzenetet.
 	
+	Picivel formálisabban: Legyen $E_N = (e_1, e_2, ..., e_N)$ a kódolandó üzenetet reprezentáló bitsorozat, illetve $X_N = (x_1, x_2, ..., x_N)$ a titkosításhoz használt kulcs bitsorozata. Ekkor, a one-time pad titkosítás eredménye az a $B_N = (b_1, b_2, ..., b_N)$ bitsorozat, melyre:
+	$$B_N = E_N \oplus X_N$$
+	Ahol az $\oplus$ a bitenkénti kizáró vagy művelet, vagyis elemenként a $B_N$ elemeire: $$b_i = e_i \oplus x_i \quad \forall i \in \{1, 2, ... N\}$$
+	\textbf{Példa}: Legyen $N = 7$, és $E_7 = (1, 0, 1, 0, 1, 1, 0)$ és $X_7 = (0, 1, 1, 0, 0, 1, 0)$. Ekkor: $B_7 = E_7 \oplus X_7$, vagyis: \\
+	\begin{center}
+		\begin{tabular}{c@{\,}c@{\,}c@{\,}c@{\,}c@{\,}c@{\,}c@{\,}c}
+			& 1 & 0 & 1 & 0 & 1 & 1 & 0 \\
+			$\oplus$ & 0 & 1 & 1 & 0 & 0 & 1 & 0  \\
+			\hline
+			& 1 & 1 & 0 & 0 & 1 & 0 & 0 \\
+		\end{tabular}
+	\end{center}
+	A továbbítandó, titkosított üzenet tehát a $B_7 = (1, 1, 0, 0, 1, 0, 0)$ bitsorozat.
+	 
+	A felhasználói dokumentációban már említve volt, hogy valamilyen karaktertábla segítségével kódolja a program a betűket, hogy a titkosításnak hétköznapi felhasználásban is lássuk az alkalmazást. A cél tehát, hogy a kapott üzenetet (szöveget) át kell alakítani bitsorozattá amivel aztán elvégezhető a titkosítás, majd a titkosított üzenetet is vissza kell tudni alakítani szöveges formába.
+	
+	A naiv elképzelés az volt, hogy valamilyen már létező fix hosszúságú karakterkódolást használjon a program, de ezt nem lehetett megvalósítani mivel mindenféle kódolásban vannak vezérlőkarakterek. Ezeket a képernyőn nem tudjuk szabályosan megjeleníteni, mivel ezeknek nem célja az olvasható szöveg reprezentációja. A bemenetben még ez nem is okoz gondot, de amikor lefut a titkosítás, akkor nincs garancia arra, hogy olyan karakter lesz az eredmény amely megjeleníthető. Sőt, minden karakterre van olyan bitsorozat, amellyel vett kizáró vagy eredménye vezérlőkarakter.
+	
+	Kell tehát egy olyan karaktertábla, mely tartalmazza a magyar szövegekben széles körben használt karaktereket, így született meg a jelenlegi karakterkészlet, mely a magyar billentyűzettel leírható karakterek nagy részét tartalmazza. Összesen 128 karaktert tartalmaz a program, így fixen 7 biten tudunk kódolni minden használt karaktert. A kódolás bővíthető, de ekkor mindig valamilyen hatványát kell használni a 2-nek, hogy fix hosszúságú biten tudjuk kódolni, pl. a 128-ról az első lehetséges bővítés a 256 karakteres tábla lenne. Kód szintjén a karaktereket a Unicode kódolásból vett számukkal azonosítjuk, és ehhez rendelünk egy 7 hosszúságú bitsorozatot. A kódolás a következő:
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|}
+			\hline 0 & 0000000 & 1 & 0000001 & 2 & 0000010 & 3 & 0000011 \\
+			\hline 4 & 0000100 & 5 & 0000101 &
+			6 & 0000110 & 7 & 0000111 \\
+			\hline 8 & 0001000 & 9 & 0001001 &
+			 ö & 0001010 & ü & 0001011 \\
+			\hline ó & 0001100 & q & 0001101 &
+			w & 0001110 & e & 0001111 \\
+			\hline r & 0010000 & t & 0010001 &
+			z & 0010010 & u & 0010011 \\
+			\hline i & 0010100 & o & 0010101 & 
+			p & 0010110 & ő & 0010111 \\ 
+			\hline ú & 0011000 & a & 0011001 &
+			s & 0011010 & d & 0011011 \\
+			\hline f & 0011100 & g & 0011101 &
+			h & 0011110 & j & 0011111 \\
+			\hline k & 0100000 & l & 0100001 &
+			é & 0100010 & á & 0100011 \\
+			\hline ú & 0100100 & í & 0100101 &
+			y & 0100110 & x & 0100111 \\
+			\hline c & 0101000 & v & 0101001 &
+ 			b & 0101010 & n & 0101011 \\
+			\hline m & 0101100 & , & 0101101 &
+			. & 0101110 & - & 0101111 \\
+			\hline § & 0110000 & ' & 0110001 &
+			" & 0110010 & + & 0110011 \\
+			\hline ! & 0110100 & \% & 0110101 &
+			/ & 0110110 & = & 0110111 \\
+			\hline ( & 0111000 & ) & 0111001 &
+			Ö & 0111010 & Ü & 0111011 \\
+			\hline Ó & 0111100 & Q & 0111101 &
+			W & 0111110 & E & 0111111 \\
+			\hline R & 1000000 & T & 1000001 &
+			Z & 1000010 & U & 1000011 \\
+			\hline I & 1000100 & O & 1000101 &
+			P & 1000110 & Ő & 1000111 \\    
+		    \hline Ú & 1001000 & A & 1001001 &
+		    S & 1001010 & D & 1001011 \\
+		    \hline F & 1001100 & G & 1001101 &
+		    H & 1001110 & J & 1001111 \\
+		   \hline K & 1010000 & L & 1010001 &
+		   É & 1010010 & Á & 1010011 \\
+		  \hline Ű & 1010100 & Í & 1010101 &
+		  Y & 1010110 & X & 1010111 \\
+		  \hline C & 1011000 & V & 1011001 &
+		  B & 1011010 & N & 1011011 \\
+		  \hline M & 1011100 & ? & 1011101 
+		  & : & 1011110 & \_ & 1011111 \\
+		  % \hline ~ & 1100000 \\
+		  % \hline ˇ & 1100001 \\
+		  % \hline ^ & 1100010 \\
+		  % \hline ˘ & 1100011 \\
+		  % \hline ` & 1100100 \\
+		  % \hline ´ & 1100101 \\
+		  % \hline ˝ & 1100110 \\
+		  % \hline ¨ & 1100111 \\
+		  % \hline ¸ & 1101000 \\
+		  % \hline \ & 1101001 \\
+		  % \hline | & 1101010 \\
+		  % \hline Ä & 1101011 \\
+		  % \hline € & 1101100 \\
+		  % \hline ÷ & 1101101 \\
+		  % \hline × & 1101110 \\
+		  % \hline ä & 1101111 \\
+		  % \hline đ & 1110000 \\
+		  % \hline [ & 1110001 \\
+		  % \hline ] & 1110010 \\
+		  % \hline ł & 1110011 \\
+		  % \hline Ł & 1110100 \\
+		  % \hline \$ & 1110101 \\
+		  % \hline < & 1110110 \\
+		 %   \hline > & 1110111 \\
+			%\hline # & 1111000 \\
+			%\hline \& & 1111001 \\
+			%\hline @ & 1111010 \\
+			%\hline { & 1111011 \\
+			%\hline } & 1111100 \\
+			%\hline ; & 1111101 \\
+			%\hline * & 1111110 \\
+		\end{tabular}
+	\end{center}
 \end{document}
