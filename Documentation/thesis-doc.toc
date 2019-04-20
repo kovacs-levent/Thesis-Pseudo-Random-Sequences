@@ -21,8 +21,13 @@
 \contentsline {subsubsection}{\numberline {3.1.4}ChaCha20 konstrukci\IeC {\'o}}{16}% 
 \contentsline {subsection}{\numberline {3.2}M\IeC {\'e}rt\IeC {\'e}kek}{20}% 
 \contentsline {subsubsection}{\numberline {3.2.1}Ismertet\IeC {\H o}}{20}% 
-\contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{20}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{21}% 
 \contentsline {subsection}{\numberline {3.3}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{24}% 
 \contentsline {subsubsection}{\numberline {3.3.1}Ismertet\IeC {\H o}}{24}% 
-\contentsline {subsubsection}{\numberline {3.3.2}Algoritmus}{27}% 
-\contentsline {subsubsection}{\numberline {3.3.3}Extra k\IeC {\"o}vetelm\IeC {\'e}nyek}{27}% 
+\contentsline {subsubsection}{\numberline {3.3.2}Algoritmus}{28}% 
+\contentsline {subsubsection}{\numberline {3.3.3}Extra k\IeC {\"o}vetelm\IeC {\'e}nyek}{28}% 
+\contentsline {subsection}{\numberline {3.4}Implement\IeC {\'a}ci\IeC {\'o}}{28}% 
+\contentsline {subsubsection}{\numberline {3.4.1}Fejleszt\IeC {\H o}i k\IeC {\"o}rnyezet}{29}% 
+\contentsline {subsubsection}{\numberline {3.4.2}A program szerkezete}{29}% 
+\contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{30}% 
+\contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{30}% 

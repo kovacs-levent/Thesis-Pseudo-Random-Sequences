@@ -3,7 +3,7 @@
 \usepackage{eurosym}
 \usepackage{textcomp}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -13,6 +13,7 @@
 \makeatletter
 \makeatother
 \begin{document}
+	\sloppy
 	\newcommand{\sectionbreak}{\clearpage}
 	\begin{titlepage}
 		\begin{minipage}{0.36\textwidth}
@@ -525,4 +526,76 @@ A fentiek figyelembevételével az általános algoritmus a következőképpen a
 \end{enumerate}
 \subsubsection{Extra követelmények}
 A titkosítandó szöveg nem tartalmazhat a kódolásban nem szereplő karaktert.  Ezen felül a titkosításhoz használt kulcssorozat hossza legalább akkora kell legyen mint a titkosítandó üzenet bitsorozatos alakban vett hossza.
+
+\subsection{Implementáció}
+Ez a fejezet a program implementációs döntéseibe kíván betekintést adni. Az megvalósítás során tapasztalt nehézségekről és a program korlátairól is itt értekezem.
+\subsubsection{Fejlesztői környezet}
+A programot C++11-es szabvánnyal valósítottam meg a grafikus felülethez használva még a Qt 5.12.1-es keretrendszert. A forráskódot projektbe szerveztem a Qt Creator IDE-t használva, de emellett még használtam a CLion IDE-t is a megvalósítás során.
+\subsubsection{A program szerkezete}
+A programban a feladatokat elvégző osztályokat csoportokra lehet bontani úgy, hogy közben minden részfeladatot más-más osztály oldjon meg. Vannak olyan függvények is, ahol az osztályba szervezés nem volt feltétlenül logikus, így ezek nem osztályszintű függvényként lettek megvalósítva. A csoportok a következőek:
+\begin{enumerate}
+	\item \bfseries Pszeudovéletlen generátorok \\
+	\normalfont A megvalósított pszeudovéletlen konstrukciókat osztályait soroljuk ide.
+	\item \bfseries Grafika \\
+	\normalfont A grafikus megjelenítést végző osztályok. Ezek mindegyike egy olyan felületet valósít meg, ahol egy adott funkció használható ellenőrzött bevitellel és szabad paraméterezéssel karöltve.
+	\item \bfseries Titkosítás \\
+	\normalfont A titkosítást végző osztály. Ebbe a feladatkörbe tartozik a karakterkódolás kezelése és a tényleges one-time pad titkosítás kezelése.
+	\item \bfseries Mértékek \\
+	\normalfont A mértékeket kiszámoló függvények csoportja. Minden olyan számítás, ami valamilyen mérték meghatározásához kell ide tartozik.
+	\item \bfseries Általános műveletek \\
+	\normalfont Vannak olyan függvények, melyeket több konstrukció megvalósításánál is használni kell. Az ilyen függvényeket, melyek nem köthetőek egyértelműen valamelyik részfeladathoz, külön kezeltem, hogy a kódban lévő redundanciát elkerüljem.
+	\item \bfseries Tesztelés \\
+	\normalfont Ez egy egységtesztelő környezet, mely a megfelelő működését ellenőrzi a műveleteknek.
+\end{enumerate}
+
+\subsubsection{Adatok reprezentációja}
+A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez a megoldás gazdaságos a memóriával, hiszen minden elemet ténylegesen egy biten tárolunk. Sajnálatosan a műveletek aránylag lassabbak lehetnek, hiszen minden bitet csak egyenként tudunk elérni (az algoritmusok egy része ki tudná használni, hogy valójában blokkosan, pl. 32-64 bitenként tudunk hivatkozni adatokra, mely 1 műveletnek számít). Más alternatívák lehetségesek a memóriaigény növelésével, de a C++11 std::bitset reprezentációja nem volt megfelelő. Ez csakis olyan esetben használható, amikor fordítási időben ismert a bitsorozat mérete (mi esetünkben ez nem teljesül). Dinamikus méretű bitset nincs standard C++-ban, de használható a C++ boost könyvtár, ahol elérhető egy megvalósítás. Ez a program szempontjából egy újabb függőséget hozott volna be, amit nem szerettem volna, szóval inkább maradtam az std::vectoros tárolásnál. Egy másik ötlet ami felvetődött, hogy az vectorban tároljunk fix méretű bitseteket. Ezzel felgyorsítható néhány művelet, de körülményes megoldani azt, hogy a blokkok határán hogyan kezeljük le a vizsgálatokat, eredményképpen nem is lesz feltétlenül gazdaságosabb a számítás, így ezt az ötletet is elvetettem.
+
+A Legendre és Additív karakteres konstrukciónál a polinomokat std::set-ben tároljuk, hiszen olyan polinomokra van szükség, melyeknek nincs többszörös gyöke.
+\subsubsection{Osztályok}
+Az osztályok közötti összefüggéseket a [INSERT ÁBRA] részletezi. A nem osztályszintű függvények hívását minden osztálynál külön részletezem. Az itt leírt algoritmusok helyenként C++ stílusú pszeudokódokat tartalmaznak.
+\subsubsection*{LegendreConstruction}
+Ez az osztály valósítja meg a Legendre konstrukció megvalósítását.
+
+\textit{Implementációs döntések}
+
+A fenti definícióból, a $\left({\frac{a}{p}}\right)$ Legendre-szimbólum értéke akkor 1, ha $a$ kvadratikus maradék modulo $p$, vagyis $\exists k \in \mathbb{Z}$, hogy $a \equiv k^2\ (\textrm{mod}\ p)$ (feltéve, hogy $a$ nem kongruens 0-val $\textrm{mod}\ p$). Ezt ellenőrizni brute-force módszerrel költséges, ezért egy gazdaságosabb számítás kell.
+
+A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki és rekurzív függvénnyel határozzuk meg az eredményt (ez a függvény később LegendreSymbol néven szerepel). A rekurzió akkor áll meg, ha $a$ 0 vagy 1, ha $a = 0$, akkor $\left({\frac{a}{p}}\right) = 0$, ha $a=1$, akkor $\left({\frac{a}{p}}\right) = 1$. Ha $a \not\in \{0,1\}$, akkor következőképpen állítjuk elő a következő rekurziós lépést:
+
+\begin{enumerate}
+	\item Megnézzük, hogy $a$ páros-e, ezt gyorsan meghatározhatjuk, hogy $a$-nak a bitenkénti és műveletét vizsgáljuk az $1$-et reprezentáló bitsorozattal. Ebből következik, hogyha $a$ \& $1 = 0$, akkor $a$ páros, és ekkor a következő redukciót használjuk:
+	\begin{enumerate}
+		\item  Általánosan igaz, hogy $\left({\frac{ab}{p}}\right) = \left({\frac{a}{p}}\right)\left({\frac{b}{p}}\right)$ (úgymond a Legendre-szimbólum a felső változójában teljesen multiplikatív függvény). Mivel $a$ jelen esetben páros, ezért $\left({\frac{a}{p}}\right) = \left({\frac{a/2}{p}}\right)\left({\frac{2}{p}}\right)$. Rekurzív lépésként kiszámoljuk az $\left({\frac{a/2}{p}}\right)$ értékét.
+		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-al, így elég annyit ellenőrizni megint, hogy a 8-al vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$, akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
+	\end{enumerate}
+	\item Ha $a$ páratlan, akkor:
+	\begin{enumerate}
+		\item A redukciós formula a következő (kihasználva, hogy $a$ és $p$ relatív prímek): $\left({\frac{a}{p}}\right) = \left({\frac{p}{a}}\right) (-1)^{\frac{p-1}{2}\cdot\frac{a-1}{2}}$. A rekurziós lépésként ki kell számolni $\left({\frac{p}{a}}\right)$-t itt már egyből $p$-nek az $a$-val vett osztási maradékát adjuk meg a rekurzív hívásba.
+		\item Utólag ki kell számolni $(-1)^{\frac{p-1}{2}\frac{a-1}{2}}$-t. Ez nyilvánvalóan akkor lesz $-1$, ha $\frac{p-1}{2}\frac{a-1}{2} = \frac{(p-1)(a-1)}{4}$ páratlan. Mivel $a$ és $p$ is páratlanok, ezért mindenképpen igaz, hogy ez a számláló osztható 4-el, így megint elég csak a 4-el vett kvócienst megnézni, tehát ha $(p-1)(a-1)$ \& $4 \not=0$, akkor a fenti kifejezés $-1$, egyébként 1.
+	\end{enumerate}
+\end{enumerate}
+\textit{Függvények}
+
+Most minden metódus public és a megadott paraméterek helyessége feltételezhető.
+
+\textit{LegendreConstruction()}
+
+Alapértelmezett default konstruktora van az osztálynak, mivel igazából nincsenek adattagok, csak egy konstans (ez azt adja meg, hogy hány próbát végezzünk a prímkereső algoritmussal), melyet jelenleg nem lehet módosítani.
+
+\textit{int LegendreSymbol(const uint64\_t a, const uint64\_t p)}
+
+Kiszámolja az $\left({\frac{a}{p}}\right)$ Legendre szimbólum értékét.
+
+\textit{uint64\_t GenerateValidPrime(uint64\_t p)}
+
+Olyan prímszám generálása, mely nagyobb egyenlő mint p és a 2 primitív gyöke.
+
+\textit{uint64\_t GenerateDegree(const uint64\_t p)}
+
+Polinom fokszám generálása a $[2, 5\cdot p^\frac{1}{10}]$ intervallumban.
+
+\textit{std::vector$<$bool$>$ Generate(const uint64\_t stream\_size, const uint64\_t p, const std::set$<$uint64\_t$>$\& poly)}
+
+A Legendre konstrukció szerint \textit{stream\_size} méretű bitsorozat generálása és visszaadása \textit{p} prímmel és \textit{poly} polinommal.
 \end{document}
