@@ -24,7 +24,7 @@ private:
     void makeKeyForm();
     void makeSequenceForm();
 
-    RC4_PRG rc;
+    RC4Construction rc;
     QGridLayout* mainLayout;
 
     QGridLayout* lengthLayout;

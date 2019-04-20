@@ -1,36 +1,13 @@
 #include "RC4_PRG.h"
 #include <algorithm>
 
-RC4_PRG::RC4_PRG()
+RC4Construction::RC4Construction()
 {
     key_size = 0;
     K = "";
 }
 
-RC4_PRG::RC4_PRG(const std::string key)
-{
-    key_size = key.length();
-    KeySizeCheck();
-    K = key;
-}
-
-RC4_PRG::RC4_PRG(const char* key)
-{
-    key_size = strlen(key);
-    KeySizeCheck();
-    K = key;
-}
-
-void RC4_PRG::KeySizeCheck()
-{
-    if(key_size > 256)
-    {
-        std::cerr << "Supplied key for RC4 is too large!" << std::endl;
-        throw KEY_LENGTH_ERROR;
-    }
-}
-
-void RC4_PRG::Init()
+void RC4Construction::Init()
 {
     for(unsigned int i = 0; i < 256; ++i)
     {
@@ -38,10 +15,9 @@ void RC4_PRG::Init()
     }
 }
 
-void RC4_PRG::Shuffle()
+void RC4Construction::Shuffle()
 {
     unsigned short j = 0;
-    unsigned char tmp;
     for(unsigned short i = 0; i < 256; ++i)
     {
         j = (j+S[i]+(uint8_t)K[i % key_size]) % 256;
@@ -49,7 +25,7 @@ void RC4_PRG::Shuffle()
     }
 }
 
-std::vector<bool> RC4_PRG::GenerateStream(const uint64_t stream_size)
+std::vector<bool> RC4Construction::GenerateStream(const uint64_t stream_size)
 {
     Init();
     Shuffle();

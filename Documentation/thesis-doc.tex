@@ -557,7 +557,7 @@ Az osztályok közötti összefüggéseket a [INSERT ÁBRA] részletezi. A nem o
 \subsubsection*{LegendreConstruction}
 Ez az osztály valósítja meg a Legendre konstrukció megvalósítását.
 
-\textit{Implementációs döntések}
+\textbf{\textit{Implementációs döntések}}
 
 A fenti definícióból, a $\left({\frac{a}{p}}\right)$ Legendre-szimbólum értéke akkor 1, ha $a$ kvadratikus maradék modulo $p$, vagyis $\exists k \in \mathbb{Z}$, hogy $a \equiv k^2\ (\textrm{mod}\ p)$ (feltéve, hogy $a$ nem kongruens 0-val $\textrm{mod}\ p$). Ezt ellenőrizni brute-force módszerrel költséges, ezért egy gazdaságosabb számítás kell.
 
@@ -575,7 +575,7 @@ A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki
 		\item Utólag ki kell számolni $(-1)^{\frac{p-1}{2}\frac{a-1}{2}}$-t. Ez nyilvánvalóan akkor lesz $-1$, ha $\frac{p-1}{2}\frac{a-1}{2} = \frac{(p-1)(a-1)}{4}$ páratlan. Mivel $a$ és $p$ is páratlanok, ezért mindenképpen igaz, hogy ez a számláló osztható 4-el, így megint elég csak a 4-el vett kvócienst megnézni, tehát ha $(p-1)(a-1)$ \& $4 \not=0$, akkor a fenti kifejezés $-1$, egyébként 1.
 	\end{enumerate}
 \end{enumerate}
-\textit{Függvények}
+\textbf{\textit{Függvények}}
 
 Most minden metódus public és a megadott paraméterek helyessége feltételezhető.
 
@@ -598,4 +598,35 @@ Polinom fokszám generálása a $[2, 5\cdot p^\frac{1}{10}]$ intervallumban.
 \textit{std::vector$<$bool$>$ Generate(const uint64\_t stream\_size, const uint64\_t p, const std::set$<$uint64\_t$>$\& poly)}
 
 A Legendre konstrukció szerint \textit{stream\_size} méretű bitsorozat generálása és visszaadása \textit{p} prímmel és \textit{poly} polinommal.
+
+\textbf{\textit{Használt globális függvények: }}\textit{GenerateRandomSeed, ModPolynomValue, MillerRabinTest}
+
+\subsubsection*{RC4Construction}
+Ez az osztály az RC4 konstrukció megvalósítása.
+
+\textbf{\textit{Implementációs döntések}}
+
+Ennek a generátornak az implementálása kifejezetten egyszerű , nincs sok buktató dolog és a számolás is gyors, így itt nem kellett semmilyen trükköt bevetni. Az egyet dolog ami megoldásra szorult az outputként kapott számok bitsorozattá konvertálása, de ez is egyszerűen megoldható std::bitset-tel történő konverzióval.
+
+\textbf{\textit{Metódusok}}
+
+\textit{RC4Construction()}
+
+Public metódus, de semmi érdemlegeset nem csinál, a kulcsot később módosítjuk a programban.
+
+\textit{void SetKey(const std::string\& s)}
+
+Public metódus, beállítja a RC4 generáláshoz használt kulcs-stringet.
+
+\textit{std::vector$<$bool$>$ GenerateStream(const uint64\_t stream\_size)}
+
+Public metódus, \textit{stream\_size} méretű stream generálása az RC4 algoritmussal.
+
+\textit{void Init()}
+
+Private metódus, az $S$ tömböt inicializálja az algoritmus leírása szerint.
+
+\textit{void Shuffle()}
+
+Private metódus, az $S$ tömb megkeverése az algoritmus leírása szerint.
 \end{document}

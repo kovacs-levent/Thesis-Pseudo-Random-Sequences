@@ -8,12 +8,10 @@
 #include <bitset>
 #include <stdint.h>
 
-class RC4_PRG
+class RC4Construction
 {
 public:
-    RC4_PRG();
-    RC4_PRG(const std::string key);
-    RC4_PRG(const char* key);
+    RC4Construction();
     std::vector<bool> GenerateStream(const uint64_t);
     void SetKey(const std::string& s)
     {
@@ -24,8 +22,7 @@ private:
     enum Errors {KEY_LENGTH_ERROR};
     void Init();
     void Shuffle();
-    void KeySizeCheck();
-    unsigned char key_size;
+    unsigned int key_size;
     std::array<uint8_t, 256> S;
     std::string K;
 };
