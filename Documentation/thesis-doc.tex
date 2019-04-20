@@ -664,5 +664,39 @@ A konstrukció szerinti \textit{stream\_size} hosszúságú bitsorozat generál�
 \textbf{\textit{Használt globális függvények: }}\textit{GenerateRandomSeed, ModPolynomValue, MillerRabinTest}
 
 \subsubsection*{ChaCha20Construction}
+Ez az osztály a ChaCha20 konstrukció megvalósítása.
 
+\textbf{\textit{Implementációs döntések}}
+
+A ChaCha20 állapota 16 darab 32 bites szóból áll. A reprezentáció kérdéses volt, de úgy döntöttem, hogy a fixen 32 bites uint32\_t típussal felpopulált 16 méretű tömb megfelelő.
+
+Az algoritmus negyedköreinek futtatásánál szükséges a ciklikus shiftelés megvalósítása a 32 bites szavakon. C++-ban erre nincs beépített eszköz, csak sima shiftelésre, de mivel tudjuk, hogy minden szó 32 bites, ezért egy trükkel megvalósítható a ciklikus változat is. Ha van egy $b$ 32 bites szavunk és $n$-el szeretnénk ciklikusan balra shiftelni, akkor a következő kódrészletben vett kifejezésnek pontosan a $b$ $n$-el vett ciklikus balra shiftelése az eredménye (C++ stílusú pszeudokódként): $(b << n) | (b >> (32-n));$. Mivel a túlcsorduló biteket elvesztjük és így a shiftelés irányától függően a megfelelő helyi értékeken 0-ák szerepelnek (ahova ciklikusan át kéne kerülnie a túlcsorduló elemeknek). Így ha bitenként vagyot alkalmazunk a két bitsorozatra, akkor a 0-ás helyi értékek helyén pontosan a túlcsordult részlet lesz.
+
+Az állapot konstans részét bele lehetne égetni az állapottömbbe, de a felhasználói felület oldalon ellenőrzött adatbevitellel dolgozunk, így nem fordulhat elő, hogy hibás állapotot kapjunk. Emiatt itt nincs ellenőrzés az állapot helyességével kapcsolatban. Új állapot megadásánál std::vector-ban adódik át a kívánt érték, ennek első 16 elemét másoljuk be az állapottömbbe.
+
+\textbf{\textit{Metódusok}}
+
+\textit{ChaCha20Construction()}
+
+Default konstruktor, inicializálja az állapot konstans részét, a többit viszont nem, így nem érdemes ezzel nekiállni generálni.
+
+\textit{ChaCha20Construction(const std::vector$<$uint32\_t$>$ \&inbuf)}
+
+Konstruktor, megkapja a kezdeti állapotot az \textit{inbuf} vectorban.
+
+\textit{void Seed(const std::vector$<$uint32\_t$>$ \&inbuf)}
+
+Public metódus, az \textit{inbuf}-ból kimásolja az első 16 elemet az állapotba.
+
+\textit{std::vector$<$bool$>$ GenerateStream(uint64\_t length)}
+
+Public metódus, a ChaCha20 konstrukció szerint a jelenlegi állapottal \textit{length} hosszúságú bitsorozat generálása.
+
+\textit{void QuarterRound(uint32\_t \&a, uint32\_t \&b, uint32\_t \&c, uint32\_t \&d)}
+
+Private metódus, a ChaCha20 negyedkör megvalósítása. Referenciaként adódnak át az értékek, így függvény után az \textit{a}, \textit{b}, \textit{c}, \textit{d} változók már a megváltoztatott állapotot tartalmazzák.
+
+\textit{std::array<uint32\_t, 16> ChaChaRound()}
+
+Private metódus, a teljes ChaCha20 kör megvalósítása.
 \end{document}
