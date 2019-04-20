@@ -553,7 +553,7 @@ A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez 
 
 A Legendre és Additív karakteres konstrukciónál a polinomokat std::set-ben tároljuk, hiszen olyan polinomokra van szükség, melyeknek nincs többszörös gyöke.
 \subsubsection{Osztályok}
-Az osztályok közötti összefüggéseket a [INSERT ÁBRA] részletezi. A nem osztályszintű függvények hívását minden osztálynál külön részletezem. Az itt leírt algoritmusok helyenként C++ stílusú pszeudokódokat tartalmaznak.
+Az osztályok közötti összefüggéseket a [INSERT ÁBRA] részletezi. A nem osztályszintű függvények hívását minden osztálynál külön megemlítem, de ezeknek az implementálásáról nem az osztályoknál értekezem. Az itt leírt algoritmusok helyenként C++ stílusú pszeudokódokat tartalmaznak.
 \subsubsection*{LegendreConstruction}
 Ez az osztály valósítja meg a Legendre konstrukció megvalósítását.
 
@@ -571,11 +571,11 @@ A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki
 	\end{enumerate}
 	\item Ha $a$ páratlan, akkor:
 	\begin{enumerate}
-		\item A redukciós formula a következő (kihasználva, hogy $a$ és $p$ relatív prímek): $\left({\frac{a}{p}}\right) = \left({\frac{p}{a}}\right) (-1)^{\frac{p-1}{2}\cdot\frac{a-1}{2}}$. A rekurziós lépésként ki kell számolni $\left({\frac{p}{a}}\right)$-t itt már egyből $p$-nek az $a$-val vett osztási maradékát adjuk meg a rekurzív hívásba.
+		\item A redukciós formula a következő (kihasználva, hogy $a$ és $p$ relatív prímek): $\left({\frac{a}{p}}\right) = \left({\frac{p}{a}}\right) (-1)^{\frac{p-1}{2}\cdot\frac{a-1}{2}}$. Ez a redukció a kvadratikus reciprocitás tételeként ismert. A rekurziós lépésként ki kell számolni $\left({\frac{p}{a}}\right)$-t itt már egyből $p$-nek az $a$-val vett osztási maradékát adjuk meg a rekurzív hívásba.
 		\item Utólag ki kell számolni $(-1)^{\frac{p-1}{2}\frac{a-1}{2}}$-t. Ez nyilvánvalóan akkor lesz $-1$, ha $\frac{p-1}{2}\frac{a-1}{2} = \frac{(p-1)(a-1)}{4}$ páratlan. Mivel $a$ és $p$ is páratlanok, ezért mindenképpen igaz, hogy ez a számláló osztható 4-el, így megint elég csak a 4-el vett kvócienst megnézni, tehát ha $(p-1)(a-1)$ \& $4 \not=0$, akkor a fenti kifejezés $-1$, egyébként 1.
 	\end{enumerate}
 \end{enumerate}
-\textbf{\textit{Függvények}}
+\textbf{\textit{Metódusok}}
 
 Most minden metódus public és a megadott paraméterek helyessége feltételezhető.
 
@@ -599,7 +599,7 @@ Polinom fokszám generálása a $[2, 5\cdot p^\frac{1}{10}]$ intervallumban.
 
 A Legendre konstrukció szerint \textit{stream\_size} méretű bitsorozat generálása és visszaadása \textit{p} prímmel és \textit{poly} polinommal.
 
-\textbf{\textit{Használt globális függvények: }}\textit{GenerateRandomSeed, ModPolynomValue, MillerRabinTest}
+\textbf{\textit{Használt globális függvények: }}\textit{GenerateRandomSeed, ModPolynomValue, MillerRabinTest, IsPrimitiveRootOfPrime}
 
 \subsubsection*{RC4Construction}
 Ez az osztály az RC4 konstrukció megvalósítása.
@@ -629,4 +629,40 @@ Private metódus, az $S$ tömböt inicializálja az algoritmus leírása szerint
 \textit{void Shuffle()}
 
 Private metódus, az $S$ tömb megkeverése az algoritmus leírása szerint.
+
+\subsubsection*{AdditiveConstruction}
+Ez az osztály az additív karakteres konstrukció megvalósítása.
+
+\textbf{\textit{Implementációs döntések}}
+
+Ennek a konstrukciónak az implementálása egyszerű, mely szempont is volt a tervezésekor. Nem ütköztem az implementáció során problémákba, így nem kellett döntéseket hozni.
+
+\textbf{\textit{Metódusok}}
+
+Most minden metódus public és a megadott paraméterek helyessége feltételezhető.
+
+\textit{AdditiveConstruction()}
+
+Default konstruktor, nem inicializálunk semmit egyebet.
+
+\textit{bool AdditiveChar(const uint64\_t n, const uint64\_t p, const std::set$<$uint64\_t$>$\& poly)}
+
+Visszaadja a konstrukció szerinti értéket \textit{p} prímmel és \textit{poly} polinommal az \textit{n}. pozícióban.
+
+\textit{uint64\_t GeneratePrime(uint64\_t p)}
+
+A konstrukciónak megfelelő prímszám generálása mely nagyobb egyenlő mint \textit{p}.
+
+\textit{uint64\_t GenerateDegree(const uint64\_t p)}
+
+Polinom fokszám generálása a $[2, 5\cdot p^\frac{1}{10}]$ intervallumban.
+
+\textit{std::vector$<$bool$>$ Generate(const uint64\_t stream\_size, const uint64\_t p, const std::set$<$uint64\_t$>$\& poly)}
+
+A konstrukció szerinti \textit{stream\_size} hosszúságú bitsorozat generálása \textit{p} prím és \textit{poly} polinom paraméterekkel.
+
+\textbf{\textit{Használt globális függvények: }}\textit{GenerateRandomSeed, ModPolynomValue, MillerRabinTest}
+
+\subsubsection*{ChaCha20Construction}
+
 \end{document}
