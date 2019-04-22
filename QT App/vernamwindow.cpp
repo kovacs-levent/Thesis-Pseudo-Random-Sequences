@@ -9,9 +9,8 @@
 #include <QTextStream>
 #include <QCoreApplication>
 
-vernamWindow::vernamWindow(QWidget *parent) : QWidget(parent), letter_dictionary(), seq_dictionary()
+vernamWindow::vernamWindow(QWidget *parent) : QWidget(parent), cipher()
 {
-    makeDictionary();
     parentWindow = (mainWindow*)parent;
     mainLayout = new QGridLayout(this);
 
@@ -25,51 +24,6 @@ vernamWindow::vernamWindow(QWidget *parent) : QWidget(parent), letter_dictionary
     backButton = new QPushButton(tr("Vissza"), this);
     mainLayout->addWidget(backButton, 4, 3);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonClicked()));
-}
-
-void vernamWindow::makeDictionary()
-{
-    QFile file("dictionary.txt");
-    file.open(QFile::ReadOnly);
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    while(!in.atEnd())
-    {
-       std::cout << "hi";
-       QString line = in.readLine();
-       QTextStream line_str(&line);
-       line_str.setCodec("UTF-8");
-       QChar tmp;
-       QString tmp2;
-       std::bitset<7> seq;
-       line_str >> tmp >> tmp2;
-       int count = 6;
-       for(int i = 0; i < tmp2.size(); i++)
-       {
-           seq[count] = tmp2[i].unicode() == 49;
-           --count;
-       }
-       std::cout <<  std::endl << tmp.unicode() << " " << seq.to_string() << std::endl;
-       letter_dictionary[tmp.unicode()] = seq;
-       seq_dictionary[seq.to_string()] = tmp.unicode();
-    }
-    QChar whitespace(' ');
-    std::bitset<7> lastseq("1111111");
-    letter_dictionary[whitespace.unicode()] = lastseq;
-    seq_dictionary[lastseq.to_string()] = whitespace.unicode();
-    std::unordered_map<unsigned short, std::bitset<7> >::iterator it = letter_dictionary.begin();
-    std::ofstream logger("log.txt");
-    while(it != letter_dictionary.end())
-    {
-        logger << it->first << " " << it->second.to_string() << std::endl;
-        it++;
-    }
-    std::unordered_map<std::string, unsigned short>::iterator it2 = seq_dictionary.begin();
-    while(it2 != seq_dictionary.end())
-    {
-        logger << it2->first << " " << it2->second << std::endl;
-        it2++;
-    }
 }
 
 void vernamWindow::makeTextForm()
@@ -116,14 +70,86 @@ void vernamWindow::oneTimePadButtonClicked()
         l = ss.get() - '0';
     }
     const QString message = inputTextEdit->toPlainText();
-    const QString cipheredText = vernamCipher(vec, message);
-    resultTextEdit->setText(cipheredText);
+    if(vec.size() >= message.size()*7)
+    {
+        cipher.setKey(vec);
+        const QString cipheredText = cipher.Encrypt(message);
+        resultTextEdit->setText(cipheredText);
+    }
+    else
+    {
+         displayError("Adathiba", "A sorozat mezőben nincs adat, vagy formátuma nem megfelelő! Adjon meg egy szabályos bitsorozatot, mely legalább olyan hosszú mint a bemeneti szöveg bitekben vett hossza!");
+    }
 }
 
-QString vernamWindow::vernamCipher(const std::vector<bool> &key, const QString &inputText)
+void vernamWindow::backButtonClicked()
+{
+    inputTextEdit->clear();
+    resultTextEdit->clear();
+    seqTextEdit->clear();
+    parentWindow->ChangeMenu(0);
+}
+
+void vernamWindow::seqLoadButtonClicked()
+{
+    std::vector<bool> seq = parentWindow->getSavedSeq();
+    std::stringstream ss;
+    for(size_t i = 0; i < seq.size(); ++i)
+    {
+        ss << seq[i];
+    }
+    QString sequenceText = QString::fromStdString(ss.str());
+    seqTextEdit->setText(sequenceText);
+}
+
+oneTimePad::oneTimePad()
+{
+    QFile file("dictionary.txt");
+    file.open(QFile::ReadOnly);
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    while(!in.atEnd())
+    {
+       std::cout << "hi";
+       QString line = in.readLine();
+       QTextStream line_str(&line);
+       line_str.setCodec("UTF-8");
+       QChar tmp;
+       QString tmp2;
+       std::bitset<7> seq;
+       line_str >> tmp >> tmp2;
+       int count = 6;
+       for(int i = 0; i < tmp2.size(); i++)
+       {
+           seq[count] = tmp2[i].unicode() == 49;
+           --count;
+       }
+       std::cout <<  std::endl << tmp.unicode() << " " << seq.to_string() << std::endl;
+       letter_dictionary[tmp.unicode()] = seq;
+       seq_dictionary[seq.to_string()] = tmp.unicode();
+    }
+    QChar whitespace(' ');
+    std::bitset<7> lastseq("1111111");
+    letter_dictionary[whitespace.unicode()] = lastseq;
+    seq_dictionary[lastseq.to_string()] = whitespace.unicode();
+    std::unordered_map<unsigned short, std::bitset<7> >::iterator it = letter_dictionary.begin();
+    std::ofstream logger("log.txt");
+    while(it != letter_dictionary.end())
+    {
+        logger << it->first << " " << it->second.to_string() << std::endl;
+        it++;
+    }
+    std::unordered_map<std::string, unsigned short>::iterator it2 = seq_dictionary.begin();
+    while(it2 != seq_dictionary.end())
+    {
+        logger << it2->first << " " << it2->second << std::endl;
+        it2++;
+    }
+}
+
+QString oneTimePad::Encrypt(const QString &inputText)
 {
     std::string inText = inputText.toStdString();
-    QByteArray ba = inputText.toLocal8Bit();
     QString encryptedText;
     for(int i = 0; i < inputText.size(); i++)
     {
@@ -157,24 +183,4 @@ QString vernamWindow::vernamCipher(const std::vector<bool> &key, const QString &
         }
     }
     return encryptedText;
-}
-
-void vernamWindow::backButtonClicked()
-{
-    inputTextEdit->clear();
-    resultTextEdit->clear();
-    seqTextEdit->clear();
-    parentWindow->ChangeMenu(0);
-}
-
-void vernamWindow::seqLoadButtonClicked()
-{
-    std::vector<bool> seq = parentWindow->getSavedSeq();
-    std::stringstream ss;
-    for(size_t i = 0; i < seq.size(); ++i)
-    {
-        ss << seq[i];
-    }
-    QString sequenceText = QString::fromStdString(ss.str());
-    seqTextEdit->setText(sequenceText);
 }

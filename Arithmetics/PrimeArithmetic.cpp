@@ -63,7 +63,8 @@ bool MillerRabinTest(const uint64_t n, const int k)
 bool IsPrimitiveRootOfPrime(const uint64_t n, const uint64_t p)
 {
     //If n < p, then gcd(n, p) = 1, because p is prime
-    if (n >= p) {
+    if (n >= p) 
+	{
         return false;
     }
     bool l = true;

@@ -10,6 +10,21 @@
 #include <unordered_map>
 #include <bitset>
 
+class oneTimePad
+{
+public:
+    oneTimePad();
+    void setKey(const std::vector<bool> &newkey)
+    {
+        key = newkey;
+    }
+    QString Encrypt(const QString &inputText);
+private:
+    std::vector<bool> key;
+    std::unordered_map<unsigned short, std::bitset<7> > letter_dictionary;
+    std::unordered_map<std::string, unsigned short> seq_dictionary;
+};
+
 class vernamWindow : public QWidget
 {
     Q_OBJECT
@@ -21,11 +36,9 @@ private slots:
     void seqLoadButtonClicked();
     void backButtonClicked();
 private:
-    QString vernamCipher(const std::vector<bool> &key, const QString &inputText);
     void makeTextForm();
     void makeBitSeqForm();
     void makeResultForm();
-    void makeDictionary();
     QGridLayout* mainLayout;
     QGroupBox* inputGroup;
     QGridLayout* inputLayout;
@@ -44,8 +57,7 @@ private:
     QPushButton* backButton;
     mainWindow* parentWindow;
 
-    std::unordered_map<unsigned short, std::bitset<7> > letter_dictionary;
-    std::unordered_map<std::string, unsigned short> seq_dictionary;
+    oneTimePad cipher;
 };
 
 #endif // VERNAMWINDOW_H

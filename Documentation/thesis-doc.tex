@@ -700,7 +700,29 @@ Private metódus, a ChaCha20 negyedkör megvalósítása. Referenciaként adódn
 
 Private metódus, a teljes ChaCha20 kör megvalósítása.
 
-\subsubsection{mainWindow}
+\subsubsection*{oneTimePad}
+Ez az osztály a one-time pad titkosítást valósítja meg.
+
+\textit{\textbf{Implementációs döntések}}
+
+A megfelelő karakterek reprezentáláshoz nem volt elég a klasszikus C++ string, mivel az ANSI kódolásban jeleníti meg a karaktereket. Unicode kódolású stringekkel lenne jobb dolgozni és a QT-ben található QString osztály pontosan egy ilyen string típust valósít meg. Emiatt ez az osztály kihasználja a QString ezen tulajdonságát.
+
+Ez az osztály implementálja a szótárat is melyben tároljuk a karakterkódolást. Olyan adatszerkezet lenne jó, mely kétoldalú lekérdezést valósít meg konstans időben, de egy ilyen implementálása dupla letárolás nélkül nem túl egyszerű. Dupla letárolással azonban nagyon könnyű a megoldás, két hashtáblát populálunk fel a megfelelő karakterek-bitsorozat párokkal. Mindegyik hashtábla a C++-os std::unordered\_map típussal valósul meg, mely konstans idejű lekérdezését biztosítja az elemeknek. Az inicializálás a dictionary.txt fájlból történik.
+
+\textit{\textbf{Metódusok}}
+
+\textit{oneTimePad()}
+
+Konstruktor, felépíti a hashtáblákat a dictionary.txt-ből.
+
+\textit{void setKey(const std::vector$<$bool$>$ \&newkey)}
+
+Publikus setter, átállítja a titkosítási kulcsot a \textit{newkey} sorozatára.
+
+\textit{QString Encrypt(const QString \&inputText)}
+
+A titkosítást végző eljárás. Az eredmény és a paraméter is QString-ben tároljuk, hogy a karakterek Unicode-al legyenek továbbra is reprezentálva.
+\subsubsection*{mainWindow}
 Ez az osztály a grafikus felület fő vezérlését és megjelenítést valósítja meg. Szorosan együttműködik a többi ablak osztállyal az alkalmazás irányításában. A sorozatok lementését is ez az osztály végzi, a savedSeq adattagban lementhetünk egy bitsorozatot amit az alkalmazáson keresztül generáltunk.
 
 Ez az osztály a QMainWindow QT osztálynak gyermekosztálya.
@@ -725,7 +747,7 @@ Visszaadja az éppen lementett sorozatot.
 
 Lementi a paraméterként kapott sorozatot a savedSeq változóba.
 
-\subsubsection{Window}
+\subsubsection*{Window}
 Az alapmenüt megvalósító osztály, mely a QWidget gyermeke.
 
 \textit{\textbf{Metódusok}}
@@ -752,7 +774,7 @@ Az almenük közti váltások gombjaira írt slotok. A gombok megnyomásakor a k
 
 A kilépés gombja, az alkalmazás futását szabályosan megszünteti.
 
-\subsubsection{legendreWindow}
+\subsubsection*{legendreWindow}
 
 A Legendre-konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
 
@@ -799,7 +821,7 @@ Visszalépés slotja, visszaadja a vezérlést a főmenünek.
 
 \textbf{\textit{Használt globális függvények: }} \textit{displayError, GenerateSimpleModPoly}
 
-\subsubsection{rc4Window}
+\subsubsection*{rc4Window}
 
 Az RC4 konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
 
@@ -829,7 +851,7 @@ Visszalépés slotja, a vezérlés visszaadása a főmenünek.
 
 \textit{\textbf{Használt globális függvények: }}\textit{displayError}
 
-\subsubsection{additiveWindow}
+\subsubsection*{additiveWindow}
 
 Az additív karakteres konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
 
@@ -915,4 +937,160 @@ Visszalépés slotja, visszaadja a vezérlést a főmenünek.
 \textit{\textbf{Használt globális függvények: }}\textit{GenerateRandomSeed}
 
 \subsubsection*{measureWindow}
+
+A mértékek kiszámításának kezelését megvalósító osztály. A QWidget gyermekosztálya.
+
+\textit{\textbf{Metódusok}}
+
+\textit{measureWindow(QWidget *parent = 0)}
+
+Konstruktor, inicializálja az adattagokat és lefuttatja a QWidget konstruktorát a kapott paraméterrel.
+
+\textit{void makeSequenceForm(), void makeDistrForm(), void makeNormalityForm(), void makeCorrelationForm()}
+
+Az inicializáláshoz használt private segédmetódusok.
+
+\textit{\textbf{Eseménykezelés}}
+
+\textit{void loadSequenceButtonClicked()}
+
+A jelenleg lementett sorozat betöltésének slotja. Híváskor a mainWindow savedSeq-jében lévő sorozatot betölti a seqTextEdit-be.
+
+\textit{void calculateDistributionButtonClicked()}
+
+A jól-eloszlás mérték számolásának slotja. Híváskor a seqTextEdit-ben lévő sorozatra kiszámolja a jól-eloszlás mértéket és az eredményt a distrLineEdit-be írja.
+
+\textit{void calculateNormalityButtonClicked()}
+
+A normalitás mérték számolásának slotja. Híváskor a seqTextEdit-ben lévő sorozatra kiszámolja a normalitás mértéket és az eredményt a normalityLineEdit-be írja.
+
+\textit{void calculateCorrelationButtonClicked()}
+
+A k-ad rendű korreláció mérték számolásának slotja. Híváskor a seqTextEdit-ben lévő sorozatra közelíti a k-ad rendű korrelációt. A rendet a correlationDegLineEdit-ből, a menetek számát a correlationRoundsLineEdit-ből tölti be. Hibás adat esetén hibaüzenet kerül kiírásra a képernyőre.
+
+\textit{void backButtonClicked()}
+
+Visszalépés slotja, visszaadja a vezérlést a főmenünek.
+
+\textit{\textbf{Használt globális függvények: }}\textit{wellDistributionMeasure, normalityMeasure, kCorrelationApprox, displayError}
+
+\subsubsection*{vernamWindow}
+
+A one-time pad titkosítás kezelését megvalósító osztály. A QWidget gyermekosztálya.
+
+\textbf{\textit{Metódusok}}
+
+\textit{vernamWindow(QWidget *parent = 0)}
+
+Konstruktor, inicializálja az adattagokat és a QWidget konstruktorát lefuttatja a kapott paraméterrel.
+
+\textit{void makeTextForm(), void makeBitSeqForm(),	void makeResultForm()}
+
+Az inicializáláshoz használt private segédmetódusok.
+
+\textbf{\textit{Eseménykezelés}}
+
+\textit{void oneTimePadButtonClicked()}
+
+A titkosítás futtatásának slotja. Híváskor az inputTextEdit-ből és a  seqTextEdit-ből tölti be az adatokat a titkosításhoz. A titkosítás eredménye a resultTextEdit-be kerül. Hibás bemenet esetén hibaüzenet kerül kiírásra a képernyőre.
+
+\textit{void seqLoadButtonClicked()}
+
+A sorozat betöltésének slotja. Híváskor a mainWindow savedSeq-jében lementett sorozatot betölti a seqTextEdit-be.
+
+\textit{void backButtonClicked()}
+
+Visszalépés slotja, visszaadja a vezérlést a főmenünek.
+
+\textit{\textbf{Használt globális függvények: }}\textit{displayError}
+
+\subsubsection{Globális függvények}
+Az osztály nélkül definiált globális függvények több fejállományra bontva szerepelnek a kódban. Ezeknek dokumentáció a fejállományok szerint fog történni.
+
+\subsubsection*{ModArithmeric}
+Moduláris számításokkal kapcsolatos műveleteket tartalmaz.
+
+\textit{\textbf{Függvények}}
+
+\textit{uint64\_t ModMul(uint64\_t a, uint64\_t b, const uint64\_t mod)}
+
+Ez a függvény \textit{a}*\textit{b}-t számolja ki a \textit{mod} 
+maradékosztályban.
+
+\textit{uint64\_t ModPow(uint64\_t base, uint64\_t exp, const uint64\_t mod)}
+
+Gyors moduláris hatványozás, $\textit{base}^\textit{exp}$ kiszámolására, \textit{mod} maradékosztályban. Használja a ModMul függvényt.
+
+\textit{uint64\_t Pow(uint64\_t base, uint64\_t exp)}
+
+Gyors hatványozás moduloosztály nélkül.
+
+\textit{uint64\_t ModSub(uint64\_t a, uint64\_t b, const uint64\_t mod)}
+
+Moduláris kivonás, $\textit{a}-\textit{b}$-t számolja ki \textit{mod} maradékosztályban.
+
+\textit{std::set$<$uint64\_t$>$ GenerateSimpleModPoly(const uint64\_t modulus, const unsigned int degree)}
+
+Csakis egyszeres gyökökkel rendelkező polinom generálása \textit{modulus} maradékosztályban, \textit{degree} fokszámmal. Használja a GenerateRandomSeed() függvényt.
+
+\textit{uint64\_t ModPolynomValue(const std::set$<$uint64\_t$>$ \&poly, const uint64\_t mod, uint64\_t var)}
+
+Polinom helyettesítési értékének kiszámolása \textit{var} helyen és \textit{mod} maradékosztályban. Használja a ModMul és a ModSub függvényeket.
+
+\textit{std::vector$<$uint64\_t$>$ GetPrimeFactors(uint64\_t n)}
+
+Megkeresi az \textit{n} szám összes valós osztóját és ezeket egy std::vector-ba helyezve adja vissza (minden osztó csak egyszer szerepel benne).
+
+\subsubsection*{PrimeArithmetic}
+
+Prímtesztet, prímekhez kapcsolható számításokat tartalmaz.
+
+\textit{\textbf{Függvények}}
+
+\textit{bool IsPrimitiveRootOfPrime(const uint64\_t n, const uint64\_t p)}
+
+Kiszámolja, hogy \textit{n} primitív gyök-e \textit{p} maradékosztályban, ahol \textit{p} prím. Az algoritmus az alapján működik, hogy a primitív gyök tulajdonság ekvivalens azzal, hogy \textit{n} rendje \textit{p}$-1$-el a maradékosztályban, mivel prím a második paraméter, és a \textit{p}$-1$ osztóit kell megkeresni, ha minden $d$ osztóra $n^\frac{\textit{p}-1}{d} \not\equiv 1 (\textrm{mod}\ p)$, akkor n primitív gyök. Használja a GetPrimeFactors függvényt.
+
+\textit{bool MillerRabinTest(const uint64\_t n, const int k)}
+
+Miller-Rabin valószínűségi prímteszt végrehajtása \textit{k} darab menettel \textit{n}-en. Kis prímekre mindenképpen tesztel, de utána \textit{k} darab véletlen számmal próbálkozik. Ha átmegy az összes teszten, akkor lesz igaz az eredmény. Használja a GenerateRandomSeed() függvényt.
+
+\subsubsection*{SeedGenerator}
+
+Ez csak egy függvényt tartalmazó fejállomány, az adott számítógép működéséből készít entrópiát az egyszerűbb véletlenségi feladatokhoz, ahol elég az, hogy kapjunk egyenletesen eloszláson számokat.
+
+\textit{\textbf{Függvények}}
+
+\textit{static void SeedFunction()}
+
+Statikus függvény amit csak azért hozunk létre, hogy a memóriacímét lekérdezzük, ezáltal is növelve az entrópia mértékét.
+
+\textit{std::seed\_seq GenerateRandomSeed()}
+
+Több forrásból felépíti a seed sorozatunkat. Az entrópiát a gépi időből, memóriakezelésből és szálkezelésből szerzi. Összes módszer pontosan: idő, statikus változó (számláló) értéke és címe, lokális változó címe, dinamikusan foglalt változó címe, a SeedFunction() címe, a C++ \_Exit() függvényének címe. Egy generálás után mindig növeljük a számláló értékét.
+
+\subsubsection*{Measurements}
+A mértékek kiszámolását végző függvények ebben a fejállományban helyezkednek el. Jelen esetben a 3 implementált mértékről külön értekezem.
+
+\textit{\textbf{Jól-eloszlás}}
+
+A jól-eloszlás mérték kiszámolása a legegyszerűbb a 3 közül, itt is fontos volt azonban, hogy a megvalósításnál a matematikai definíciót ne pazarlóan valósítsuk meg. A jól-eloszlás ugyebár valamilyen $a$ kezdőpozíciótól számolja a $b$ eltolással vett indexeken lévő bitek összegét minden lehetséges $M$ végpozícióig (bővebben ld. a Mértékek fejezetet).
+
+Itt igazából végpozícióval lehet úgy tenni, mintha nem létezne mint ciklusváltozó, az maximum keresését egybe lehet futtatni a bitek összegzésével. Tehát csak a lehetséges kezdőpozíciók és eltolások szerint keresünk maximumot, és az összegek között számolás közben frissítjük a maximális összeget. 
+
+Ezzel az optimalizálással megvalósított függvény a következő: \textit{uint64\_t wellDistributionMeasure(const std::vector$<$bool$>$ \&seq)}. Ez a fenti módon határozza meg a seq-ben lévő sorozat jól-eloszlás mértékét.
+
+Létezik a kezdetleges implementációból egy függvény mely a definícióban szereplő $U(E_N, M, a, b)$ függvényt valósítja meg: \textit{int64\_t UMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t sum\_length, const uint32\_t start\_pos, const uint32\_t step)}.
+
+\textit{\textbf{Normalitás}}
+
+A normalitás mértéknél a legnagyobb kihívást az összes vizsgálandó részsorozat effektív legenerálása jelentette. Leegyszerűsítve arra kellett algoritmust írni, mely az összes max. $k \in \mathbb{N}$ hosszúságú bitsorozatot előállítja (kivéve a 0 hosszút). Erre egy $(k+1)^2$ méretű mátrixot használunk, hogy a prefixek letárolásával tudjuk előállítani mindig a következő részsorozatokat. Így a mátrixba megtalálható az összes vizsgálandó sorozat, és a generálás gyors. 0 hosszúságú sorozatról kezdünk, és minden lépésben a már meglévő prefixekhez fűzünk hozzá 0-kat és 1-eseket és ezeket behelyezzük a mátrixba. Az eljárás végén a mátrix megfelelő indexein az összes részsorozat megtalálható. Így viszont nincs különszedve a k-ad rendű normalitások számolása.
+
+A másik költséges dolog az volt, hogy hogyan keressük meg a részsorozatok előfordulásának számát. Bár itt bitekről van szó és vannak bitsorozatokra jobb matchelő algoritmusok melyek kihasználják, hogy nem csak egyesével tudunk biteket címezni. Ezt azonban a jelenlegi reprezentációval nem lehet megtenni, az std::vector<bool>-ban nem tudunk több bitre egyszerre hivatkozni. Emiatt inkább string-matchelésre vezetett vissza a probléma, ezért a Rabin-Karp algoritmust implementáltam a bitsorozatos reprezentációra.
+
+A fenti optimalizálásokkal a számolást a következő függvény valósítja meg: \textit{long double normalityMeasure(const std::vector$<$bool$>$ \&seq)}.
+
+A definíció szerinti $T(E_N), M, X)$ függvényt, illetve a k-ad normalitást is implementáltam, ezeket sorban a \textit{uint64\_t TMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t max\_pos, const std::vector$<$bool$>$ \&subSeq)}, illetve a \textit{long double kNormality(std::vector$<$bool$>$ \&seq, const uint32\_t k)} függvények valósítják meg.
+
+\textit{\textbf{Korreláció}}
 \end{document}

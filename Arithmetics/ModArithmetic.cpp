@@ -48,28 +48,6 @@ uint64_t Pow(uint64_t base, uint64_t exp)
     return result;
 }
 
-uint64_t ModAdd(uint64_t a, uint64_t b, const uint64_t mod)
-{
-    uint64_t result;
-    if(a >= mod)
-    {
-        a = a % mod;
-    }
-    if(b >= mod)
-    {
-        b = b % mod;
-    }
-    if(b == 0)
-    {
-        result = a;
-    }
-    else
-    {
-        result = ModSub(a, mod-b, mod);
-    }
-    return result;
-}
-
 uint64_t ModSub(uint64_t a, uint64_t b, const uint64_t mod)
 {
     uint64_t result;
@@ -90,22 +68,6 @@ uint64_t ModSub(uint64_t a, uint64_t b, const uint64_t mod)
         result = mod - b + a;
     }
     return result;
-}
-
-bool IsPrimitiveRoot(const uint64_t n, const uint64_t p)
-{
-    //If n < p, then gcd(n, p) = 1, because p is prime
-    if (n >= p) {
-        return false;
-    }
-    bool l = true;
-    //It's enough to test for every (p-1)/q number, where q is a prime factor of p-1
-    std::vector <uint64_t> PrimeFactors = GetPrimeFactors(p - 1);
-    for (std::vector<uint64_t>::iterator it = PrimeFactors.begin(); it != PrimeFactors.end() && l; it++)
-    {
-        l = (ModPow(n, (p-1)/(*it), p) != 1);
-    }
-    return l;
 }
 
 std::vector<uint64_t> GetPrimeFactors(uint64_t n)
