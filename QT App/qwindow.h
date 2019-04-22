@@ -12,7 +12,7 @@ class Window : public QWidget
 
  public:
   Window(QWidget *parent = 0);
-  QVBoxLayout* getLayout();
+ // QVBoxLayout* getLayout();
  private slots:
   void legendreButtonClicked();
   void rc4ButtonClicked();

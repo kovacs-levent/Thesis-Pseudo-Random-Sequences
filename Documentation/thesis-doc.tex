@@ -699,4 +699,107 @@ Private metódus, a ChaCha20 negyedkör megvalósítása. Referenciaként adódn
 \textit{std::array$<$uint32\_t, 16$>$ ChaChaRound()}
 
 Private metódus, a teljes ChaCha20 kör megvalósítása.
+
+\subsubsection{mainWindow}
+Ez az osztály a grafikus felület fő vezérlését és megjelenítést valósítja meg. Szorosan együttműködik a többi ablak osztállyal az alkalmazás irányításában. A sorozatok lementését is ez az osztály végzi, a savedSeq adattagban lementhetünk egy bitsorozatot amit az alkalmazáson keresztül generáltunk.
+
+Ez az osztály a QMainWindow QT osztálynak gyermekosztálya.
+
+\textit{\textbf{Metódusok}}
+
+A QMainWindow-ból öröklött metódusokról nem értekezem, ennek az osztálynak a funkciói megtalálhatóak a QT dokumentáció részeként. Minden függvény publikus.
+
+\textit{mainWindow(QWidget *parent = 0)}
+
+Az osztály konstruktora. Lefuttatja a QMainWindow konstruktorát a kapott paraméterrel, inicializálja az almenüket és a vezérléshez szükséges eszközöket.
+
+\textit{void ChangeMenu(const int i)}
+
+Megváltoztatja az éppen aktív almenüt az i. indexűre (minden almenü egy indexszel van azonosítva).
+
+\textit{std::vector$<$bool$>$\& getSavedSeq()}
+
+Visszaadja az éppen lementett sorozatot.
+
+\textit{void setSavedSeq(const std::vector$<$bool$>$ \&seq)}
+
+Lementi a paraméterként kapott sorozatot a savedSeq változóba.
+
+\subsubsection{Window}
+Az alapmenüt megvalósító osztály, mely a QWidget gyermeke.
+
+\textit{\textbf{Metódusok}}
+
+A QWidget osztályból örökölt metódusokról nem értekezem, ezek a QT dokumentációba megtalálhatóak.
+
+\textit{Window(QWidget *parent = 0)}
+
+A Window konstruktora, inicializálja az adattagokat és lefuttatja a QWidget konstruktorát a kapott paraméterrel.
+
+\textit{void makeButtons(), void setButtonsSize(), void setButtonsSender()}
+
+Private segédfüggvények, az inicializálás részfeladatait végzik.
+
+\textit{\textbf{Eseménykezelés}}
+
+Az eseménykezelést végző QT object slotoknak a leírása, ezek mind private slotok.
+
+\textit{void legendreButtonClicked(), void rc4ButtonClicked(), void additiveButtonClicked(), void chachaButtonClicked(), void measuresButtonClicked(), void cryptoButtonClicked()}
+
+Az almenük közti váltások gombjaira írt slotok. A gombok megnyomásakor a kért almenüt jeleníti meg a program.
+
+\textit{void quitButtonClicked()}
+
+A kilépés gombja, az alkalmazás futását szabályosan megszünteti.
+
+\subsubsection{legendreWindow}
+
+A Legendre-konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
+
+\textbf{\textit{Metódusok}}
+
+\textit{legendreWindow(QWidget *parent = 0)}
+
+Konstruktor, lefuttatja a QWidget konstruktorát a kapott paraméterrel és inicializálja a szükséges adattagokat.
+
+\textit{void makeLengthForm(), void makePolDeg(), void makePrimeForm(), void makePolForm(), void makeSequenceForm()}
+
+Az inicializáláshoz használt private segédmetódusok.
+
+\textbf{\textit{Eseménykezelés}}
+
+\textit{void polDegButtonClicked()}
+
+Polinom fokszám generálását kezelő slot. Meghíváskor begyűjti a bemeneti mezőkből a szükséges adatokat és ez alapján generál, az eredmény a polDegLineEdit-be kerül.
+Hibákat is kezel, rossz prím bemenet esetén hibajelzést ír ki a grafikus felületre.
+
+\textit{void polGenButtonClicked()}
+
+Polinom generálását kezelő slot. Meghíváskor begyűjti a fokszám és prím adatokat és ez alapján generál megfelelő polinomot, az eredmény a polTextEdit-be kerül. Ha rossz a bemenet, akkor hibajelzést ír ki.
+
+\textit{void generateButtonClicked()}
+
+Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az összes paramétert a Legendre-konstrukcióhoz és ez alapján generál, az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
+
+\textit{void generatePrimeButtonClicked()}
+
+Prímszám generálás slotja. Híváskor új prímszámot generál mely megfelel a Legendre-konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
+
+\textit{void nextPrimeButtonClicked()}
+
+Következő prím slotja. Híváskor az első, a jelenleginél nagyobb, prímet állítja elő mely megfelel a Legendre konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
+
+\textit{void seqSaveButtonClicked()}
+
+A jelenlegi sorozat lementésének slotja. A seqTextEdit-ben lévő sorozatot menti le a mainWindow savedSeq-jébe.
+
+\textit{backButtonClicked()}
+
+Visszalépés slotja, visszaadja a vezérlést a főmenünek.
+
+\textbf{\textit{Használt globális függvények: }} \textit{displayError, GenerateSimpleModPoly}
+
+\subsubsection{rc4Window}
+
+
 \end{document}

@@ -253,7 +253,7 @@ void additiveWindow::backButtonClicked()
     primeLineEdit->clear();
     polTextEdit->clear();
     seqTextEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
 
 void additiveWindow::seqSaveButtonClicked()

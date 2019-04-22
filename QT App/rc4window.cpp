@@ -91,7 +91,7 @@ void rc4Window::backButtonClicked()
     lengthEdit->clear();
     keyEdit->clear();
     seqTextEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
 
 void rc4Window::seqSaveButtonClicked()

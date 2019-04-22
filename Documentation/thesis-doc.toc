@@ -31,3 +31,6 @@
 \contentsline {subsubsection}{\numberline {3.4.2}A program szerkezete}{29}% 
 \contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{30}% 
 \contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{30}% 
+\contentsline {subsubsection}{\numberline {3.4.5}mainWindow}{36}% 
+\contentsline {subsubsection}{\numberline {3.4.6}Window}{37}% 
+\contentsline {subsubsection}{\numberline {3.4.7}legendreWindow}{38}% 

@@ -253,7 +253,7 @@ void legendreWindow::backButtonClicked()
     primeLineEdit->clear();
     polTextEdit->clear();
     seqTextEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
 
 void legendreWindow::seqSaveButtonClicked()

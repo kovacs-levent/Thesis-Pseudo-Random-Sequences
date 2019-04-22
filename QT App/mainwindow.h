@@ -13,9 +13,9 @@ class mainWindow : public QMainWindow
     Q_OBJECT
 public:
     mainWindow(QWidget *parent = 0);
-    QStackedLayout* getStack()
+    void ChangeMenu(const int i)
     {
-        return stack;
+        stack->setCurrentIndex(i);
     }
     std::vector<bool>& getSavedSeq()
     {

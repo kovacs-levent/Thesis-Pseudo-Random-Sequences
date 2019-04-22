@@ -164,7 +164,7 @@ void vernamWindow::backButtonClicked()
     inputTextEdit->clear();
     resultTextEdit->clear();
     seqTextEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
 
 void vernamWindow::seqLoadButtonClicked()

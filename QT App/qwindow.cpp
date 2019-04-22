@@ -76,30 +76,30 @@ void Window::setButtonsSender()
     connect(cryptoButton, SIGNAL(clicked()), this, SLOT(cryptoButtonClicked()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(quitButtonClicked()));
 }
-
+/*
 QVBoxLayout* Window::getLayout()
 {
     return mainLayout;
 }
-
+*/
 void Window::legendreButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(1);
+    parentWindow->ChangeMenu(1);
 }
 
 void Window::rc4ButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(2);
+    parentWindow->ChangeMenu(2);
 }
 
 void Window::additiveButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(3);
+    parentWindow->ChangeMenu(3);
 }
 
 void Window::chachaButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(4);
+    parentWindow->ChangeMenu(4);
 }
 
 void Window::linearButtonClicked()
@@ -109,12 +109,12 @@ void Window::linearButtonClicked()
 
 void Window::measuresButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(5);
+    parentWindow->ChangeMenu(5);
 }
 
 void Window::cryptoButtonClicked()
 {
-    parentWindow->getStack()->setCurrentIndex(6);
+    parentWindow->ChangeMenu(6);
 }
 
 void Window::quitButtonClicked()

@@ -165,7 +165,7 @@ void chachaWindow::backButtonClicked()
     counterEdit->clear();
     nonceEdit->clear();
     seqTextEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
 
 void chachaWindow::keyGenButtonClicked()

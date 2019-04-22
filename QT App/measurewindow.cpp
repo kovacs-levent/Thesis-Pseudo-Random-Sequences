@@ -172,5 +172,5 @@ void measureWindow::backButtonClicked()
     distrLineEdit->clear();
     normalityLineEdit->clear();
     correlationLineEdit->clear();
-    parentWindow->getStack()->setCurrentIndex(0);
+    parentWindow->ChangeMenu(0);
 }
