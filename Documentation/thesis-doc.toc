@@ -34,3 +34,5 @@
 \contentsline {subsubsection}{\numberline {3.4.5}mainWindow}{36}% 
 \contentsline {subsubsection}{\numberline {3.4.6}Window}{37}% 
 \contentsline {subsubsection}{\numberline {3.4.7}legendreWindow}{38}% 
+\contentsline {subsubsection}{\numberline {3.4.8}rc4Window}{40}% 
+\contentsline {subsubsection}{\numberline {3.4.9}additiveWindow}{40}% 

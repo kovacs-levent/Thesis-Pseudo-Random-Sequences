@@ -801,5 +801,118 @@ Visszalépés slotja, visszaadja a vezérlést a főmenünek.
 
 \subsubsection{rc4Window}
 
+Az RC4 konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
 
+\textit{\textbf{Metódusok}}
+
+\textit{rc4Window(QWidget *parent = 0)}
+
+Konstruktor, lefuttatja a QWidget konstruktorát a kapott paraméterrel és inicializálja az adattagokat.
+
+\textit{void makeLengthForm(), void makeKeyForm(), void makeSequenceForm()}
+
+Az inicializáláshoz használt private segédmetódusok.
+
+\textit{\textbf{Eseménykezelés}}
+
+\textit{void generateButtonClicked()}
+
+Az RC4 konstrukcióval való sorozat generálásának slotja. A generálás a bevitt paraméterek alapján történik és ezután az eredmény a seqTextEdit-be kerül. Hibás bemenet esetén hibaüzenet kerül kiírásra.
+
+\textit{void seqSaveButtonClicked()}
+
+A generált sorozat mentésének slotja. A mainWindow savedSeq-jébe kerül a seqTextEdit tartalma.
+
+\textit{void backButtonClicked()}
+
+Visszalépés slotja, a vezérlés visszaadása a főmenünek.
+
+\textit{\textbf{Használt globális függvények: }}\textit{displayError}
+
+\subsubsection{additiveWindow}
+
+Az additív karakteres konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
+
+\textbf{\textit{Metódusok}}
+
+\textit{additiveWindow(QWidget *parent = 0)}
+
+Konstruktor, a QWidget konstruktorát lefuttatja a kapott paraméterrel és inicializálja az adattagokat.
+
+\textit{void makeLengthForm(), void makePolDeg(), void makePrimeForm(), void makePolForm(), void makeSequenceForm()}
+
+Inicializáláshoz használt private segédmetódusok.
+
+\textbf{\textit{Eseménykezelés}}
+
+\textit{void polDegButtonClicked()}
+
+Polinom fokszám generálását kezelő slot. Meghíváskor begyűjti a bemeneti mezőkből a szükséges adatokat és ez alapján generál, az eredmény a polDegLineEdit-be kerül.
+Hibákat is kezel, rossz prím bemenet esetén hibajelzést ír ki a grafikus felületre.
+
+\textit{void polGenButtonClicked()}
+
+Polinom generálását kezelő slot. Meghíváskor begyűjti a fokszám és prím adatokat és ez alapján generál megfelelő polinomot, az eredmény a polTextEdit-be kerül. Ha rossz a bemenet, akkor hibajelzést ír ki.
+
+\textit{generateButtonClicked()}
+
+Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az osztály összes paramétert az Additív konstrukcióhoz és ez alapján generál, az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
+
+\textit{generatePrimeButtonClicked()}
+
+Prímszám generálás slotja. Híváskor új prímszámot generál mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
+
+\textit{void nextPrimeButtonClicked()}
+
+Következő prím slotja. Híváskor az első, a jelenleginél nagyobb, prímet állítja elő mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
+
+\textit{void seqSaveButtonClicked()}
+
+A generált sorozat mentésének slotja. A mainWindow savedSeq-jébe kerül a seqTextEdit tartalma.
+
+\textit{void backButtonClicked()}
+
+Visszalépés slotja, visszaadja a vezérlést a főmenünek.
+
+\textit{\textbf{Használt globális függvények: }}\textit{displayError, GenerateSimpleModPoly}
+
+\subsubsection*{chachaWindow}
+
+Az ChaCha20 konstrukció kezelését megvalósító osztály. A QWidget gyermekosztálya.
+
+\textit{\textbf{Metódusok}}
+
+\textit{chachaWindow(QWidget *parent = 0)}
+
+Konstruktor, inicializálja az adattagokat és lefuttatja a QWidget osztály konstruktorát a kapott paraméterrel.
+
+\textit{void makeLengthForm(), void makeKeyForm(), void makeCounterForm(), void makeNonceForm(), void makeSequenceForm()}
+
+Az inicializáláshoz használt private segédmetódusok.
+
+\textit{\textbf{Eseménykezelés}}
+
+\textit{void generateButtonClicked()}
+
+Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az osztály az összes paramétert a ChaCha20 konstrukcióhoz és ez alapján generál, az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
+
+\textit{void keyGenButtonClicked()}
+
+Kulcs generálásának slotja. Híváskor a program generál egy véletlenszerű kulcsot (8*32 bitet) a ChaCha20 állapotba, eredmény a keyEdit-be kerül.
+
+\textit{void nonceGenButtonClicked()}
+
+Nonce generálásának slotja. Híváskor a program generál egy véletlenszerű nonce-ot (3*32 bitet) az ChaCha20 állapotba, eredmény a nonceEdit-be kerül.
+
+\textit{void seqSaveButtonClicked()}
+
+A generált sorozat mentésének slotja. A mainWindow savedSeq-jébe kerül a seqTextEdit tartalma.
+
+\textit{void backButtonClicked()}
+
+Visszalépés slotja, visszaadja a vezérlést a főmenünek.
+
+\textit{\textbf{Használt globális függvények: }}\textit{GenerateRandomSeed}
+
+\subsubsection*{measureWindow}
 \end{document}
