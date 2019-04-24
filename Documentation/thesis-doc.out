@@ -1,0 +1,34 @@
+\BOOKMARK [1][-]{section.1}{Bevezeto}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{T\366rt\351neti betekint\351s}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{A program c\351lja}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Felhaszn\341l\363i dokument\341ci\363}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{Rendszerk\366vetelm\351nyek}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Telep\355t\351s}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Futatt\341s}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.4}{Men\374rendszer}{section.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Fomen\374}{subsection.2.4}% 9
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Legendre szimb\363lumos konstrukci\363}{subsection.2.4}% 10
+\BOOKMARK [3][-]{subsubsection.2.4.3}{RC4 konstrukci\363}{subsection.2.4}% 11
+\BOOKMARK [3][-]{subsubsection.2.4.4}{Addit\355v karakteres konstrukci\363}{subsection.2.4}% 12
+\BOOKMARK [3][-]{subsubsection.2.4.5}{ChaCha20 konstrukci\363}{subsection.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.5}{M\351rt\351kek}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.6}{One-time pad titkos\355t\341s}{section.2}% 15
+\BOOKMARK [1][-]{section.3}{Fejlesztoi dokument\341ci\363}{}% 16
+\BOOKMARK [2][-]{subsection.3.1}{Konstrukci\363k}{section.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Legendre konstrukci\363}{subsection.3.1}% 18
+\BOOKMARK [3][-]{subsubsection.3.1.2}{RC4 konstrukci\363}{subsection.3.1}% 19
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Addit\355v karakteres konstrukci\363}{subsection.3.1}% 20
+\BOOKMARK [3][-]{subsubsection.3.1.4}{ChaCha20 konstrukci\363}{subsection.3.1}% 21
+\BOOKMARK [2][-]{subsection.3.2}{M\351rt\351kek}{section.3}% 22
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Ismerteto}{subsection.3.2}% 23
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Alapfogalmak}{subsection.3.2}% 24
+\BOOKMARK [2][-]{subsection.3.3}{One-time pad titkos\355t\341s}{section.3}% 25
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Ismerteto}{subsection.3.3}% 26
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Algoritmus}{subsection.3.3}% 27
+\BOOKMARK [3][-]{subsubsection.3.3.3}{Extra k\366vetelm\351nyek}{subsection.3.3}% 28
+\BOOKMARK [2][-]{subsection.3.4}{Implement\341ci\363}{section.3}% 29
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Fejlesztoi k\366rnyezet}{subsection.3.4}% 30
+\BOOKMARK [3][-]{subsubsection.3.4.2}{A program szerkezete}{subsection.3.4}% 31
+\BOOKMARK [3][-]{subsubsection.3.4.3}{Adatok reprezent\341ci\363ja}{subsection.3.4}% 32
+\BOOKMARK [3][-]{subsubsection.3.4.4}{Oszt\341lyok}{subsection.3.4}% 33
+\BOOKMARK [3][-]{subsubsection.3.4.5}{Glob\341lis f\374ggv\351nyek}{subsection.3.4}% 34

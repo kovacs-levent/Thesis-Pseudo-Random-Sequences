@@ -3,7 +3,7 @@
 \usepackage{eurosym}
 \usepackage{textcomp}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings, hyperref}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -74,7 +74,15 @@
 	\section{Felhasználói dokumentáció}
 	A program pszeudovéletlen sorozatkonstrukciók kipróbálására és a sorozatok vizsgálatára készült a statisztikai mértékekkel.
 	\subsection{Rendszerkövetelmények}
+	A telepítéshez szükséges a rendszeren a TDM-GCC fordító és a make megléte. A TDM-GCC a \url{https://sourceforge.net/projects/tdm-gcc/} oldalról ingyenesen elérhető, a make pedig Windows esetén a \url{http://gnuwin32.sourceforge.net/packages/make.htm} oldalon érhető el, linuxon terminálból telepíthető. Ha nem történt volna meg, ezeknek az útvonalát adjuk hozzá a PATH környezeti változóhoz.
+		
+	Szükséges egy telepített és megfelelően bekonfigurált QT5 keretrendszer mingw73\_64-es platformra. Ez is ingyenesen telepíthető a \url{https://www.qt.io/download} oldalról.
+	
+	A megfelelően konfiguráltság annyit jelent, hogy könyvtárak és a qmake utai hozzá kell legyenek vannak adva a rendszer PATH környezeti változójához, hogy a program megtalálja a megfelelő .dll fájlokat). Jelen esetben a $<$QT helye$>$ mingw73\_64\textbackslash bin mappát kell hozzáadni a PATH-hoz (a qmake és a .dll-ek egy mappába vannak).
+	\subsection{Telepítés}
+	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A telepítő lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva.
 	\subsection{Futattás}
+	Ha a QT megfelelően van konfigurálva, akkor pszeudoveletlen\_szakdolgozat.exe fájl futtatásával lehet elindítani a programot.
 	\subsection{Menürendszer}
 	A menürendszer pontjainak 3 fő csoportja van, ezek:
 	\begin{itemize}

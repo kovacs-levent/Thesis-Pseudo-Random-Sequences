@@ -1,34 +1,35 @@
 \babel@toc {nil}{}
-\contentsline {section}{\numberline {1}Bevezet\IeC {\H o}}{3}% 
-\contentsline {subsection}{\numberline {1.1}T\IeC {\"o}rt\IeC {\'e}neti betekint\IeC {\'e}s}{3}% 
-\contentsline {subsection}{\numberline {1.2}A program c\IeC {\'e}lja}{4}% 
-\contentsline {section}{\numberline {2}Felhaszn\IeC {\'a}l\IeC {\'o}i dokument\IeC {\'a}ci\IeC {\'o}}{5}% 
-\contentsline {subsection}{\numberline {2.1}Rendszerk\IeC {\"o}vetelm\IeC {\'e}nyek}{5}% 
-\contentsline {subsection}{\numberline {2.2}Futatt\IeC {\'a}s}{5}% 
-\contentsline {subsection}{\numberline {2.3}Men\IeC {\"u}rendszer}{5}% 
-\contentsline {subsubsection}{\numberline {2.3.1}F\IeC {\H o}men\IeC {\"u}}{5}% 
-\contentsline {subsubsection}{\numberline {2.3.2}Legendre szimb\IeC {\'o}lumos konstrukci\IeC {\'o}}{6}% 
-\contentsline {subsubsection}{\numberline {2.3.3}RC4 konstrukci\IeC {\'o}}{7}% 
-\contentsline {subsubsection}{\numberline {2.3.4}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{7}% 
-\contentsline {subsubsection}{\numberline {2.3.5}ChaCha20 konstrukci\IeC {\'o}}{8}% 
-\contentsline {subsection}{\numberline {2.4}M\IeC {\'e}rt\IeC {\'e}kek}{10}% 
-\contentsline {subsection}{\numberline {2.5}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{11}% 
-\contentsline {section}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{13}% 
-\contentsline {subsection}{\numberline {3.1}Konstrukci\IeC {\'o}k}{13}% 
-\contentsline {subsubsection}{\numberline {3.1.1}Legendre konstrukci\IeC {\'o}}{13}% 
-\contentsline {subsubsection}{\numberline {3.1.2}RC4 konstrukci\IeC {\'o}}{14}% 
-\contentsline {subsubsection}{\numberline {3.1.3}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{15}% 
-\contentsline {subsubsection}{\numberline {3.1.4}ChaCha20 konstrukci\IeC {\'o}}{16}% 
-\contentsline {subsection}{\numberline {3.2}M\IeC {\'e}rt\IeC {\'e}kek}{20}% 
-\contentsline {subsubsection}{\numberline {3.2.1}Ismertet\IeC {\H o}}{20}% 
-\contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{21}% 
-\contentsline {subsection}{\numberline {3.3}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{24}% 
-\contentsline {subsubsection}{\numberline {3.3.1}Ismertet\IeC {\H o}}{24}% 
-\contentsline {subsubsection}{\numberline {3.3.2}Algoritmus}{28}% 
-\contentsline {subsubsection}{\numberline {3.3.3}Extra k\IeC {\"o}vetelm\IeC {\'e}nyek}{28}% 
-\contentsline {subsection}{\numberline {3.4}Implement\IeC {\'a}ci\IeC {\'o}}{28}% 
-\contentsline {subsubsection}{\numberline {3.4.1}Fejleszt\IeC {\H o}i k\IeC {\"o}rnyezet}{29}% 
-\contentsline {subsubsection}{\numberline {3.4.2}A program szerkezete}{29}% 
-\contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{30}% 
-\contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{30}% 
-\contentsline {subsubsection}{\numberline {3.4.5}Glob\IeC {\'a}lis f\IeC {\"u}ggv\IeC {\'e}nyek}{46}% 
+\contentsline {section}{\numberline {1}Bevezet\IeC {\H o}}{3}{section.1}% 
+\contentsline {subsection}{\numberline {1.1}T\IeC {\"o}rt\IeC {\'e}neti betekint\IeC {\'e}s}{3}{subsection.1.1}% 
+\contentsline {subsection}{\numberline {1.2}A program c\IeC {\'e}lja}{4}{subsection.1.2}% 
+\contentsline {section}{\numberline {2}Felhaszn\IeC {\'a}l\IeC {\'o}i dokument\IeC {\'a}ci\IeC {\'o}}{5}{section.2}% 
+\contentsline {subsection}{\numberline {2.1}Rendszerk\IeC {\"o}vetelm\IeC {\'e}nyek}{5}{subsection.2.1}% 
+\contentsline {subsection}{\numberline {2.2}Telep\IeC {\'\i }t\IeC {\'e}s}{5}{subsection.2.2}% 
+\contentsline {subsection}{\numberline {2.3}Futatt\IeC {\'a}s}{6}{subsection.2.3}% 
+\contentsline {subsection}{\numberline {2.4}Men\IeC {\"u}rendszer}{6}{subsection.2.4}% 
+\contentsline {subsubsection}{\numberline {2.4.1}F\IeC {\H o}men\IeC {\"u}}{6}{subsubsection.2.4.1}% 
+\contentsline {subsubsection}{\numberline {2.4.2}Legendre szimb\IeC {\'o}lumos konstrukci\IeC {\'o}}{6}{subsubsection.2.4.2}% 
+\contentsline {subsubsection}{\numberline {2.4.3}RC4 konstrukci\IeC {\'o}}{8}{subsubsection.2.4.3}% 
+\contentsline {subsubsection}{\numberline {2.4.4}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{8}{subsubsection.2.4.4}% 
+\contentsline {subsubsection}{\numberline {2.4.5}ChaCha20 konstrukci\IeC {\'o}}{9}{subsubsection.2.4.5}% 
+\contentsline {subsection}{\numberline {2.5}M\IeC {\'e}rt\IeC {\'e}kek}{11}{subsection.2.5}% 
+\contentsline {subsection}{\numberline {2.6}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{12}{subsection.2.6}% 
+\contentsline {section}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{14}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Konstrukci\IeC {\'o}k}{14}{subsection.3.1}% 
+\contentsline {subsubsection}{\numberline {3.1.1}Legendre konstrukci\IeC {\'o}}{14}{subsubsection.3.1.1}% 
+\contentsline {subsubsection}{\numberline {3.1.2}RC4 konstrukci\IeC {\'o}}{15}{subsubsection.3.1.2}% 
+\contentsline {subsubsection}{\numberline {3.1.3}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{16}{subsubsection.3.1.3}% 
+\contentsline {subsubsection}{\numberline {3.1.4}ChaCha20 konstrukci\IeC {\'o}}{17}{subsubsection.3.1.4}% 
+\contentsline {subsection}{\numberline {3.2}M\IeC {\'e}rt\IeC {\'e}kek}{21}{subsection.3.2}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Ismertet\IeC {\H o}}{21}{subsubsection.3.2.1}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Alapfogalmak}{22}{subsubsection.3.2.2}% 
+\contentsline {subsection}{\numberline {3.3}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{25}{subsection.3.3}% 
+\contentsline {subsubsection}{\numberline {3.3.1}Ismertet\IeC {\H o}}{25}{subsubsection.3.3.1}% 
+\contentsline {subsubsection}{\numberline {3.3.2}Algoritmus}{29}{subsubsection.3.3.2}% 
+\contentsline {subsubsection}{\numberline {3.3.3}Extra k\IeC {\"o}vetelm\IeC {\'e}nyek}{29}{subsubsection.3.3.3}% 
+\contentsline {subsection}{\numberline {3.4}Implement\IeC {\'a}ci\IeC {\'o}}{29}{subsection.3.4}% 
+\contentsline {subsubsection}{\numberline {3.4.1}Fejleszt\IeC {\H o}i k\IeC {\"o}rnyezet}{30}{subsubsection.3.4.1}% 
+\contentsline {subsubsection}{\numberline {3.4.2}A program szerkezete}{30}{subsubsection.3.4.2}% 
+\contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{31}{subsubsection.3.4.3}% 
+\contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{31}{subsubsection.3.4.4}% 
+\contentsline {subsubsection}{\numberline {3.4.5}Glob\IeC {\'a}lis f\IeC {\"u}ggv\IeC {\'e}nyek}{47}{subsubsection.3.4.5}% 
