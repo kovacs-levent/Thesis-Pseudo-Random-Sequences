@@ -60,7 +60,7 @@ std::vector<bool> LegendreConstruction::Generate(const uint64_t stream_size, con
 	    uint64_t tmp = ModPolynomValue(poly, p, j);
 	    if(tmp != 0)
 	    {
-	        int LegSym = LegendreSymbol(j, p);
+	        int LegSym = LegendreSymbol(tmp, p);
             if(LegSym == -1)
             {
                 stream.push_back(false);

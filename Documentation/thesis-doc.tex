@@ -209,10 +209,10 @@
 	\begin{enumerate}
 		\item Vegyünk egy olyan $p$ prímet, hogy a $2$ legyen primitív gyök modulo $p$
 		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
-		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
+		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $i$. tagja: $$e_i = 
 		\begin{cases*}
-		 \left({\frac{f(i)}{p}}\right) &, ha $f(i) \nmid  p$  \\
-		1 &, ha $f(i) \mid p$ 
+		 \left({\frac{f(i)}{p}}\right) &, ha $p \nmid f(i)$  \\
+		1 &, ha $p \mid f(i)$ 
 		\end{cases*}
 		$$
 	\end{enumerate}
@@ -255,7 +255,7 @@
 	\begin{enumerate}
 		\item Vegyünk egy páratlan $p$ prímet
 		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy $p$-hez képest
-		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $n$. tagja: $$e_n = 
+		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $i$. tagja: $$e_i = 
 		\begin{cases*}
 		1 &, ha $f(i) \ \textrm{mod} \ p  < \frac{p}{2}$  \\
 		0 &, ha $\frac{p}{2} \leq f(i) \ \textrm{mod} \ p$ 

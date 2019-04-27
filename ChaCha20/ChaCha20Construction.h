@@ -10,11 +10,15 @@ class ChaCha20Construction
 public:
     ChaCha20Construction();
     ChaCha20Construction(const std::vector<uint32_t> &inbuf);
+    std::array<uint32_t, 16> getState()
+    {
+        return state;
+    }
     void Seed(const std::vector<uint32_t> &inbuf);
     std::vector<bool> GenerateStream(uint64_t);
-private:
     void QuarterRound(uint32_t &a, uint32_t &b, uint32_t &c, uint32_t &d);
     std::array<uint32_t, 16> ChaChaRound();
+private:
     std::array<uint32_t, 16> state;
 };
 
