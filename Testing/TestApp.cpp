@@ -6,6 +6,7 @@
 #include "../RC4/RC4_PRG.h"
 #include "../AdditiveConstruction/AdditiveConstruction.h"
 #include "../ChaCha20/ChaCha20Construction.h"
+#include "../Measurements/measure.h"
 
 TEST_CASE("Miller-Rabin prime test", "")
 {
@@ -169,4 +170,12 @@ TEST_CASE("ChaCha20 construction test", "")
             CHECK(resultstate[i] == state[i]);
         }
     }
+}
+
+TEST_CASE("Measurements tests", "")
+{
+    std::vector<bool> seq = {1,1,1,0,0,1,0,1,1};
+    CHECK(wellDistributionMeasure(seq) == 3);
+    CHECK(normalityMeasure(seq) == 1.5);
+    CHECK(kCorrelation(seq, 3) == 6);
 }
