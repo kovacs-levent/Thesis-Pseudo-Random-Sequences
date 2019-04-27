@@ -114,7 +114,7 @@ uint64_t ModPolynomValue(const std::set<uint64_t> &poly, const uint64_t mod, uin
     std::set<uint64_t>::const_iterator it = poly.begin();
     while(result != 0 && it != poly.end())
     {
-        result = ModMul(result, ModSub(*it, var, mod), mod);
+        result = ModMul(result, ModSub(var, *it, mod), mod);
         it++;
     }
     return result;

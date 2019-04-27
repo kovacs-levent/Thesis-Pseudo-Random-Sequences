@@ -313,9 +313,9 @@ uint64_t kCorrelationApprox(const std::vector<bool> &seq, const uint32_t k, cons
     uint32_t i = 0;
     while(i < rounds)
     {
-        std::set<uint64_t> steps = GenerateSimpleModPoly(seq.size()-1, k);
+        std::set<uint64_t> steps = GenerateSimpleModPoly(seq.size()+1, k);
         uint64_t M = 0;
-        while(M+*(steps.rbegin()) < seq.size())
+        while(M+*(steps.rbegin()) <= seq.size())
         {
             int sum = 0;
             int z = 0;
@@ -371,7 +371,7 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
                 ++i;
             }
             int abs_sum = abs(sum);
-            if(abs_sum > max)
+			if(abs_sum > max)
             {
                 max = abs_sum;
             }
@@ -390,7 +390,7 @@ void getMax(const std::vector<bool> &seq, const uint64_t n, const uint32_t k, ui
             i = arr[len-1]+1;
         }
         ++len;
-        while(i < n)
+        while(i <= n)
         {
             arr[len-1] = i;
             getMax(seq, n, k , arr, len ,max);
