@@ -116,7 +116,26 @@ TEST_CASE("Legendre construction test","")
         CHECK(!result[7]);
         CHECK(result[8]);
         CHECK(!result[9]);
+        CHECK(result.size() == 10);
     }
+}
+
+TEST_CASE("RC4 test", "")
+{
+    RC4Construction rc;
+    rc.SetKey("This is a good key");
+    std::vector<bool> result = rc.GenerateStream(10);
+    CHECK(!result[0]);
+    CHECK(!result[1]);
+    CHECK(!result[2]);
+    CHECK(result[3]);
+    CHECK(result[4]);
+    CHECK(result[5]);
+    CHECK(result[6]);
+    CHECK(result[7]);
+    CHECK(!result[8]);
+    CHECK(!result[9]);
+    CHECK(result.size() == 10);
 }
 
 TEST_CASE("Additive construction test", "")
@@ -136,6 +155,7 @@ TEST_CASE("Additive construction test", "")
     CHECK(!result[7]);
     CHECK(!result[8]);
     CHECK(result[9]);
+    CHECK(result.size() == 10);
 }
 
 TEST_CASE("ChaCha20 construction test", "")
@@ -157,6 +177,7 @@ TEST_CASE("ChaCha20 construction test", "")
         CHECK(c == 0x4581472e);
         CHECK(d == 0x5881c4bb);
     }
+    std::array<uint32_t, 16> resultstate;
     SECTION("ChaCha round test")
     {
         std::array<uint32_t, 16> state = {0xe4e7f110, 0x15593bd1, 0x1fdd0f50, 0xc47120a3,
@@ -164,11 +185,31 @@ TEST_CASE("ChaCha20 construction test", "")
                                           0x466482d2, 0x09aa9f07, 0x05d7c214, 0xa2028bd9,
                                           0xd19c12b5, 0xb94e16de, 0xe883d0cb, 0x4e3c50a2};
         chacha.Seed(instate);
-        std::array<uint32_t, 16> resultstate = chacha.ChaChaRound();
+        resultstate = chacha.ChaChaRound();
         for(int i = 0; i < 16; i++)
         {
             CHECK(resultstate[i] == state[i]);
         }
+    }
+    SECTION("ChaCha generation test")
+    {
+        std::array<uint32_t, 16> state = {0xe4e7f110, 0x15593bd1, 0x1fdd0f50, 0xc47120a3,
+                                          0xc7f4d1c7, 0x0368c033, 0x9aaa2204, 0x4e6cd4c3,
+                                          0x466482d2, 0x09aa9f07, 0x05d7c214, 0xa2028bd9,
+                                          0xd19c12b5, 0xb94e16de, 0xe883d0cb, 0x4e3c50a2};
+        chacha.Seed(instate);
+        std::vector<bool> result = chacha.GenerateStream(10);
+        CHECK(result[0]);
+        CHECK(result[1]);
+        CHECK(result[2]);
+        CHECK(!result[3]);
+        CHECK(!result[4]);
+        CHECK(result[5]);
+        CHECK(!result[6]);
+        CHECK(!result[7]);
+        CHECK(result[8]);
+        CHECK(result[9]);
+        CHECK(result.size() == 10);
     }
 }
 

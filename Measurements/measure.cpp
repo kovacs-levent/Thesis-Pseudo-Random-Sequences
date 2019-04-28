@@ -29,9 +29,9 @@ uint64_t wellDistributionMeasure(const std::vector<bool> &seq)
         a = 1-b;
         while(a+b <= seq.size())
         {
-            uint64_t tBound = ceil((long double)(seq.size()-a)/(long double)b);
+            uint64_t tBound = floor((long double)(seq.size()-a)/(long double)b);
             int64_t result = 0;
-            for(uint64_t t = 1; t <= tBound; ++t)
+            for(uint64_t t = 1; a+t*b < seq.size(); ++t)
             {
                 result += 2*seq[a + t*b]-1;
                 uint64_t tmp = abs(result);

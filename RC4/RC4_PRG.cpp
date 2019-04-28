@@ -43,7 +43,7 @@ std::vector<bool> RC4Construction::GenerateStream(const uint64_t stream_size)
         std::bitset<8> byte(S[(S[i] + S[j]) % 256]);
         for(int z = 0; z < 8; ++z)
         {
-            stream[n+z] = byte[z];
+            stream[n+z] = byte[7-z];
         }
         n += 8;
     }
@@ -55,7 +55,7 @@ std::vector<bool> RC4Construction::GenerateStream(const uint64_t stream_size)
         std::bitset<8> byte(S[(S[i] + S[j]) % 256]);
         for(int z = 0; z < stream_size % 8 ; z++)
         {
-            stream[n+z] = byte[z];
+            stream[n+z] = byte[7-z];
         }
     }
     return stream;

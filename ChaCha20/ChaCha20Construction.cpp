@@ -82,7 +82,7 @@ std::vector<bool> ChaCha20Construction::GenerateStream(uint64_t length)
             ///Iterate through the 32 bits of one ChaCha state word
             for(uint8_t z = 0; z < 32; z++)
             {
-                output[i] = bit_seq[z];
+                output[i] = bit_seq[32-z];
                 ++i;
             }
         }
@@ -98,7 +98,7 @@ std::vector<bool> ChaCha20Construction::GenerateStream(uint64_t length)
             bit_seq = tmp[j];
             for(uint8_t z = 0; z < 32; z++)
             {
-                output[i] = bit_seq[z];
+                output[i] = bit_seq[32-z];
                 ++i;
             }
             ++j;
@@ -108,9 +108,10 @@ std::vector<bool> ChaCha20Construction::GenerateStream(uint64_t length)
         if(length)
         {
             bit_seq = tmp[j];
-            for(uint8_t z = 0; z < 32; z++)
+            std::cout << bit_seq << std::endl;
+            for(uint8_t z = 0; z < length; z++)
             {
-                output[i] = bit_seq[z];
+                output[i] = bit_seq[31-z];
                 ++i;
             }
         }

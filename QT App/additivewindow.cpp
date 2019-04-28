@@ -2,7 +2,6 @@
 #include <QString>
 #include <sstream>
 #include <set>
-#include <bitset>
 #include "../Arithmetics/PrimeArithmetic.h"
 
 additiveWindow::additiveWindow(QWidget *parent) : QWidget(parent)

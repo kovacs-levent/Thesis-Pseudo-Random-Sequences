@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <sstream>
 #include <set>
-#include <bitset>
 #include "../Measurements/measure.h"
 
 measureWindow::measureWindow(QWidget *parent) : QWidget(parent)

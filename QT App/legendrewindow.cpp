@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <sstream>
 #include <set>
-#include <bitset>
 #include "../Arithmetics/PrimeArithmetic.h"
 
 legendreWindow::legendreWindow(QWidget *parent) : QWidget(parent)

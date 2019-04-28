@@ -2,7 +2,6 @@
 #include "../GeneralPRNG/SeedGenerator.h"
 #include <sstream>
 #include <vector>
-#include <bitset>
 #include <sstream>
 
 chachaWindow::chachaWindow(QWidget *parent) : QWidget(parent)

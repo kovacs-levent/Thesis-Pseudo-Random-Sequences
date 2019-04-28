@@ -1,8 +1,6 @@
 #include "rc4window.h"
 #include <sstream>
 #include <vector>
-#include <bitset>
-
 rc4Window::rc4Window(QWidget *parent) : QWidget(parent)
 {
     parentWindow = (mainWindow*)parent;
