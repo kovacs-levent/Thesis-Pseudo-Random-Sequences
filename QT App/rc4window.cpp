@@ -89,6 +89,7 @@ void rc4Window::backButtonClicked()
     lengthEdit->clear();
     keyEdit->clear();
     seqTextEdit->clear();
+    parentWindow->setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     parentWindow->ChangeMenu(0);
 }
 

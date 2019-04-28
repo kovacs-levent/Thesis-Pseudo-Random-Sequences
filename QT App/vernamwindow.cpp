@@ -87,6 +87,7 @@ void vernamWindow::backButtonClicked()
     inputTextEdit->clear();
     resultTextEdit->clear();
     seqTextEdit->clear();
+    parentWindow->setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     parentWindow->ChangeMenu(0);
 }
 

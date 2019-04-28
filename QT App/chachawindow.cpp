@@ -164,6 +164,7 @@ void chachaWindow::backButtonClicked()
     counterEdit->clear();
     nonceEdit->clear();
     seqTextEdit->clear();
+    parentWindow->setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     parentWindow->ChangeMenu(0);
 }
 

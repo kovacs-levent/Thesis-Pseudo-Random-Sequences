@@ -3,7 +3,7 @@
 \usepackage{eurosym}
 \usepackage{textcomp}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings, hyperref}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings, hyperref, caption}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -13,6 +13,13 @@
 \makeatletter
 \makeatother
 \begin{document}
+	\makeatletter
+	\renewcommand*{\thetable}{\arabic{table}}
+	\renewcommand*{\thefigure}{\arabic{figure}}
+	\let\c@table\c@figure
+	\makeatother 
+	\captionsetup[figure]{name=Ábra}
+	\captionsetup[table]{name=Ábra}
 	\sloppy
 	\newcommand{\sectionbreak}{\clearpage}
 	\begin{titlepage}
@@ -112,6 +119,14 @@
 		\normalfont
 		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
 	\end{enumerate}
+	
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{legendremenu.png}
+		\end{minipage}
+		\caption{Legendre menü}
+	\end{figure}
 	Ha fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
 	\subsubsection{RC4 konstrukció}
 	Az RC4 konstrukciót Ron Rivest fejlesztette ki az 1987-ben viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
@@ -124,6 +139,13 @@
 		\\
 		\normalfont A kulcs változó méretű lehet, ez alapján fog történni a generálás. Tipikusan 40-2048 bit hosszú a kulcs. Ez a megvalósítás egy szöveget vár kulcsnak, így átfogalmazva a feltételt legalább 5, maximum 256 karakter hosszú lehet a kulcs.
 	\end{enumerate}
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{RC4menu.png}
+		\end{minipage}
+		\caption{RC4 menü}
+	\end{figure}
 	A fenti paraméterek megadása után megtekinthetjük az RC4 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
 	\subsubsection{Additív karakteres konstrukció}
 	Ezt a konstrukciót Mauduit, Rivat és Sárközy vezették be  [C.Mauduit, J.Rivat, A.Sárközy, Construction of pseudorandom binary sequences using additive characters]. \par
@@ -138,6 +160,14 @@
 		\bfseries \item A polinom \\
 		\normalfont A Legendre konstrukcióhoz hasonlóan fontos, hogy a polinomnak csak egyszeres gyökei legyenek. Ezért a polinomot legenerálhatjuk úgy, hogy a gyökeit soroljuk fel, szóközzel elválasztva. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinomot generálni a fenti követelményeknek eleget téve a "Polinom generálása" gombbal.
 	\end{enumerate}
+	A fenti paraméterek megadása után megtekinthetjük az additív karakteres konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{additivemenu.png}
+		\end{minipage}
+		\caption{Additív karakter menü}
+	\end{figure}
 	\subsubsection{ChaCha20 konstrukció}
 	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először [https://cr.yp.to/snuffle/salsafamily-20071225.pdf], az eSTREAM projekt keretében belül. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen mint a Salsa.
 	
@@ -160,6 +190,14 @@
 			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 		\end{enumerate}
 	\end{enumerate}
+	A fenti paraméterek megadása után megtekinthetjük az ChaCha20 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{chachamenu.png}
+		\end{minipage}
+		\caption{ChaCha20 menü}
+	\end{figure}
 	\subsection{Mértékek}
 	Ezen része a programnak az átlagos felhasználónak nem feltétlenül tud sokat nyújtani. Ahhoz, hogy a mértékek eredményeit értelmezni tudjuk szükséges a formulákról és a jelentésükről való ismertség megszerzése. Ezen ismeretek alapjait a fejlesztői dokumentációban részletezem, a dokumentáció ezen részén csak röviden foglalom össze a program funkcióit.
 	
@@ -179,6 +217,13 @@
 		\bfseries \item A k-ad rendű korreláció közelítésének rendje és menetszáma \\
 		\normalfont Ennek a mértéknek a számolása, mint fent említettem, túlságosan nagy műveletigényű a dolgozat keretein belül, ezért csak közelítő eredményt adunk a k-ad rendű korrelációra (gyakorlatilag ezeknek a maximuma a korreláció mérték). Meg kell adnunk, hogy hányad rendű korrelációt szeretnénk vizsgálni, és hogy hány menetes a számolás (hányszor próbálkozik új sorozattal). Hasonlóan a többi mértékhez, a "Számolás" gombbal tudjuk elkezdeni a műveletet.
 	\end{enumerate}
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{measuremenu.png}
+		\end{minipage}
+		\caption{Mértékek menü}
+	\end{figure}
 	\subsection{One-time pad titkosítás}
 	A One-time pad eljárásnak széleskörű alkalmazásai vannak a titkosításokban. Gilbert S. Vernam fejlesztette ki, és elméletben tökéletes titkosságot nyújt megfelelően véletlen bemenő paraméter esetén.
 	
@@ -192,6 +237,13 @@
 		\normalfont A bitsorozat mely a titkosítás kulcsaként szolgál. Betölthető korábban lementett sorozat a "Sorozat betöltése" gombbal, de magunk is írhatunk be sorozatot. Fontos, hogy a bitsorozat hossza legalább annyi legyen, mint a titkosítandó szöveg karakterszámának 7-szerese. A titkosítást különben nem lehet elvégezni. \\
 		Ezután a "Szöveg titkosítása" gombra kattintva lefuttathatjuk a titkosítást és megtekinthetjük az eredményt a "A titkosított szöveg" fülnél. Ezt a szöveget visszafejthetjük az eredetivé, ha az eredeti kulcsként használt bitsorozattal újra lefuttatjuk a titkosítást a titkosított szövegen.
 	\end{enumerate}
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth} % choose width suitably
+			\includegraphics[width=\textwidth]{onetimepadmenu.png}
+		\end{minipage}
+		\caption{One-time pad titkosítás menü}
+	\end{figure}
 	\newpage
 	\section{Fejlesztői dokumentáció}
 	\subsection{Konstrukciók}
@@ -269,7 +321,7 @@
 	A ChaCha20 stream cipher eljárás egy belső állapoton végzett bitenkénti XOR (kizáró vagy), összeadás ($ \textrm{mod} \ 2^{32}$) és konstans távolságú forgatásokkal működik. Az állapot 16 darab 32 bites szóból tevődik össze, melynek kezdeti felépítése:
 	
 	\begin{table}[h]
-		\centering
+	\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\rowcolor{yellow}Const&Const&Const&Const\\\hline
@@ -277,8 +329,8 @@
 			\rowcolor[rgb]{0.04313,0.7137,1} Key&Key&Key&Key\\\hline
 			\cellcolor[rgb]{1,0.3686,0.3686}Counter& \cellcolor[rgb]{0,1, 0.26}Nonce&\cellcolor[rgb]{0,1, 0.26}Nonce&\cellcolor[rgb]{0,1, 0.26}Nonce\\\hline
 		\end{tabular}
+	\caption{ChaCha20 állapot szerkezete}
 	\end{table}
-
 	A konstans mezők együttes értéke az "expand 32-byte k" szöveget adja ki. A fő művelet az úgynevezett negyedkör (quarter round), ez egy 4 paraméteres eljárás, melynek minden paramétere egy 32-bites szó változója. Jelöljük ezt QR($a$, $b$, $c$, $d$)-vel, ekkor a QR($a$, $b$, $c$, $d$) eljárás (C stílusú pszeudokódként):
 	\begin{center}
 	$a$ += $b$; $d$ $^\wedge$= $a$; $d <<<$= $16$; \\

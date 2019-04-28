@@ -84,21 +84,25 @@ QVBoxLayout* Window::getLayout()
 */
 void Window::legendreButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("Legendre konstrukció"));
     parentWindow->ChangeMenu(1);
 }
 
 void Window::rc4ButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("RC4 konstrukció"));
     parentWindow->ChangeMenu(2);
 }
 
 void Window::additiveButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("Additív karakteres konstrukció"));
     parentWindow->ChangeMenu(3);
 }
 
 void Window::chachaButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("ChaCha20 konstrukció"));
     parentWindow->ChangeMenu(4);
 }
 
@@ -109,11 +113,13 @@ void Window::linearButtonClicked()
 
 void Window::measuresButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("Mértékek"));
     parentWindow->ChangeMenu(5);
 }
 
 void Window::cryptoButtonClicked()
 {
+    parentWindow->setWindowTitle(tr("One-time pad titkosítás"));
     parentWindow->ChangeMenu(6);
 }
 

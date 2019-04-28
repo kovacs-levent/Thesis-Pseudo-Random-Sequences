@@ -171,5 +171,6 @@ void measureWindow::backButtonClicked()
     distrLineEdit->clear();
     normalityLineEdit->clear();
     correlationLineEdit->clear();
+    parentWindow->setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     parentWindow->ChangeMenu(0);
 }

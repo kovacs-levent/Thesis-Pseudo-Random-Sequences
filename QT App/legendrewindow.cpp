@@ -252,6 +252,7 @@ void legendreWindow::backButtonClicked()
     primeLineEdit->clear();
     polTextEdit->clear();
     seqTextEdit->clear();
+    parentWindow->setWindowTitle(tr("Pszeudovéletlen sorozatok mértékei és konstrukciói"));
     parentWindow->ChangeMenu(0);
 }
 
