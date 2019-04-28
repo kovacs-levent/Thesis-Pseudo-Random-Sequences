@@ -1106,5 +1106,104 @@ Ez a számítás a legköltségesebb a három mérték közül. A fő költsége
 
 A k-ad rendű korreláció pontos számolásra a jelenleg legjobban teljesítő megoldás egy rekurzív algoritmus lett. Az összes kellő eltolássorozat legenerálása így a leggyorsabb. Próbálkoztam iteratív módon is leprogramozni a számítást, de a teljesítmény picivel rosszabb volt a rekurzívnál. Az iteratív módszereknél az is nehéz feladat, hogy a sorozatokat hogyan soroljuk fel. A rekurzív megoldás egy tömbbe tárolja a felsorolandó sorozatokat, mely ha egy k hosszú sorozat lesz a rekurzióban, akkor vizsgáljuk meg. Ezt a megoldást a \textit{uint64\_t kCorrelation(const std::vector$<$bool$>$ \&seq, const uint32\_t k)} valósítja meg, mely a \textit{seq}-ben kapott sorozatra számolja ki a \textit{k}-ad rendű korreláció mértéket.
 
-Mivel ezen mérték számolása ilyen hosszú már kisebb sorozatokra is, ezért a jelenlegi programban egy közelítő megoldást implementáltam. Véletlen kiválasztott sorozatok között keresünk csak maximumot, ezzel alsó becslést tudunk adni a k-ad rendű és ezzel egyben a teljes korrelációra. Ezt a megoldást a \textit{uint64\_t kCorrelationApprox(const std::vector$<$bool$>$ \&seq, const uint32\_t k, const uint32\_t rounds)} függvény valósítja meg, a \textit{seq}-benk apott sorozatra \textit{rounds} darab véletlen kiválasztott \textit{k} hosszúságú sorozatra kiszámolva a definícióban szereplő $V(E_N, M, D)$ mennyiséget minden megfelelő $M$ kezdőpozícióval. 
+Mivel ezen mérték számolása ilyen hosszú már kisebb sorozatokra is, ezért a jelenlegi programban egy közelítő megoldást implementáltam. Véletlen kiválasztott sorozatok között keresünk csak maximumot, ezzel alsó becslést tudunk adni a k-ad rendű és ezzel egyben a teljes korrelációra. Ezt a megoldást a \textit{uint64\_t kCorrelationApprox(const std::vector$<$bool$>$ \&seq, const uint32\_t k, const uint32\_t rounds)} függvény valósítja meg, a \textit{seq}-benk apott sorozatra \textit{rounds} darab véletlen kiválasztott \textit{k} hosszúságú sorozatra kiszámolva a definícióban szereplő $V(E_N, M, D)$ mennyiséget minden megfelelő $M$ kezdőpozícióval.
+\subsection{Tesztelés}
+Az eddig tárgyalt programrészletek tesztelésére létrehoztam egy tesztelő környezetet a Catch keretrendszer használatával. Ebben a fejezetben felsorolom az elvégzett tesztelést. A program mindegyik tárgyalt tesztesetnek megfelelt. A tesztelő megtalálható a Testing mappában.
+
+A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyenek és minél több működést fedjenek le.
+\subsubsection{Tesztesetek}
+\begin{enumerate}
+	\item \bfseries Miller-Rabin prímteszt:
+	\normalfont Mindegyik esetben 40 próbával futtatjuk a tesztet. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item Pozitív: 13, 1619, 10120459
+		\item Negatív: 1561, 15847, 274613
+	\end{enumerate}
+	\item \bfseries Prím faktorizáció:
+	\normalfont Prímosztók megkeresése. Az osztók mennyiségére és megfelelő értékére is ellenőriz. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item 13: 13
+		\item 84: 2, 3, 7
+		\item 35147: 7, 5021
+		\item: 7140133: 7, 11, 13, 1019
+	\end{enumerate}
+	\item \bfseries Primitív gyök eldöntése:
+	\normalfont Prímszám modulo osztályában eldönti, hogy egy szám primitív gyök-e. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item Pozitív - (Szám: 3, Prím: 7), (Szám: 10, Prím: 97)
+		\item Negatív - (Szám: 7, Prím: 157), (Szám: 2, Prím: 199)
+	\end{enumerate}
+	\item  \bfseries Moduláris szorzás:
+	\normalfont $m$ maradékosztályban, $a\cdot b$ számolása. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item $a=6, b = 9, m = 7$, $a \cdot b = 5$
+		\item $a=2, b = 99, m=101$, $a \cdot b = 97$
+		\item $a=28902, b=467, m=13$, $a \cdot b = 10$
+	\end{enumerate}
+	\item  \bfseries Moduláris hatványozás:
+	\normalfont $m$ maradékosztályban, $a^b$ számolása. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item  $a = 4, b = 7, m = 15$, $a^b=4$
+		\item  $a = 3, b = 13, m = 23$, $a^b=9$
+		\item  $a = 9, b = 156, m = 7$, $a^b=1$
+	\end{enumerate}
+	\item \bfseries Moduláris kivonás:
+	\normalfont $m$ maradékosztályban, $a-b$ számolása. Vizsgált esetek és várt eredmény:
+	\begin{enumerate}
+		\item  $a = 5, b = 4, m = 7$, $a-b=1$
+		\item  $a = 3, b = 1, m = 101$, $a-b=2$
+		\item  $a = 3, b = 5, m = 101$, $a-b=99$
+		\item $a = 10, b = 3, m = 5$, $a-b=2$
+		\item  $a = 2, b = 9, m = 11$, $a-b=4$
+		\item $a=138, b=217, m=13$, $a-b=12$
+	\end{enumerate}
+	\item \bfseries Moduláris polinom helyettesítési értéke:
+	\normalfont $m$ maradékosztályban $f \in Z_m[x]$, $x \in Z_m$ helyen. Vizsgált esetek és várt eredmények:
+	\begin{enumerate}
+		\item $f(x)=(x-5)(x-7)(x-10)$:
+		\\ $m=13$, $x=5$, $f(x) = 0$ 
+		\\ $m=13$, $x=2$, $f(x) = 10$
+		\\ $m=101$, $x=39$, $f(x) = 40$
+		\item $f(x)=(x-1)(x-5), m = 101, x = 3, f(x) = 97$
+	\end{enumerate}
+	\item \bfseries Legendre-szimbólum:
+	\normalfont A $\left({\frac{a}{p}}\right)$ számolásának tesztje. Vizsgált esetek és várt eredmények:
+	\begin{enumerate}
+		\item $a = 28, p = 7$, $\left({\frac{a}{p}}\right) = 0$
+		\item $a = 30, p = 127$, $\left({\frac{a}{p}}\right) = 1$
+		\item $a = 483600, p = 61$, $\left({\frac{a}{p}}\right) = -1$
+		\item $a = 12345, p = 331$, $\left({\frac{a}{p}}\right) = -1$
+	\end{enumerate}
+	\item \bfseries Legendre prím generálás:
+	\normalfont Az első Legendre-konstrukcióhoz megfelelő $p$ prímszám generálása, mely nagyobb egyenlő mint $n$. Vizsgált esetek és eredmények:
+	\begin{enumerate}
+		\item $n = 100$, $p = 101$
+		\item $n = 200$, $p = 211$
+		\item $n = 20000$, $p = 20029$
+	\end{enumerate}
+	\item  \bfseries Legendre-sorozat generálás teszt:
+	\normalfont Legendre-konstrukció szerinti generálás, 10 hosszú sorozat, $p = 101$, $f \in Z_p[x], f(x) = (x-1)(x-5)$, várt eredmény:	$1101011010$.
+	\item \bfseries RC4-sorozat generálás teszt:
+	\normalfont RC4 szerinti generálás, 10 hosszú sorozat, kulcs értéke (idézőjelek nélkül): "This is a good key". Várt eredmény: $0001111100$
+	\item \bfseries Additív karakteres-sorozat generálás teszt:
+	\normalfont Additív karakteres generálás, 10 hosszú sorozat, $p = 23$, $f \in Z_p[x], f(x) = (x-1)(x-5)$. Várt eredmény: 1100011001
+	\item \bfseries ChaCha20 tesztje:
+	\normalfont  A ChaCha20 negyedkört és a teljes kört az IRTF által publikált RFC 8439-ben specifikált teszt vektorok szerint teszteltem.
+	\\ A stream generálás egy tesztjét még elvégeztem:
+	Input állapot (hexadecimális alakban): \\
+	    61707865, 3320646e, 79622d32, 6b206574, \\
+		03020100, 07060504, 0b0a0908, 0f0e0d0c, \\
+		13121110, 17161514, 1b1a1918, 1f1e1d1c, \\
+		00000001, 09000000, 4a000000, 00000000 \\
+	10 hosszú sorozat generálása, várt eredmény: $1110010011$
+	\item \bfseries Mértékek tesztje:
+	\normalfont Példasorozat: $111001011$, mértékek várt eredményei:
+	\begin{enumerate}
+		\item Jól-eloszlás: $3$
+		\item Normalitás: $1.5$
+		\item 3-ad rendű korreláció: 6
+	\end{enumerate}
+\item \bfseries One-time Pad titkosítás:
+\normalfont Titkosítandó sorozat: $1010110$, kulcs: $0110010$. Várt eredmény: $1100100$
+\end{enumerate}
 \end{document}

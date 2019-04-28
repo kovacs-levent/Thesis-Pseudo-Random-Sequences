@@ -7,6 +7,7 @@
 #include "../AdditiveConstruction/AdditiveConstruction.h"
 #include "../ChaCha20/ChaCha20Construction.h"
 #include "../Measurements/measure.h"
+#include "../QT App/oneTimePad.h"
 
 TEST_CASE("Miller-Rabin prime test", "")
 {
@@ -35,6 +36,9 @@ TEST_CASE("Prime factorization test","")
     CHECK(v[1] == 3);
     CHECK(v[2] == 7);
     CHECK(v.size() == 3);
+    v = GetPrimeFactors(13);
+    CHECK(v[0] == 13);
+    CHECK(v.size() == 1);
 }
 
 TEST_CASE("Primitive root of prime test", "")
@@ -219,4 +223,19 @@ TEST_CASE("Measurements tests", "")
     CHECK(wellDistributionMeasure(seq) == 3);
     CHECK(normalityMeasure(seq) == 1.5);
     CHECK(kCorrelation(seq, 3) == 6);
+}
+
+TEST_CASE("One-time pad test","")
+{
+    oneTimePad otp;
+    std::vector<bool> key = {0, 1, 1, 0, 0, 1, 0};
+    std::vector<bool> seq = {1, 0, 1, 0, 1, 1, 0};
+    std::vector<bool> expected_result = {1, 1, 0, 0, 1, 0, 0};
+    otp.setKey(key);
+    std::vector<bool> result = otp.Encrypt(seq);
+    for(int i = 0; i < seq.size(); i++)
+    {
+        CHECK(result[i] == expected_result[i]);
+    }
+    CHECK(result.size() == 7);
 }

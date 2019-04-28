@@ -33,3 +33,5 @@
 \contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{31}{subsubsection.3.4.3}% 
 \contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{31}{subsubsection.3.4.4}% 
 \contentsline {subsubsection}{\numberline {3.4.5}Glob\IeC {\'a}lis f\IeC {\"u}ggv\IeC {\'e}nyek}{47}{subsubsection.3.4.5}% 
+\contentsline {subsection}{\numberline {3.5}Tesztel\IeC {\'e}s}{52}{subsection.3.5}% 
+\contentsline {subsubsection}{\numberline {3.5.1}Tesztesetek}{52}{subsubsection.3.5.1}% 
