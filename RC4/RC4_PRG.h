@@ -19,7 +19,6 @@ public:
         K = s;
     }
 private:
-    enum Errors {KEY_LENGTH_ERROR};
     void Init();
     void Shuffle();
     unsigned int key_size;

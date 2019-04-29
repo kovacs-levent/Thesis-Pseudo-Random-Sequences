@@ -32,6 +32,6 @@
 \contentsline {subsubsection}{\numberline {3.4.2}A program szerkezete}{32}{subsubsection.3.4.2}% 
 \contentsline {subsubsection}{\numberline {3.4.3}Adatok reprezent\IeC {\'a}ci\IeC {\'o}ja}{33}{subsubsection.3.4.3}% 
 \contentsline {subsubsection}{\numberline {3.4.4}Oszt\IeC {\'a}lyok}{33}{subsubsection.3.4.4}% 
-\contentsline {subsubsection}{\numberline {3.4.5}Glob\IeC {\'a}lis f\IeC {\"u}ggv\IeC {\'e}nyek}{49}{subsubsection.3.4.5}% 
-\contentsline {subsection}{\numberline {3.5}Tesztel\IeC {\'e}s}{54}{subsection.3.5}% 
-\contentsline {subsubsection}{\numberline {3.5.1}Tesztesetek}{54}{subsubsection.3.5.1}% 
+\contentsline {subsubsection}{\numberline {3.4.5}Glob\IeC {\'a}lis f\IeC {\"u}ggv\IeC {\'e}nyek}{50}{subsubsection.3.4.5}% 
+\contentsline {subsection}{\numberline {3.5}Tesztel\IeC {\'e}s}{55}{subsection.3.5}% 
+\contentsline {subsubsection}{\numberline {3.5.1}Tesztesetek}{55}{subsubsection.3.5.1}% 

@@ -572,7 +572,7 @@
 		\end{tabular}
 	\end{center}
 	 \begin{center}
-	 	\textit{Ábra: A teljes kódolás}
+	 		\caption{A teljes kódolás}
 	 \end{center}
 	\end{table}
 \newpage
@@ -613,7 +613,14 @@ A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez 
 
 A Legendre és Additív karakteres konstrukciónál a polinomokat std::set-ben tároljuk, hiszen olyan polinomokra van szükség, melyeknek nincs többszörös gyöke.
 \subsubsection{Osztályok}
-Az osztályok közötti összefüggéseket a [INSERT ÁBRA] részletezi. A nem osztályszintű függvények hívását minden osztálynál külön megemlítem, de ezeknek az implementálásáról nem az osztályoknál értekezem. Az itt leírt algoritmusok helyenként C++ stílusú pszeudokódokat tartalmaznak.
+A megvalósított osztályok közötti összefüggéseket az osztálydiagram részletezi. Ez az ábra nem tartalmazza részletesen a használt QT eszközöket. A nem osztályszintű függvények hívását minden osztálynál külön megemlítem, de ezeknek az implementálásáról nem az osztályoknál értekezem. Az itt leírt algoritmusok helyenként C++ stílusú pszeudokódokat tartalmaznak.
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{\textwidth} % choose width suitably
+		\includegraphics[width=\textwidth]{UML.png}
+	\end{minipage}
+	\caption{Osztálydiagram}
+\end{figure}
 \subsubsection*{LegendreConstruction}
 Ez az osztály valósítja meg a Legendre konstrukció megvalósítását.
 
