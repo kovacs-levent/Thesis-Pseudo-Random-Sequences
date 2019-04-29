@@ -64,15 +64,15 @@
 	\par
 	Az ilyen sorozatokra való igény először Gilbert Vernam munkájának következménye. 1917-ben Vernam feltalálta a one-time pad titkosítási eljárást. Az üzeneteket telegráfon bitenként továbbították, viszont az eredeti adatot valamilyen kulcs segítségével megváltoztatták (amit aztán a fogadó fél a kulcs ismeretében vissza tud fejteni). Ha le is hallgatták a küldött adatot, akkor a kulcs nélkül nem lehetett tudni, hogy mi volt az eredeti üzenet.
 	\par
-	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogyha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
+	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogyha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni \cite{shannon}. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
 	\par
 	Az is igaz azonban, hogyha nem megfelelő kulcsokat használunk (pl. többször használjuk a kulcsokat), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
 	\par
 	Az ilyen sorozatok előállításához régen fizikai eszközöket használtak, pl. diódákat. A problémája az ilyen eszközöknek, hogy külső tényezők is befolyásolják a véletlenséget, és meghibásodás is történhet. Ezért nagyon fontos, a véletlenség vizsgálása különböző statisztikai tesztekkel, ami azonban időigényes. Emiatt jobb, hogyha "csak" pszeudovéletlen sorozatokat állítunk elő. Így elkerülhető a statisztikai tesztelés, mivel bizonyítottan jó véletlen tulajdonságokkal rendelkező sorozatot kapunk.
 	\par
-	A pszeudovéletlen tulajdonságok mérésével sok évtizede foglalkoznak matematikusok. Elsőként Émile Borel definiálta végtelen bináris sorozatokra a pszeudovéletlenség normalitás mértékét. Később Solomon Wolf Golomb és Donald Knuth próbálkoztak a pszeudovéletlenség matematikai fogalmának definiálására. Ennek a definíciónak alapvető gyengeségei voltak, ezért ezt ma már nem nagyon használják. Ezután Andrej Nyikolajevics Kolmogorov és Gregory John Chaitin bonyolultságelméleti irányból közelítették meg a problémát, de a gyakorlatban ezek a fogalmak nem kaptak nagy jelentőséget, mivel alkalmazásuk nem jól kivitelezhető.
+	A pszeudovéletlen tulajdonságok mérésével sok évtizede foglalkoznak matematikusok. Elsőként Émile Borel definiálta végtelen bináris sorozatokra a pszeudovéletlenség normalitás mértékét \cite{borel}. Később Solomon Wolf Golomb és Donald Knuth \cite{knuth} próbálkoztak a pszeudovéletlenség matematikai fogalmának definiálására. Ennek a definíciónak alapvető gyengeségei voltak, ezért ezt ma már nem nagyon használják. Ezután Andrej Nyikolajevics Kolmogorov \cite{kolmogorov} és Gregory John Chaitin bonyolultságelméleti irányból közelítették meg a problémát, de a gyakorlatban ezek a fogalmak nem kaptak nagy jelentőséget, mivel alkalmazásuk nem jól kivitelezhető.
 	\par
-	Ezen próbálkozások inspiráltak egy új, konstruktív megközelítést a pszeudovéletlenség vizsgálatára. Christian Manduit és Sárközy András megközelítése az volt, hogy léteznek olyan sorozatok, melyekről bizonyítható, hogy statisztikailag erős véletlen tulajdonságokkal rendelkeznek (más szóval: erős pszeudovéletlen tulajdonságúak), így az utólagos tesztelés elkerülhető. Ez a fajta vizsgálat az évek során egyre szélesebb körben alkalmazott.
+	Ezen próbálkozások inspiráltak egy új, konstruktív megközelítést a pszeudovéletlenség vizsgálatára. Christian Manduit és Sárközy András megközelítése az volt, hogy léteznek olyan sorozatok, melyekről bizonyítható, hogy statisztikailag erős véletlen tulajdonságokkal rendelkeznek (más szóval: erős pszeudovéletlen tulajdonságúak), így az utólagos tesztelés elkerülhető. Ez a fajta vizsgálat az évek során egyre szélesebb körben alkalmazott. \cite{sarkozymauduit}
 	\subsection{A program célja}
 	A programom célja, hogy a fent említett konstrukció keretén belül vizsgáljak különböző pszeudovéletlen sorozatokat. A vizsgált konstrukciókat két csoportból válogattam. Egyik kategóriába matematikai hátterű sorozatok tartoznak, melyeknek működése főként számelméleti ismereteken alapulnak. A másik csoport az iparban széles körben használt pszeudovéletlen generátorok, amik nem feltétlenül matematikai hátterűek.
 	\par
@@ -105,7 +105,7 @@
 	Ez a pont csak alapvető segítséget nyújt a különböző konstrukciók kipróbálásához. Részletes leírása az algoritmusoknak a fejlesztői dokumentációban találhatóak.
 	\par
 	\subsubsection{Legendre szimbólumos konstrukció}
-		Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják. Mauduit és Sárközy ezen a sorozaton vizsgálta először 1997-ben a véges bináris sorozatokra készített jól-eloszlás és korreláció-mértékeket [C. Mauduit, A. Sárközy, On finite pseudorandom binary sequences I: The measures of pseudorandomness, the Legendre symbol].
+		Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják. Mauduit és Sárközy ezen a sorozaton vizsgálta először 1997-ben a véges bináris sorozatokra készített jól-eloszlás és korreláció-mértékeket \cite{sarkozymauduit}
 	\par
 	Szükséges paraméterek:
 	\begin{enumerate}\bfseries
@@ -129,7 +129,7 @@
 	\end{figure}
 	Ha fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
 	\subsubsection{RC4 konstrukció}
-	Az RC4 konstrukciót Ron Rivest fejlesztette ki az 1987-ben viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
+	Az RC4 konstrukciót Ron Rivest fejlesztette ki az 1987-ben viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. \cite{rcleak} A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
 	\par
 	Szükséges paraméterek:
 	\begin{enumerate}
@@ -148,7 +148,7 @@
 	\end{figure}
 	A fenti paraméterek megadása után megtekinthetjük az RC4 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
 	\subsubsection{Additív karakteres konstrukció}
-	Ezt a konstrukciót Mauduit, Rivat és Sárközy vezették be  [C.Mauduit, J.Rivat, A.Sárközy, Construction of pseudorandom binary sequences using additive characters]. \par
+	Ezt a konstrukciót Mauduit, Rivat és Sárközy vezették be. \cite{additive} \par
 	Szükséges paraméterek:
 	\begin{enumerate}
 		\bfseries \item A sorozat hossza \\
@@ -169,11 +169,11 @@
 		\caption{Additív karakter menü}
 	\end{figure}
 	\subsubsection{ChaCha20 konstrukció}
-	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először [https://cr.yp.to/snuffle/salsafamily-20071225.pdf], az eSTREAM projekt keretében belül. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen mint a Salsa.
+	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először \cite{salsa}, az eSTREAM projekt keretében belül. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen mint a Salsa. \cite{chacha}
 	
 	Mindkét eljárás eszközei a bitenkénti XOR (kizáró vagy), a 32-bites összeadás $\textrm{mod}\ 2^{32}$, és a konstans távolságú forgatás egy belső állapoton, ahol az állapot 16 db 32-bites adatból (szóból) áll. Csak ezen műveletekkel az algoritmus kivédi az időzítéses támadásokat. Ez olyan támadás, ahol a támadó fél a futtató rendszer hiányosságait kihasználva (tehát nem a szoftver implementációja a baj) a kriptográfiai algoritmus futási idejéből próbálja feltörni a rendszert, mivel a bemenettől függhet a futási idő. Csak fix 32-bites műveleteket használva a futási idő megegyezik minden bemenetre, mivel az algoritmus fixen 20 menetben végzi fel a fenti műveleteket és a műveletek száma is fix minden menetben.
 	
-	A ChaCha algoritmus állapotrendszerének és algoritmusa részletes leírása a fejlesztői dokumentációban található. Jelen megvalósítás az RFC 8439-ben [https://tools.ietf.org/html/rfc8439] definiáltakat követi melyet az IRTF publikált 2018-ban, de ezen kívül több változata van az algoritmusnak, főként a körök számára vonatkozóan.
+	A ChaCha algoritmus állapotrendszerének és algoritmusa részletes leírása a fejlesztői dokumentációban található. Jelen megvalósítás az RFC 8439-ben \cite{RFC} definiáltakat követi melyet az IRTF publikált 2018-ban, de ezen kívül több változata van az algoritmusnak, főként a körök számára vonatkozóan.
 	
 	A szükséges bemenetek:
 	\begin{enumerate}
@@ -225,7 +225,7 @@
 		\caption{Mértékek menü}
 	\end{figure}
 	\subsection{One-time pad titkosítás}
-	A One-time pad eljárásnak széleskörű alkalmazásai vannak a titkosításokban. Gilbert S. Vernam fejlesztette ki, és elméletben tökéletes titkosságot nyújt megfelelően véletlen bemenő paraméter esetén.
+	A One-time pad eljárásnak széleskörű alkalmazásai vannak a titkosításokban. Gilbert S. Vernam fejlesztette ki, és elméletben tökéletes titkosságot nyújt megfelelően véletlen bemenő paraméter esetén. \cite{shannon}
 	
 	Használatához először egy titkosítandó szöveget kell megadni, mely a magyar billentyűzet legtöbb betűjét tartalmazza. Kivételek a ritkán használt szimbólumkarakterek mint pl. a '˙', teljes listát a fejlesztői dokumentáció tartalmazza. A titkosításhoz használt bitsorozatot kell még megadni, mely fontos, hogy legalább olyan hosszú legyen, mint a bemenő szöveg karaktereinek számának 7-szerese. Eredményként a titkosított szöveget kapjuk a fenti karakteres formában.
 	
@@ -409,14 +409,14 @@
 	
 	Ezen kívül a nonce részét az állapotnak minden titkosított adatvitel esetén csak egyszer használjuk egy adott kulccsal, hogy kikerüljük a visszajátszásos támadásokat.
 	
-	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást.
+	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást. \cite{salsaattack}
 	
-	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel [https://eprint.iacr.org/2013/328.pdf], hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
+	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel, hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. \cite{salsadiffcrypt} Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
 	\subsection{Mértékek}
 	\subsubsection{Ismertető}
-	A régi próbálkozások a pszeudovéletlenség definiálására nem voltak elég jól alkalmazhatóak a gyakorlatban, mint pl.: Golomb véletlenségi posztulátumai vagy Knuth pszeudovéletlenségi definíciója. Ezek a definíciók ténylegesen jó pszeudovéletlen sorozatokat eredményeznek, de a tesztelés rendkívül költséges, és a kivitelezés is nehéz.
+	A régi próbálkozások a pszeudovéletlenség definiálására nem voltak elég jól alkalmazhatóak a gyakorlatban, mint pl.: Golomb véletlenségi posztulátumai vagy Knuth pszeudovéletlenségi definíciója \cite{knuth}. Ezek a definíciók ténylegesen jó pszeudovéletlen sorozatokat eredményeznek, de a tesztelés rendkívül költséges, és a kivitelezés is nehéz.
 	
-	1996-ban Christian Mauduit és Sárközy András kidolgoztak egy újféle megközelítést a pszeudovéletlenség vizsgálatára számmal mérhető mértékekkel. Ez a megközelítés eredményesnek bizonyult, belátható a mértékek eredményei alapján, hogy egy sorozat jó pszeudovéletlen tulajdonságú-e. A konstrukciókról így az is bizonyítható, hogy ténylegesen jó a generált sorozat véletlensége.
+	1996-ban Christian Mauduit és Sárközy András kidolgoztak egy újféle megközelítést a pszeudovéletlenség vizsgálatára számmal mérhető mértékekkel \cite{sarkozymauduit}. Ez a megközelítés eredményesnek bizonyult, belátható a mértékek eredményei alapján, hogy egy sorozat jó pszeudovéletlen tulajdonságú-e. A konstrukciókról így az is bizonyítható, hogy ténylegesen jó a generált sorozat véletlensége.
 	\subsubsection{Alapfogalmak}
 	Először is fontos megjegyezni, hogy az alábbiakban tárgyalt konstrukciók a bináris sorozatoknak a klasszikus $0$-ások és $1$-esek megfeleltetését annyiban változtatják meg, hogy a $0$-ákat $-1$-eseknek veszi. \\
 	Legyen tehát $E=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. A mértékek számolásánál fontos ez a megfeleltetés az egyszerű számoláshoz.
@@ -477,7 +477,7 @@
 	\end{enumerate}
 	A legfontosabb mértékek között vannak a fent tárgyalt jól-eloszlás-, k-ad rendű normalitás-, normalitás-, k-ad rendű korreláció- és korreláció-mértékek. Ezen kívül fontos még a \textbf{k-ad rendű kombinált mérték}, ez a jól-eloszlást és k-ad rendű korrelációt ötvözi és az ehhez tartozó \textbf{kombinált mérték}, mely a normalitáséhoz hasonlóan adódik a $k$-ad rendű mértékből.
 	
-	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans.
+	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans. A legjobb $c$ kitevő értéket is meghatározta később Alon, Kohayakawa, Mauduit, Moreira és Rödl. \cite{cvalue} 
 	\subsection{One-time pad titkosítás}
 	\subsubsection{Ismertető}
 	A One-time pad titkosítás működése kifejezetten egyszerű. Kapunk egy kódolandó bitsorozatot (üzenet), majd ezt egy titkosító kulcs bitsorozattal (mely ugyanolyan hosszú mint az üzenet hossza) bitenkénti kizáró vagy művelettel (XOR) titkosítjuk. Az eredményként kapott bitsorozat a titkosított üzenet. Ezt az üzenetet elküldhetjük a másik félnek, és ha ezen a másik fél elvégzi ugyanezt az eljárást ugyanazzal a kulccsal, akkor visszakapja az eredeti üzenetet.
@@ -1265,4 +1265,34 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 \item \bfseries One-time Pad titkosítás:
 \normalfont Titkosítandó sorozat: $1010110$, kulcs: $0110010$. Várt eredmény: $1100100$
 \end{enumerate}
+\section{Irodalomjegyzék}
+	\renewcommand\refname{}
+\begin{thebibliography}{3}
+	\bibitem{shannon}
+	Shannon, C.E.: \textit{Communication Theory of Secrecy Systems}, Bell System Technical Journal, 28 (4), 1949, [656–715].
+	\bibitem{borel}
+	E. Borel: \textit{Leçons sur la théorie des fonctions}, 2nd ed. (1914), [850-864].
+	\bibitem{knuth}
+	D. E. Knuth: \textit{A számítógép-programozás művészete}, Műszaki Könyvkiadó, Budapest, 1994.
+	\bibitem{kolmogorov}
+	A. Kolmogorov: \textit{Three Approaches to the Quantitative Definition of Information}, Problemy Peredachi Informatsii 1, 1965, [3-11].
+	\bibitem{sarkozymauduit}
+	C.Mauduit, A.Sárközy: \textit{On finite pseudorandom binary sequences I:The measures of pseudorandomness, the Legendre symbol}, Acta Arith, 82, 1997, 365-377.
+	\bibitem{rcleak}
+	"Thank you Bob Anderson", Cypherpunks (levelezői lista), 1994, Archiválva: \url{http://cypherpunks.venona.com/date/1994/09/msg00304.html}, 2019.04.29.
+	\bibitem{additive}
+	C.Mauduit, J.Rivat, A.Sárközy: \textit{Construction of pseudorandom binary sequences using additive characters}, Monatshefte Math, 141, 2004, [197-208].
+	\bibitem{salsa}
+	Daniel J. Bernstein: \textit{The Salsa20 family of stream ciphers}, \url{https://cr.yp.to/snuffle/salsafamily-20071225.pdf}, 2019.04.29.
+	\bibitem{chacha}
+	Daniel J. Bernstein: \textit{The ChaCha family of stream ciphers}, \url{https://cr.yp.to/chacha.html}, 2019.04.29.
+	\bibitem{RFC}
+	Y. Nir, Dell EMC, A. Langley, Google, Inc.: \textit{ChaCha20 and Poly1305 for IETF Protocols}, RFC, 8439, 2018, \url{https://tools.ietf.org/html/rfc8439}, 2019.04.29.
+	\bibitem{salsaattack}
+	Zhenqing Shi, Bin Zhang, Dengguo Feng, Wenling Wu: \textit{Improved Key Recovery Attacks on Reduced-Round Salsa20 and ChaCha. ICISC'12 Proceedings of the 15th International Conference on Information Security and Cryptology}, Lecture Notes in Computer Science, 7839, 2012, [337–351], ISBN-978-3-642-37681-8
+	\bibitem{salsadiffcrypt}
+	Nicky Mouha, Bart Preneel: \textit{Towards Finding Optimal Differential Characteristics for ARX: Application to Salsa20}, 2013,  \url{https://eprint.iacr.org/2013/328.pdf}, 2019.04.29.
+	\bibitem{cvalue}
+	N. Alon, Y. Kohayakawa, C. Mauduit, C. G. Moreira, V. Rödl: \textit{Measures of pseudorandomness for finite sequences: minimal values}, Combin. Prob. Comput., 15, 2005, [1-29]
+\end{thebibliography}
 \end{document}
