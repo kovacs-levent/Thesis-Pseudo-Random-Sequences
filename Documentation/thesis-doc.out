@@ -20,18 +20,16 @@
 \BOOKMARK [3][-]{subsubsection.3.1.3}{Addit\355v karakteres konstrukci\363}{subsection.3.1}% 20
 \BOOKMARK [3][-]{subsubsection.3.1.4}{ChaCha20 konstrukci\363}{subsection.3.1}% 21
 \BOOKMARK [2][-]{subsection.3.2}{M\351rt\351kek}{section.3}% 22
-\BOOKMARK [3][-]{subsubsection.3.2.1}{Ismerteto}{subsection.3.2}% 23
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Alapfogalmak}{subsection.3.2}% 24
-\BOOKMARK [2][-]{subsection.3.3}{One-time pad titkos\355t\341s}{section.3}% 25
-\BOOKMARK [3][-]{subsubsection.3.3.1}{Ismerteto}{subsection.3.3}% 26
-\BOOKMARK [3][-]{subsubsection.3.3.2}{Algoritmus}{subsection.3.3}% 27
-\BOOKMARK [3][-]{subsubsection.3.3.3}{Extra k\366vetelm\351nyek}{subsection.3.3}% 28
-\BOOKMARK [2][-]{subsection.3.4}{Implement\341ci\363}{section.3}% 29
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Fejlesztoi k\366rnyezet}{subsection.3.4}% 30
-\BOOKMARK [3][-]{subsubsection.3.4.2}{A program szerkezete}{subsection.3.4}% 31
-\BOOKMARK [3][-]{subsubsection.3.4.3}{Adatok reprezent\341ci\363ja}{subsection.3.4}% 32
-\BOOKMARK [3][-]{subsubsection.3.4.4}{Oszt\341lyok}{subsection.3.4}% 33
-\BOOKMARK [3][-]{subsubsection.3.4.5}{Glob\341lis f\374ggv\351nyek}{subsection.3.4}% 34
-\BOOKMARK [2][-]{subsection.3.5}{Tesztel\351s}{section.3}% 35
-\BOOKMARK [3][-]{subsubsection.3.5.1}{Tesztesetek}{subsection.3.5}% 36
-\BOOKMARK [1][-]{section.4}{Irodalomjegyz\351k}{}% 37
+\BOOKMARK [3][-]{subsubsection.3.2.1}{J\363l-eloszl\341s}{subsection.3.2}% 23
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Normalit\341s}{subsection.3.2}% 24
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Korrel\341ci\363}{subsection.3.2}% 25
+\BOOKMARK [2][-]{subsection.3.3}{One-time pad titkos\355t\341s}{section.3}% 26
+\BOOKMARK [2][-]{subsection.3.4}{Implement\341ci\363}{section.3}% 27
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Fejlesztoi k\366rnyezet}{subsection.3.4}% 28
+\BOOKMARK [3][-]{subsubsection.3.4.2}{A program szerkezete}{subsection.3.4}% 29
+\BOOKMARK [3][-]{subsubsection.3.4.3}{Oszt\341lyok}{subsection.3.4}% 30
+\BOOKMARK [3][-]{subsubsection.3.4.4}{Glob\341lis f\374ggv\351nyek}{subsection.3.4}% 31
+\BOOKMARK [2][-]{subsection.3.5}{Tesztel\351s}{section.3}% 32
+\BOOKMARK [2][-]{subsection.3.6}{Fejleszt\351si lehetos\351gek}{section.3}% 33
+\BOOKMARK [1][-]{section.4}{\326sszefoglal\363}{}% 34
+\BOOKMARK [1][-]{section.5}{Irodalomjegyz\351k}{}% 35

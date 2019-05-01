@@ -413,14 +413,14 @@
 	
 	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel, hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. \cite{salsadiffcrypt} Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
 	\subsection{Mértékek}
-	\subsubsection{Ismertető}
+	\subsubsection*{Ismertető}
 	A régi próbálkozások a pszeudovéletlenség definiálására nem voltak elég jól alkalmazhatóak a gyakorlatban, mint pl.: Golomb véletlenségi posztulátumai vagy Knuth pszeudovéletlenségi definíciója \cite{knuth}. Ezek a definíciók ténylegesen jó pszeudovéletlen sorozatokat eredményeznek, de a tesztelés rendkívül költséges, és a kivitelezés is nehéz.
 	
 	1996-ban Christian Mauduit és Sárközy András kidolgoztak egy újféle megközelítést a pszeudovéletlenség vizsgálatára számmal mérhető mértékekkel \cite{sarkozymauduit}. Ez a megközelítés eredményesnek bizonyult, belátható a mértékek eredményei alapján, hogy egy sorozat jó pszeudovéletlen tulajdonságú-e. A konstrukciókról így az is bizonyítható, hogy ténylegesen jó a generált sorozat véletlensége.
-	\subsubsection{Alapfogalmak}
+	\subsubsection*{Alapfogalmak}
 	Először is fontos megjegyezni, hogy az alábbiakban tárgyalt konstrukciók a bináris sorozatoknak a klasszikus $0$-ások és $1$-esek megfeleltetését annyiban változtatják meg, hogy a $0$-ákat $-1$-eseknek veszi. \\
 	Legyen tehát $E=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. A mértékek számolásánál fontos ez a megfeleltetés az egyszerű számoláshoz.
-	\subsubsection*{Jól-eloszlás}
+	\subsubsection{Jól-eloszlás}
 	A fenti definícióval együtt, legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. Jelölje $U(E_N, M, a, b)$ a következő értéket ($a+M\cdot b \leq N$):
 	$$U(E_N, M, a, b) = \sum_{i=1}^{M}e_{a+i\cdot b}$$
 	Az $U$ függvény megadja, hogy a sorozatnak az $a$ kezdőponttól $b$ lépésközzel a számok összege mennyi a sorozat végéig.
@@ -431,7 +431,7 @@
 	
 	A mérték gyakorlatilag azt vizsgálja, hogy az adott lépésközökkel és kezdőpozíciókkal mi a legnagyobb kitérés az egyenlő, fele-fele $-1$, $1$ elosztástól.
 	
-	\subsubsection*{Normalitás}
+	\subsubsection{Normalitás}
 	Legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. Az $X=(x_1, x_2, ..., x_k) \in \{-1,1\}^k$ is bináris sorozat, ahol $k, M \in \mathbb{N}$ és $1 \leq M \leq N-k+1$. Ekkor legyen $T(E_N, M, X)$ a következő:
 	$$T(E_N, M, X) = |\{n : 0 \leq n < M, (e_{n+1}, e_{n+2}, ..., e_{n+k}) = X\}|$$
 	Vagyis azon pozíciók száma az $M$. kezdőpozícióig, amiktől vett $k$ hosszú részsorozat megegyezik az $X$ részsorozattal. Gyakorlatilag az előfordulásait számolja meg $X$-nek, $M$-ig.
@@ -442,7 +442,7 @@
 	Így már definiálható a \textbf{normalitás mérték}, mely a következőféleképpen alakul:
 	$$N(E_N) = \max_{k \leq \lfloor\log_2{N}\rfloor}{N_k(E_N)}$$
 	Vagyis a legfeljebb $\lfloor\log_2{N}\rfloor$ rendű $k$-ad rendű normalitás mértékek maximumát vesszük.
-	\subsubsection*{Korreláció}
+	\subsubsection{Korreláció}
 	Legyen $E_N=(e_1, e_2, ..., e_N) \in \{-1, 1\}^N$ egy $N$ hosszúságú bináris sorozat. $D = (d_1, ..., d_k) \in \mathbb{N}^k$ és $M \in \mathbb{N}$ úgy, hogy $0 \leq d_1 < d_2 < ... < d_k < M+d_k \leq N$ esetén legyen $V(E_N, M, D)$ a következő mennyiség:
 	$$V(E_N, M, D) = \sum_{n=0}^{M-1}{\prod_{i=1}^{k}{e_{n+d_i}}}$$
 	Vagyis a $V$ függvény összegzi az összes lehetséges pozícióból kezdve a $d_1, ..., d_k$-val eltolt pozícióban lévő elemek szorzatát.
@@ -479,7 +479,7 @@
 	
 	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans. A legjobb $c$ kitevő értéket is meghatározta később Alon, Kohayakawa, Mauduit, Moreira és Rödl. \cite{cvalue} 
 	\subsection{One-time pad titkosítás}
-	\subsubsection{Ismertető}
+	\subsubsection*{Ismertető}
 	A One-time pad titkosítás működése kifejezetten egyszerű. Kapunk egy kódolandó bitsorozatot (üzenet), majd ezt egy titkosító kulcs bitsorozattal (mely ugyanolyan hosszú mint az üzenet hossza) bitenkénti kizáró vagy művelettel (XOR) titkosítjuk. Az eredményként kapott bitsorozat a titkosított üzenet. Ezt az üzenetet elküldhetjük a másik félnek, és ha ezen a másik fél elvégzi ugyanezt az eljárást ugyanazzal a kulccsal, akkor visszakapja az eredeti üzenetet.
 	
 	Picivel formálisabban: Legyen $E_N = (e_1, e_2, ..., e_N)$ a kódolandó üzenetet reprezentáló bitsorozat, illetve $X_N = (x_1, x_2, ..., x_N)$ a titkosításhoz használt kulcs bitsorozata. Ekkor, a one-time pad titkosítás eredménye az a $B_N = (b_1, b_2, ..., b_N)$ bitsorozat, melyre:
@@ -576,7 +576,7 @@
 	 \end{center}
 	\end{table}
 \newpage
-\subsubsection{Algoritmus}
+\subsubsection*{Algoritmus}
 A fentiek figyelembevételével az általános algoritmus a következőképpen alakul:
 \begin{enumerate}
 	\item Hozzuk létre a kódolást reprezentáló adatszerkezetet. Ajánlott valamilyen formájú hash táblát használni, hogy az elemek elérése konstans műveletigényű legyen. Jelen megvalósításban ez két std::unordered\_map-al valósul meg, hogy mindkét irányból el tudjuk érni az adatokat.
@@ -584,7 +584,7 @@ A fentiek figyelembevételével az általános algoritmus a következőképpen a
 	\item Az így kapott két bitsorozattal végezzünk el egy bitenkénti kizáró vagy műveletet. Ha a kulcs hosszabb mint a titkosítandó sorozat, akkor a kulcsból vehetjük az első $l$ bitet, ahol $l$ a titkosítandó bitsorozat hossza. Az eredmény a titkosított üzenet bitsorozatos alakja.
 	\item Az előbb kiszámított sorozatot alakítsuk vissza a kódolás szerint karakteres formába. Az eredmény a titkosított üzenet szöveges alakja.
 \end{enumerate}
-\subsubsection{Extra követelmények}
+\subsubsection*{Extra követelmények}
 A titkosítandó szöveg nem tartalmazhat a kódolásban nem szereplő karaktert.  Ezen felül a titkosításhoz használt kulcssorozat hossza legalább akkora kell legyen mint a titkosítandó üzenet bitsorozatos alakban vett hossza.
 
 \subsection{Implementáció}
@@ -608,7 +608,7 @@ A programban a feladatokat elvégző osztályokat csoportokra lehet bontani úgy
 	\normalfont Ez egy egységtesztelő környezet, mely a megfelelő működését ellenőrzi a műveleteknek.
 \end{enumerate}
 
-\subsubsection{Adatok reprezentációja}
+\subsubsection*{Adatok reprezentációja}
 A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez a megoldás gazdaságos a memóriával, hiszen minden elemet ténylegesen egy biten tárolunk. Sajnálatosan a műveletek aránylag lassabbak lehetnek, hiszen minden bitet csak egyenként tudunk elérni (az algoritmusok egy része ki tudná használni, hogy valójában blokkosan, pl. 32-64 bitenként tudunk hivatkozni adatokra, mely 1 műveletnek számít). Más alternatívák lehetségesek a memóriaigény növelésével, de a C++11 std::bitset reprezentációja nem volt megfelelő. Ez csakis olyan esetben használható, amikor fordítási időben ismert a bitsorozat mérete (mi esetünkben ez nem teljesül). Dinamikus méretű bitset nincs standard C++-ban, de használható a C++ boost könyvtár, ahol elérhető egy megvalósítás. Ez a program szempontjából egy újabb függőséget hozott volna be, amit nem szerettem volna, szóval inkább maradtam az std::vectoros tárolásnál. Egy másik ötlet ami felvetődött, hogy az vectorban tároljunk fix méretű bitseteket. Ezzel felgyorsítható néhány művelet, de körülményes megoldani azt, hogy a blokkok határán hogyan kezeljük le a vizsgálatokat, eredményképpen nem is lesz feltétlenül gazdaságosabb a számítás, így ezt az ötletet is elvetettem.
 
 A Legendre és Additív karakteres konstrukciónál a polinomokat std::set-ben tároljuk, hiszen olyan polinomokra van szükség, melyeknek nincs többszörös gyöke.
@@ -1170,7 +1170,7 @@ Mivel ezen mérték számolása ilyen hosszú már kisebb sorozatokra is, ezért
 Az eddig tárgyalt programrészletek tesztelésére létrehoztam egy tesztelő környezetet a Catch keretrendszer használatával. Ebben a fejezetben felsorolom az elvégzett tesztelést. A program mindegyik tárgyalt tesztesetnek megfelelt. A tesztelő megtalálható a Testing mappában.
 
 A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyenek és minél több működést fedjenek le.
-\subsubsection{Tesztesetek}
+\subsubsection*{Tesztesetek}
 \begin{enumerate}
 	\item \bfseries Miller-Rabin prímteszt:
 	\normalfont Mindegyik esetben 40 próbával futtatjuk a tesztet. Vizsgált esetek és várt eredmény:
@@ -1265,6 +1265,12 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 \item \bfseries One-time Pad titkosítás:
 \normalfont Titkosítandó sorozat: $1010110$, kulcs: $0110010$. Várt eredmény: $1100100$
 \end{enumerate}
+\subsection{Fejlesztési lehetőségek}
+A program még továbbfejleszthető több módon is. A legkézenfekvőbb újabb generátor konstrukciók implementálása és vizsgálata a mértékekkel, ez a felhasználói oldalról sokat jelent. Lehetséges megvalósítani újabb mértékeket is, pl. szimmetria mértéket \cite{symmetry}.
+
+Grafikonok megjelenítésének és statisztikák számolásának implementálása a számolt mértékekből.
+\section{Összefoglaló}
+A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempontjából készített pszeudovéletlen generátorokra. Megvalósított és bemutatott konstrukciók voltak a Legendre-szimbólumos, RC4, additív karakteres és ChaCha20 konstrukciók. A megvalósított generátoroknak a vizsgálatára és alkalmazására is kitértem, a statisztikai mértékekkel illetve a One-time pad titkosítással. 
 \section{Irodalomjegyzék}
 	\renewcommand\refname{}
 \begin{thebibliography}{3}
@@ -1294,5 +1300,7 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 	Nicky Mouha, Bart Preneel: \textit{Towards Finding Optimal Differential Characteristics for ARX: Application to Salsa20}, 2013,  \url{https://eprint.iacr.org/2013/328.pdf}, 2019.04.29.
 	\bibitem{cvalue}
 	N. Alon, Y. Kohayakawa, C. Mauduit, C. G. Moreira, V. Rödl: \textit{Measures of pseudorandomness for finite sequences: minimal values}, Combin. Prob. Comput., 15, 2005, [1-29]
+	\bibitem{symmetry}
+	Katalin Gyarmati: \textit{On a pseudorandom property of binary sequences}, The Ramanujan Journal, 8, 2004, [289-302]
 \end{thebibliography}
 \end{document}
