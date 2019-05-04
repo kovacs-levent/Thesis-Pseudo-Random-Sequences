@@ -26,3 +26,19 @@ QT App/project.pro.user
 Measurements/main.cpp
 QT App/dictionary másolata.txt
 QT App/dictionary
+Setup/.qmake.stash
+Setup/Makefile
+Setup/Makefile.Debug
+Setup/Makefile.Release
+Setup/object_script.pszeudoveletlen_szakdolgozat.Debug
+Setup/object_script.pszeudoveletlen_szakdolgozat.Release
+Setup/release/log.txt
+Setup/release/moc_additivewindow.cpp
+Setup/release/moc_chachawindow.cpp
+Setup/release/moc_mainwindow.cpp
+Setup/release/moc_measurewindow.cpp
+Setup/release/moc_predefs.h
+Setup/release/moc_qwindow.cpp
+Setup/release/moc_rc4window.cpp
+Setup/release/moc_vernamwindow.cpp
+Setup/release/moc_legendrewindow.cpp

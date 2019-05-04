@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[hidelinks, 12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{eurosym}
 \usepackage{textcomp}
@@ -87,9 +87,9 @@
 	
 	A megfelelően konfiguráltság annyit jelent, hogy könyvtárak és a qmake utai hozzá kell legyenek vannak adva a rendszer PATH környezeti változójához, hogy a program megtalálja a megfelelő .dll fájlokat). Jelen esetben a $<$QT helye$>$ mingw73\_64\textbackslash bin mappát kell hozzáadni a PATH-hoz (a qmake és a .dll-ek egy mappába vannak).
 	\subsection{Telepítés}
-	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A telepítő lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva.
+	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A Setup mappában található setup.bat script lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva.
 	\subsection{Futattás}
-	Ha a QT megfelelően van konfigurálva, akkor pszeudoveletlen\_szakdolgozat.exe fájl futtatásával lehet elindítani a programot.
+	Ha a QT megfelelően van konfigurálva, akkor a Setup release mappájában lévő pszeudoveletlen\_szakdolgozat.exe fájl futtatásával lehet elindítani a programot.
 	\subsection{Menürendszer}
 	A menürendszer pontjainak 3 fő csoportja van, ezek:
 	\begin{itemize}
@@ -100,7 +100,16 @@
 	\subsubsection{Főmenü}
 	Amikor a program elindul a felhasználót a főmenü fogadja. Itt elérhető az összes megvalósított konstrukció almenüpontja és a mértékek, illetve titkosításé is.
 	
-	Kilépni a program jobb felső sarkában található "X" gombbal, vagy a főmenüben található "Kilépés" gombbal lehet.
+	\begin{figure}[h]
+		\centering
+		\begin{minipage}{\textwidth}
+			\includegraphics[width=\textwidth]{mainmenu.png}
+		\end{minipage}
+		\caption{Főmenü}
+	\end{figure}
+	
+	Kilépni a program jobb felső sarkában található "X" gombbal, vagy a főmenüben lévő "Kilépés" gombbal lehet.
+
 	\subsection*{Konstrukciók}
 	Ez a pont csak alapvető segítséget nyújt a különböző konstrukciók kipróbálásához. Részletes leírása az algoritmusoknak a fejlesztői dokumentációban találhatóak.
 	\par
@@ -1268,9 +1277,15 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 \subsection{Fejlesztési lehetőségek}
 A program még továbbfejleszthető több módon is. A legkézenfekvőbb újabb generátor konstrukciók implementálása és vizsgálata a mértékekkel, ez a felhasználói oldalról sokat jelent. Lehetséges megvalósítani újabb mértékeket is, pl. szimmetria mértéket \cite{symmetry}.
 
-Grafikonok megjelenítésének és statisztikák számolásának implementálása a számolt mértékekből.
+Grafikonok megjelenítése és statisztikák számolásának implementálása a számolt mértékekből. Ezekkel tovább lehet elemezni a megvalósított konstrukciókat.
 \section{Összefoglaló}
-A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempontjából készített pszeudovéletlen generátorokra. Megvalósított és bemutatott konstrukciók voltak a Legendre-szimbólumos, RC4, additív karakteres és ChaCha20 konstrukciók. A megvalósított generátoroknak a vizsgálatára és alkalmazására is kitértem, a statisztikai mértékekkel illetve a One-time pad titkosítással. 
+A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempontjából készített pszeudovéletlen generátorokra. Megvalósított és bemutatott konstrukciók voltak a Legendre-szimbólumos, RC4, additív karakteres és ChaCha20 konstrukciók. A megvalósított generátoroknak a vizsgálatára és alkalmazására is kitértem, a statisztikai mértékekkel illetve a One-time pad titkosítással.
+
+A programmal tett vizsgálataim során azt tapasztaltam, hogy a Legendre és additív karakteres konstrukció az eddig belátott tulajdonságok szerint jó eredményeket ad a megvalósított mértékekkel. \cite{additive} \cite{largefam}
+
+Saját vizsgálataim alapján az RC4 konstrukciónál a mértékek eredménye nagyobb szórású mint a többi generátornak. A kulcsoktól függően az eredmények kiugróan nagyok és alacsonyak is voltak, ez lehet további vizsgálódás tárgya.
+
+A ChaCha20 konstrukció jól teljesített a mértékekkel, átlagosan jó eredmények születtek. Ez alátámasztja azt, hogy az eddigi vizsgálatok alapján a Salsa/ChaCha család egy elég jó tulajdonságokkal rendelkező generátor. \cite{salsaattack} \cite{salsadiffcrypt}
 \section{Irodalomjegyzék}
 	\renewcommand\refname{}
 \begin{thebibliography}{3}
@@ -1302,5 +1317,7 @@ A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempont
 	N. Alon, Y. Kohayakawa, C. Mauduit, C. G. Moreira, V. Rödl: \textit{Measures of pseudorandomness for finite sequences: minimal values}, Combin. Prob. Comput., 15, 2005, [1-29]
 	\bibitem{symmetry}
 	Katalin Gyarmati: \textit{On a pseudorandom property of binary sequences}, The Ramanujan Journal, 8, 2004, [289-302]
+	\bibitem{largefam}
+	L. Goubin, C. Mauduit, A. Sárközy: \textit{Construction of large families of pseudorandom binary sequences}, J. Number Theory, 106, 2004, [56-59]
 \end{thebibliography}
 \end{document}

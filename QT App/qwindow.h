@@ -18,7 +18,6 @@ class Window : public QWidget
   void rc4ButtonClicked();
   void additiveButtonClicked();
   void chachaButtonClicked();
-  void linearButtonClicked();
   void measuresButtonClicked();
   void cryptoButtonClicked();
   void quitButtonClicked();
@@ -33,7 +32,6 @@ class Window : public QWidget
   QPushButton* rc4Button;
   QPushButton* additiveButton;
   QPushButton* chachaButton;
-  QPushButton* linearButton;
   QPushButton* measuresButton;
   QPushButton* cryptoButton;
   QPushButton* quitButton;

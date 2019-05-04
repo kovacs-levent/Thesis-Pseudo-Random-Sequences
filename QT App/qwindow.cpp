@@ -24,20 +24,18 @@ void Window::makeButtons()
     rc4Button = new QPushButton("RC4 konstrukció", this);
     additiveButton = new QPushButton("Additív karakteres konstrukció", this);
     chachaButton = new QPushButton("ChaCha20 konstrukció", this);
-    linearButton = new QPushButton("Lineáris Kongruencia konstrukció", this);
     measuresButton = new QPushButton("Mértékek", this);
     cryptoButton = new QPushButton("One-time pad titkosítás", this);
     quitButton = new QPushButton("Kilépés", this);
     setButtonsSize();
     setButtonsSender();
-    buttonLayout->addWidget(legendreButton, 0, 0);
-    buttonLayout->addWidget(rc4Button, 0, 1);
-    buttonLayout->addWidget(additiveButton, 1, 0);
-    buttonLayout->addWidget(chachaButton, 1, 1);
-    buttonLayout->addWidget(linearButton, 2, 0);
-    buttonLayout->addWidget(measuresButton, 2, 1);
-    buttonLayout->addWidget(cryptoButton, 3, 0);
-    buttonLayout->addWidget(quitButton, 3, 1);
+    buttonLayout->addWidget(legendreButton, 0, 0, 1, 2);
+    buttonLayout->addWidget(rc4Button, 0, 2, 1, 2);
+    buttonLayout->addWidget(additiveButton, 1, 0, 1, 2);
+    buttonLayout->addWidget(chachaButton, 1, 2, 1, 2);
+    buttonLayout->addWidget(measuresButton, 2, 0, 1, 2);
+    buttonLayout->addWidget(cryptoButton, 2, 2, 1, 2);
+    buttonLayout->addWidget(quitButton, 3, 1, 1, 2);
 
     for(int i = 0; i < buttonLayout->rowCount(); ++i)
     {
@@ -55,8 +53,6 @@ void Window::setButtonsSize()
     additiveButton->setBaseSize(150,50);
     chachaButton->setMinimumSize(150, 50);
     chachaButton->setBaseSize(150,50);
-    linearButton->setMinimumSize(150, 50);
-    linearButton->setBaseSize(150,50);
     measuresButton->setMinimumSize(150, 50);
     measuresButton->setBaseSize(150, 50);
     cryptoButton->setMinimumSize(150, 50);
@@ -71,7 +67,6 @@ void Window::setButtonsSender()
     connect(rc4Button, SIGNAL(clicked()), this, SLOT(rc4ButtonClicked()));
     connect(additiveButton, SIGNAL(clicked()), this, SLOT(additiveButtonClicked()));
     connect(chachaButton, SIGNAL(clicked()), this, SLOT(chachaButtonClicked()));
-    connect(linearButton, SIGNAL(clicked()), this, SLOT(linearButtonClicked()));
     connect(measuresButton, SIGNAL(clicked()), this, SLOT(measuresButtonClicked()));
     connect(cryptoButton, SIGNAL(clicked()), this, SLOT(cryptoButtonClicked()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(quitButtonClicked()));
@@ -104,11 +99,6 @@ void Window::chachaButtonClicked()
 {
     parentWindow->setWindowTitle(tr("ChaCha20 konstrukció"));
     parentWindow->ChangeMenu(4);
-}
-
-void Window::linearButtonClicked()
-{
-
 }
 
 void Window::measuresButtonClicked()

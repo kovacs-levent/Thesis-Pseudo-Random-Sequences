@@ -8,12 +8,12 @@
 \contentsline {subsection}{\numberline {2.3}Futatt\IeC {\'a}s}{6}{subsection.2.3}% 
 \contentsline {subsection}{\numberline {2.4}Men\IeC {\"u}rendszer}{6}{subsection.2.4}% 
 \contentsline {subsubsection}{\numberline {2.4.1}F\IeC {\H o}men\IeC {\"u}}{6}{subsubsection.2.4.1}% 
-\contentsline {subsubsection}{\numberline {2.4.2}Legendre szimb\IeC {\'o}lumos konstrukci\IeC {\'o}}{6}{subsubsection.2.4.2}% 
+\contentsline {subsubsection}{\numberline {2.4.2}Legendre szimb\IeC {\'o}lumos konstrukci\IeC {\'o}}{7}{subsubsection.2.4.2}% 
 \contentsline {subsubsection}{\numberline {2.4.3}RC4 konstrukci\IeC {\'o}}{8}{subsubsection.2.4.3}% 
 \contentsline {subsubsection}{\numberline {2.4.4}Addit\IeC {\'\i }v karakteres konstrukci\IeC {\'o}}{9}{subsubsection.2.4.4}% 
 \contentsline {subsubsection}{\numberline {2.4.5}ChaCha20 konstrukci\IeC {\'o}}{10}{subsubsection.2.4.5}% 
-\contentsline {subsection}{\numberline {2.5}M\IeC {\'e}rt\IeC {\'e}kek}{12}{subsection.2.5}% 
-\contentsline {subsection}{\numberline {2.6}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{13}{subsection.2.6}% 
+\contentsline {subsection}{\numberline {2.5}M\IeC {\'e}rt\IeC {\'e}kek}{13}{subsection.2.5}% 
+\contentsline {subsection}{\numberline {2.6}One-time pad titkos\IeC {\'\i }t\IeC {\'a}s}{14}{subsection.2.6}% 
 \contentsline {section}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{16}{section.3}% 
 \contentsline {subsection}{\numberline {3.1}Konstrukci\IeC {\'o}k}{16}{subsection.3.1}% 
 \contentsline {subsubsection}{\numberline {3.1.1}Legendre konstrukci\IeC {\'o}}{16}{subsubsection.3.1.1}% 

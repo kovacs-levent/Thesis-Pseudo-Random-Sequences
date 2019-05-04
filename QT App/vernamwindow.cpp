@@ -105,7 +105,7 @@ void vernamWindow::seqLoadButtonClicked()
 
 oneTimePad::oneTimePad()
 {
-    QFile file("dictionary.txt");
+    QFile file("../../QT App/dictionary.txt");
     file.open(QFile::ReadOnly);
     QTextStream in(&file);
     in.setCodec("UTF-8");
@@ -162,8 +162,8 @@ QString oneTimePad::Encrypt(const QString &inputText)
         }
         catch(std::out_of_range e)
         {
-            //std::cout << "char error: " << inputText[i] << " "<< i << std::endl;
-            throw(e);
+             displayError("Adathiba", "A szöveg nem támogatott karaktereket tartalmaz.");
+             return encryptedText;
         }
         std::stringstream sstr;
         for(int j = 0; j < 7; j++)
@@ -179,8 +179,8 @@ QString oneTimePad::Encrypt(const QString &inputText)
         }
         catch(std::out_of_range e)
         {
-            //std::cout << "seq error: " << byte << std::endl;
-            throw e;
+            displayError("Adathiba", "A titkosítás nem kódolt bitsorozatot eredményezett. Ellenőrizze, hogy a beállított kódolás megfelelő-e!");
+            return encryptedText;
         }
     }
     return encryptedText;

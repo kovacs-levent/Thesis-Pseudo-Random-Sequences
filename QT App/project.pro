@@ -1,4 +1,5 @@
 QT += widgets
+TARGET = pszeudoveletlen_szakdolgozat
 CONFIG += c++11
 SOURCES += \
     qwindow.cpp \
