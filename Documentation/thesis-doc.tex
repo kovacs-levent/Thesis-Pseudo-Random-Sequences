@@ -17,10 +17,10 @@
 	\renewcommand*{\thetable}{\arabic{table}}
 	\renewcommand*{\thefigure}{\arabic{figure}}
 	\let\c@table\c@figure
-	\makeatother 
+	\makeatother
+	\sloppy
 	\captionsetup[figure]{name=Ábra}
 	\captionsetup[table]{name=Ábra}
-	\sloppy
 	\newcommand{\sectionbreak}{\clearpage}
 	\begin{titlepage}
 		\begin{minipage}{0.36\textwidth}
@@ -60,13 +60,13 @@
 	\newpage
 	\section{Bevezető}
 	\subsection{Történeti betekintés}
-	Véletlen sorozatok generálására sok modern területnek igénye van (pl.: statisztika, szimulációk, kriptográfia). Számítógéppel azonban nem lehetséges valódi véletlen számokat generálni, ezért pszeudovéletlen eljárásokra hagyatkozunk. Cél az, hogy olyan eljárásokat használjunk melyek statisztikailag véletlennek tűnnek, attól függetlenül, hogy egy determinisztikus rendszer generálja az eredményt.
+	Véletlen sorozatok generálására sok modern területnek igénye van (pl.: statisztika, szimulációk, kriptográfia). Algoritmikusan azonban nem lehetséges valódi véletlen számokat generálni, ezért pszeudovéletlen eljárásokra hagyatkozunk. Cél az, hogy olyan eljárásokat használjunk melyek eredményei statisztikailag véletlennek tűnnek, attól függetlenül, hogy egy determinisztikus rendszer generálja az eredményt.
 	\par
 	Az ilyen sorozatokra való igény először Gilbert Vernam munkájának következménye. 1917-ben Vernam feltalálta a one-time pad titkosítási eljárást. Az üzeneteket telegráfon bitenként továbbították, viszont az eredeti adatot valamilyen kulcs segítségével megváltoztatták (amit aztán a fogadó fél a kulcs ismeretében vissza tud fejteni). Ha le is hallgatták a küldött adatot, akkor a kulcs nélkül nem lehetett tudni, hogy mi volt az eredeti üzenet.
 	\par
 	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogyha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni \cite{shannon}. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
 	\par
-	Az is igaz azonban, hogyha nem megfelelő kulcsokat használunk (pl. többször használjuk a kulcsokat), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
+	Az is igaz azonban, hogyha nem megfelelően választjuk meg a kulcsokat (pl. többször használunk egy titkosító kulcsot), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
 	\par
 	Az ilyen sorozatok előállításához régen fizikai eszközöket használtak, pl. diódákat. A problémája az ilyen eszközöknek, hogy külső tényezők is befolyásolják a véletlenséget, és meghibásodás is történhet. Ezért nagyon fontos, a véletlenség vizsgálása különböző statisztikai tesztekkel, ami azonban időigényes. Emiatt jobb, hogyha "csak" pszeudovéletlen sorozatokat állítunk elő. Így elkerülhető a statisztikai tesztelés, mivel bizonyítottan jó véletlen tulajdonságokkal rendelkező sorozatot kapunk.
 	\par
@@ -74,20 +74,20 @@
 	\par
 	Ezen próbálkozások inspiráltak egy új, konstruktív megközelítést a pszeudovéletlenség vizsgálatára. Christian Manduit és Sárközy András megközelítése az volt, hogy léteznek olyan sorozatok, melyekről bizonyítható, hogy statisztikailag erős véletlen tulajdonságokkal rendelkeznek (más szóval: erős pszeudovéletlen tulajdonságúak), így az utólagos tesztelés elkerülhető. Ez a fajta vizsgálat az évek során egyre szélesebb körben alkalmazott. \cite{sarkozymauduit}
 	\subsection{A program célja}
-	A programom célja, hogy a fent említett konstrukció keretén belül vizsgáljak különböző pszeudovéletlen sorozatokat. A vizsgált konstrukciókat két csoportból válogattam. Egyik kategóriába matematikai hátterű sorozatok tartoznak, melyeknek működése főként számelméleti ismereteken alapulnak. A másik csoport az iparban széles körben használt pszeudovéletlen generátorok, amik nem feltétlenül matematikai hátterűek.
+	A programom célja, hogy a fent említett konstrukció keretén belül vizsgáljak különböző pszeudovéletlen generátorokat. A vizsgált konstrukciókat két csoportból válogattam. Egyik kategóriába matematikai hátterű sorozatok tartoznak, melyeknek működése főként számelméleti ismereteken alapulnak. A másik csoport az iparban széles körben használt pszeudovéletlen generátorok, amik nem feltétlenül matematikai hátterűek.
 	\par
 	A programban lehetőség nyílik a pszeudovéletlen konstrukciók kipróbálására, és a generált sorozatok vizsgálatára a statisztikai mértékek szerint. A sorozatokat ki is próbálhatjuk a Vernam-féle one-time pad titkosítási eljárással.
 	\newpage
 	\section{Felhasználói dokumentáció}
-	A program pszeudovéletlen sorozatkonstrukciók kipróbálására és a sorozatok vizsgálatára készült a statisztikai mértékekkel.
+	A program pszeudovéletlen sorozatkonstrukciók kipróbálására és a sorozatok vizsgálatára készült statisztikai mértékekkel.
 	\subsection{Rendszerkövetelmények}
-	A telepítéshez szükséges a rendszeren a TDM-GCC fordító és a make megléte. A TDM-GCC a \url{https://sourceforge.net/projects/tdm-gcc/} oldalról ingyenesen elérhető, a make pedig Windows esetén a \url{http://gnuwin32.sourceforge.net/packages/make.htm} oldalon érhető el, linuxon terminálból telepíthető. Ha nem történt volna meg, ezeknek az útvonalát adjuk hozzá a PATH környezeti változóhoz.
+	A telepítéshez szükséges a rendszeren a TDM-GCC fordító és a make megléte. A TDM-GCC a \url{https://sourceforge.net/projects/tdm-gcc/} oldalról ingyenesen elérhető, a make pedig Windows esetén a \url{http://gnuwin32.sourceforge.net/packages/make.htm} oldalon érhető el, Linux rendszeren terminálból telepíthető. Ha nem történt volna meg, ezeknek az útvonalát adjuk hozzá a PATH környezeti változóhoz.
 		
 	Szükséges egy telepített és megfelelően bekonfigurált QT5 keretrendszer mingw73\_64-es platformra. Ez is ingyenesen telepíthető a \url{https://www.qt.io/download} oldalról.
 	
 	A megfelelően konfiguráltság annyit jelent, hogy könyvtárak és a qmake utai hozzá kell legyenek vannak adva a rendszer PATH környezeti változójához, hogy a program megtalálja a megfelelő .dll fájlokat). Jelen esetben a $<$QT helye$>$ mingw73\_64\textbackslash bin mappát kell hozzáadni a PATH-hoz (a qmake és a .dll-ek egy mappába vannak).
 	\subsection{Telepítés}
-	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A Setup mappában található setup.bat script lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva.
+	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A Setup mappában található setup.bat script lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva és létrehozva a futtatható állományt.
 	\subsection{Futattás}
 	Ha a QT megfelelően van konfigurálva, akkor a Setup release mappájában lévő pszeudoveletlen\_szakdolgozat.exe fájl futtatásával lehet elindítani a programot.
 	\subsection{Menürendszer}
@@ -114,16 +114,16 @@
 	Ez a pont csak alapvető segítséget nyújt a különböző konstrukciók kipróbálásához. Részletes leírása az algoritmusoknak a fejlesztői dokumentációban találhatóak.
 	\par
 	\subsubsection{Legendre szimbólumos konstrukció}
-		Ez a konstrukció a Legendere szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják. Mauduit és Sárközy ezen a sorozaton vizsgálta először 1997-ben a véges bináris sorozatokra készített jól-eloszlás és korreláció-mértékeket \cite{sarkozymauduit}
+		Ez a konstrukció a Legendre szimbólumon alapul, melynek véletlen tulajdonságait régóta vizsgálják. Mauduit és Sárközy ezen a sorozaton vizsgálta először 1997-ben a véges bináris sorozatokra készített jól-eloszlás és korreláció-mértékeket. \cite{sarkozymauduit}
 	\par
 	Szükséges paraméterek:
 	\begin{enumerate}\bfseries
 		\item A sorozat hossza
-		\\ \normalfont{A sorozat hosszát bájtokban kell megadni, tehát az 1 bájt hosszú sorozat 8 bitet foglal magába. Bármennyi lehet.}
+		\\ \normalfont{A sorozat hosszát bitekben kell megadni. Bármennyi lehet.}
 		\bfseries \item Prímszám
 		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő legkisebb jó prímre.
 		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\ \normalfont
-		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
+		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol $p$ a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
 		\bfseries \item A polinom \\
 		\normalfont
 		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
@@ -143,7 +143,7 @@
 	Szükséges paraméterek:
 	\begin{enumerate}
 		\bfseries\item A sorozat hossza \\
-		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet.
+		\normalfont A sorozat hosszát bitekben kell megadni. Bármennyi lehet.
 		\bfseries \item A kulcs
 		\\
 		\normalfont A kulcs változó méretű lehet, ez alapján fog történni a generálás. Tipikusan 40-2048 bit hosszú a kulcs. Ez a megvalósítás egy szöveget vár kulcsnak, így átfogalmazva a feltételt legalább 5, maximum 256 karakter hosszú lehet a kulcs.
@@ -161,7 +161,7 @@
 	Szükséges paraméterek:
 	\begin{enumerate}
 		\bfseries \item A sorozat hossza \\
-		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet. \\
+		\normalfont A sorozat hosszát bitekben kell megadni. Bármennyi lehet. \\
 		\bfseries \item Prímszám \\
 		\normalfont Ebben a konstrukcióban a prímszám nagyságára nincs igazi nagyságrendi követelmény. A "Generálás" gombbal a legkisebb, sorozat hosszánál nagyobb, prímszámot adja vissza. A "Következő" gomb megkeresi az első jelenleginél nagyobb prímet.
 		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\
@@ -187,7 +187,7 @@
 	A szükséges bemenetek:
 	\begin{enumerate}
 		\bfseries \item A sorozat hossza \\
-		\normalfont A sorozat hosszát bájtokban kell megadni. Bármennyi lehet.
+		\normalfont A sorozat hosszát bitekben kell megadni. Bármennyi lehet.
 		\bfseries \item Kezdőállapot \\
 		\normalfont A kezdőállapot 16 darab 32 bites szóból áll, jelen implementációban az egyszerűbb használat miatt 16 darab előjel nélküli 32 bites egész számot jelent. Az állapot 4 részre bomlik, ebből az egyik kategória konstans, 4 darab szóval, így ezt nem kell megadni. A maradék 3 csoport 12 szavát kategóriánként kell megadni:
 		\begin{enumerate}
@@ -643,7 +643,7 @@ A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki
 	\item Megnézzük, hogy $a$ páros-e, ezt gyorsan meghatározhatjuk, hogy $a$-nak a bitenkénti és műveletét vizsgáljuk az $1$-et reprezentáló bitsorozattal. Ebből következik, hogyha $a$ \& $1 = 0$, akkor $a$ páros, és ekkor a következő redukciót használjuk:
 	\begin{enumerate}
 		\item  Általánosan igaz, hogy $\left({\frac{ab}{p}}\right) = \left({\frac{a}{p}}\right)\left({\frac{b}{p}}\right)$ (úgymond a Legendre-szimbólum a felső változójában teljesen multiplikatív függvény). Mivel $a$ jelen esetben páros, ezért $\left({\frac{a}{p}}\right) = \left({\frac{a/2}{p}}\right)\left({\frac{2}{p}}\right)$. Rekurzív lépésként kiszámoljuk az $\left({\frac{a/2}{p}}\right)$ értékét.
-		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-al, így elég annyit ellenőrizni megint, hogy a 8-al vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$, akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
+		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-cal, így elég annyit ellenőrizni megint, hogy a 8-cal vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$ (ahol az \& a bitenkénti és művelet), akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
 	\end{enumerate}
 	\item Ha $a$ páratlan, akkor:
 	\begin{enumerate}
@@ -1275,17 +1275,17 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 \normalfont Titkosítandó sorozat: $1010110$, kulcs: $0110010$. Várt eredmény: $1100100$
 \end{enumerate}
 \subsection{Fejlesztési lehetőségek}
-A program még továbbfejleszthető több módon is. A legkézenfekvőbb újabb generátor konstrukciók implementálása és vizsgálata a mértékekkel, ez a felhasználói oldalról sokat jelent. Lehetséges megvalósítani újabb mértékeket is, pl. szimmetria mértéket \cite{symmetry}.
+A program még továbbfejleszthető több módon is. A legkézenfekvőbb újabb generátor konstrukciók implementálása és vizsgálata a mértékekkel, ez a felhasználói oldalról sokat jelent. Lehetséges megvalósítani újabb mértékeket is, pl. szimmetria mértéket \cite{symmetry}. 
 
 Grafikonok megjelenítése és statisztikák számolásának implementálása a számolt mértékekből. Ezekkel tovább lehet elemezni a megvalósított konstrukciókat.
 \section{Összefoglaló}
 A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempontjából készített pszeudovéletlen generátorokra. Megvalósított és bemutatott konstrukciók voltak a Legendre-szimbólumos, RC4, additív karakteres és ChaCha20 konstrukciók. A megvalósított generátoroknak a vizsgálatára és alkalmazására is kitértem, a statisztikai mértékekkel illetve a One-time pad titkosítással.
 
-A programmal tett vizsgálataim során azt tapasztaltam, hogy a Legendre és additív karakteres konstrukció az eddig belátott tulajdonságok szerint jó eredményeket ad a megvalósított mértékekkel. \cite{additive} \cite{largefam}
+A programmal tett vizsgálataim során azt tapasztaltam, hogy a Legendre és additív karakteres konstrukció az eddig belátott tulajdonságok szerint (lásd:  \cite{additive} és \cite{largefam}) jó eredményeket ad a megvalósított mértékekkel.
 
 Saját vizsgálataim alapján az RC4 konstrukciónál a mértékek eredménye nagyobb szórású mint a többi generátornak. A kulcsoktól függően az eredmények kiugróan nagyok és alacsonyak is voltak, ez lehet további vizsgálódás tárgya.
 
-A ChaCha20 konstrukció jól teljesített a mértékekkel, átlagosan jó eredmények születtek. Ez alátámasztja azt, hogy az eddigi vizsgálatok alapján a Salsa/ChaCha család egy elég jó tulajdonságokkal rendelkező generátor. \cite{salsaattack} \cite{salsadiffcrypt}
+A ChaCha20 konstrukció jól teljesített a mértékekkel, átlagosan jó eredmények születtek. Ez alátámasztja azt, hogy az eddigi vizsgálatok alapján (lásd: \cite{salsaattack} és \cite{salsadiffcrypt}) a Salsa/ChaCha család elég jó tulajdonságokkal rendelkező generátorcsoport.
 \section{Irodalomjegyzék}
 	\renewcommand\refname{}
 \begin{thebibliography}{3}
