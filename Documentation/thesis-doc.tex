@@ -1,9 +1,11 @@
 \documentclass[hidelinks, 12pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{eurosym}
-\usepackage{textcomp}
+\def\magyarOptions{defaults=hu-min}
+\usepackage[english,magyar]{babel}
+\usepackage{t1enc}
+\hyphenation{huhyphc}
 \usepackage[document]{ragged2e}
-\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings, hyperref, caption}
+\usepackage{geometry, array, graphicx, wrapfig, float, amsmath, titlesec, amsmath, amsfonts, mathtools, amssymb, colortbl, babel, listings, hyperref, caption, textcomp, eurosym}
 \usepackage[thinlines]{easytable}
 \graphicspath{ {./pics/} }
 \geometry{a4paper, inner=3.5cm, outer=2.5cm, bottom=2.5cm, top=2.5cm}
@@ -12,13 +14,13 @@
 \setlength{\parskip}{1em}
 \makeatletter
 \makeatother
+\frenchspacing
 \begin{document}
 	\makeatletter
 	\renewcommand*{\thetable}{\arabic{table}}
 	\renewcommand*{\thefigure}{\arabic{figure}}
 	\let\c@table\c@figure
 	\makeatother
-	\sloppy
 	\captionsetup[figure]{name=Ábra}
 	\captionsetup[table]{name=Ábra}
 	\newcommand{\sectionbreak}{\clearpage}
@@ -60,17 +62,17 @@
 	\newpage
 	\section{Bevezető}
 	\subsection{Történeti betekintés}
-	Véletlen sorozatok generálására sok modern területnek igénye van (pl.: statisztika, szimulációk, kriptográfia). Algoritmikusan azonban nem lehetséges valódi véletlen számokat generálni, ezért pszeudovéletlen eljárásokra hagyatkozunk. Cél az, hogy olyan eljárásokat használjunk melyek eredményei statisztikailag véletlennek tűnnek, attól függetlenül, hogy egy determinisztikus rendszer generálja az eredményt.
+	Véletlen sorozatok generálására sok modern területnek igénye van (pl.: statisztika, szimulációk, kriptográfia). Algoritmikusan azonban nem lehetséges valódi véletlen számokat generálni, ezért pszeudovéletlen eljárásokra hagyatkozunk. Cél az, hogy olyan eljárásokat használjunk, melyek eredményei statisztikailag véletlennek tűnnek, attól függetlenül, hogy egy determinisztikus rendszer generálja az eredményt.
 	\par
 	Az ilyen sorozatokra való igény először Gilbert Vernam munkájának következménye. 1917-ben Vernam feltalálta a one-time pad titkosítási eljárást. Az üzeneteket telegráfon bitenként továbbították, viszont az eredeti adatot valamilyen kulcs segítségével megváltoztatták (amit aztán a fogadó fél a kulcs ismeretében vissza tud fejteni). Ha le is hallgatták a küldött adatot, akkor a kulcs nélkül nem lehetett tudni, hogy mi volt az eredeti üzenet.
 	\par
-	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogyha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni \cite{shannon}. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
+	1949-ben Claude Shannon, matematikus, bebizonyította a fenti eljárásról, hogy ha egy jó sorozatot használunk kulcsnak, akkor az eredeti és a titkosított bitsorozat között nem lehet semmiféle összefüggést találni \cite{shannon}. Ennek következménye, hogy a Vernam-féle one-time pad eljárást nem lehet feltörni, ha megfelelő, egyszer használatos kulcsokat használunk.
 	\par
-	Az is igaz azonban, hogyha nem megfelelően választjuk meg a kulcsokat (pl. többször használunk egy titkosító kulcsot), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
+	Az is igaz azonban, hogy ha nem megfelelően választjuk meg a kulcsokat (pl. többször használunk egy titkosító kulcsot), akkor a titkosítás könnyen törhető. A fő nehézség tehát a one-time pad használatánál, hogy nagy méretű véletlen bitsorozatokat kell előállítani kulcsoknak.
 	\par
-	Az ilyen sorozatok előállításához régen fizikai eszközöket használtak, pl. diódákat. A problémája az ilyen eszközöknek, hogy külső tényezők is befolyásolják a véletlenséget, és meghibásodás is történhet. Ezért nagyon fontos, a véletlenség vizsgálása különböző statisztikai tesztekkel, ami azonban időigényes. Emiatt jobb, hogyha "csak" pszeudovéletlen sorozatokat állítunk elő. Így elkerülhető a statisztikai tesztelés, mivel bizonyítottan jó véletlen tulajdonságokkal rendelkező sorozatot kapunk.
+	Az ilyen sorozatok előállításához régen fizikai eszközöket használtak, pl. diódákat. A problémája az ilyen eszközöknek, hogy külső tényezők is befolyásolják a véletlenséget, és meghibásodás is történhet. Ezért nagyon fontos a véletlenség vizsgálása különböző statisztikai tesztekkel, ami azonban időigényes. Emiatt jobb, hogy ha "csak" pszeudovéletlen sorozatokat állítunk elő. Így elkerülhető a statisztikai tesztelés, mivel bizonyítottan jó véletlen tulajdonságokkal rendelkező sorozatot kapunk.
 	\par
-	A pszeudovéletlen tulajdonságok mérésével sok évtizede foglalkoznak matematikusok. Elsőként Émile Borel definiálta végtelen bináris sorozatokra a pszeudovéletlenség normalitás mértékét \cite{borel}. Később Solomon Wolf Golomb és Donald Knuth \cite{knuth} próbálkoztak a pszeudovéletlenség matematikai fogalmának definiálására. Ennek a definíciónak alapvető gyengeségei voltak, ezért ezt ma már nem nagyon használják. Ezután Andrej Nyikolajevics Kolmogorov \cite{kolmogorov} és Gregory John Chaitin bonyolultságelméleti irányból közelítették meg a problémát, de a gyakorlatban ezek a fogalmak nem kaptak nagy jelentőséget, mivel alkalmazásuk nem jól kivitelezhető.
+	A pszeudovéletlen tulajdonságok mérésével sok évtizede foglalkoznak matematikusok. Elsőként Émile Borel definiálta végtelen bináris sorozatokra a pszeudovéletlenség normalitás mértékét \cite{borel}. Később Solomon Wolf Golomb és Donald Knuth \cite{knuth} próbálkoztak a pszeudovéletlenség matematikai fogalmának definiálásával. Ennek a definíciónak alapvető gyengeségei voltak, ezért ezt ma már nem nagyon használják. Ezután Andrej Nyikolajevics Kolmogorov \cite{kolmogorov} és Gregory John Chaitin bonyolultságelméleti irányból közelítették meg a problémát, de a gyakorlatban ezek a fogalmak nem kaptak nagy jelentőséget, mivel alkalmazásuk nem jól kivitelezhető.
 	\par
 	Ezen próbálkozások inspiráltak egy új, konstruktív megközelítést a pszeudovéletlenség vizsgálatára. Christian Manduit és Sárközy András megközelítése az volt, hogy léteznek olyan sorozatok, melyekről bizonyítható, hogy statisztikailag erős véletlen tulajdonságokkal rendelkeznek (más szóval: erős pszeudovéletlen tulajdonságúak), így az utólagos tesztelés elkerülhető. Ez a fajta vizsgálat az évek során egyre szélesebb körben alkalmazott. \cite{sarkozymauduit}
 	\subsection{A program célja}
@@ -83,11 +85,11 @@
 	\subsection{Rendszerkövetelmények}
 	A telepítéshez szükséges a rendszeren a TDM-GCC fordító és a make megléte. A TDM-GCC a \url{https://sourceforge.net/projects/tdm-gcc/} oldalról ingyenesen elérhető, a make pedig Windows esetén a \url{http://gnuwin32.sourceforge.net/packages/make.htm} oldalon érhető el, Linux rendszeren terminálból telepíthető. Ha nem történt volna meg, ezeknek az útvonalát adjuk hozzá a PATH környezeti változóhoz.
 		
-	Szükséges egy telepített és megfelelően bekonfigurált QT5 keretrendszer mingw73\_64-es platformra. Ez is ingyenesen telepíthető a \url{https://www.qt.io/download} oldalról.
+	Szükséges egy telepített és megfelelően konfigurált QT5 keretrendszer mingw73\_64-es platformra. Ez is ingyenesen telepíthető a \url{https://www.qt.io/download} oldalról.
 	
-	A megfelelően konfiguráltság annyit jelent, hogy könyvtárak és a qmake utai hozzá kell legyenek vannak adva a rendszer PATH környezeti változójához, hogy a program megtalálja a megfelelő .dll fájlokat). Jelen esetben a $<$QT helye$>$ mingw73\_64\textbackslash bin mappát kell hozzáadni a PATH-hoz (a qmake és a .dll-ek egy mappába vannak).
+	A megfelelően konfiguráltság annyit jelent, hogy könyvtárak és a qmake utai hozzá kell legyenek adva a rendszer PATH környezeti változójához, hogy a program megtalálja a megfelelő .dll fájlokat. Jelen esetben a $<$QT helye$>$ mingw73\_64\textbackslash bin mappát kell hozzáadni a PATH-hoz (a qmake és a .dll-ek egy mappába vannak).
 	\subsection{Telepítés}
-	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A Setup mappában található setup.bat script lefuttatja a qmake-t és a make-t, ezzel a program fájljait fordítva és létrehozva a futtatható állományt.
+	Ha a fenti függőségek megfelelően telepítve vannak, akkor telepíthető a program. A Setup mappában található setup.bat script lefuttatja a qmake-et és a make-et, ezzel a program fájljait fordítva és létrehozva a futtatható állományt.
 	\subsection{Futattás}
 	Ha a QT megfelelően van konfigurálva, akkor a Setup release mappájában lévő pszeudoveletlen\_szakdolgozat.exe fájl futtatásával lehet elindítani a programot.
 	\subsection{Menürendszer}
@@ -98,7 +100,7 @@
 		\item Tesztelés: Mértékek és titkosítás
 	\end{itemize}
 	\subsubsection{Főmenü}
-	Amikor a program elindul a felhasználót a főmenü fogadja. Itt elérhető az összes megvalósított konstrukció almenüpontja és a mértékek, illetve titkosításé is.
+	Amikor a program elindul, a felhasználót a főmenü fogadja. Itt elérhető az összes megvalósított konstrukció almenüpontja és a mértékek, illetve titkosításé is.
 	
 	\begin{figure}[h]
 		\centering
@@ -121,12 +123,12 @@
 		\item A sorozat hossza
 		\\ \normalfont{A sorozat hosszát bitekben kell megadni. Bármennyi lehet.}
 		\bfseries \item Prímszám
-		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő legkisebb jó prímre.
+		\\ \normalfont Egy olyan prímszámra van szükségünk a konstrukcióhoz, mely legalább 16-szor nagyobb mint a sorozat hossza (bitben megadott méret esetén 2-szer nagyobb). Az is kell, hogy a 2 legyen primitív gyök modulo prím. A "Generálás" gombbal a program megkeresi a legkisebb olyan prímet, mely a fenti feltételeknek megfelel. A "Következő" gombbal ugorhatunk a következő jó prímre.
 		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\ \normalfont
 		A fokszám nem lehet túl nagy függően a prímszámtól, de túl kicsi sem. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol $p$ a használt prímszám. Polinom fokszámot generálhatunk a fenti intervallumban a "Generálás" gombbal.
 		\bfseries \item A polinom \\
 		\normalfont
-		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket a szóközzel elválasztva kell felsorolni a szövegmezőben. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
+		A konstrukció jó működéséhez szükséges, hogy olyan polinomot válasszunk, amelynek csak egyszeres gyökei vannak. Emiatt a polinomot a gyökeinek felsorolásával reprezentáljuk, ezeket szóközzel elválasztva kell felsorolni a szövegmezőben. A fokszámmal megegyező számú gyököt kell megadni. Lehetőség van polinom generálására is, ekkor a program legenerál egy az előző pontban megadott fokszámú polinomot.
 	\end{enumerate}
 	
 	\begin{figure}[h]
@@ -136,9 +138,9 @@
 		\end{minipage}
 		\caption{Legendre menü}
 	\end{figure}
-	Ha fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
+	Ha a fenti paramétereket megadtuk, akkor a "Sorozat generálása" gombra kattintva megkapjuk az eredményét a Legendre konstrukciónak a kapott bemenetre.
 	\subsubsection{RC4 konstrukció}
-	Az RC4 konstrukciót Ron Rivest fejlesztette ki az 1987-ben viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. \cite{rcleak} A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
+	Az RC4 konstrukciót Ron Rivest fejlesztette ki 1987-ben, viszont eredetileg üzleti titok volt. 1994-ben azonban kiszivárgott az algoritmus leírása. \cite{rcleak} A működése egyszerű és gyors, ezért használata széles körben elterjedt, viszont vannak rossz tulajdonságai.
 	\par
 	Szükséges paraméterek:
 	\begin{enumerate}
@@ -163,7 +165,7 @@
 		\bfseries \item A sorozat hossza \\
 		\normalfont A sorozat hosszát bitekben kell megadni. Bármennyi lehet. \\
 		\bfseries \item Prímszám \\
-		\normalfont Ebben a konstrukcióban a prímszám nagyságára nincs igazi nagyságrendi követelmény. A "Generálás" gombbal a legkisebb, sorozat hosszánál nagyobb, prímszámot adja vissza. A "Következő" gomb megkeresi az első jelenleginél nagyobb prímet.
+		\normalfont Ebben a konstrukcióban a prímszám nagyságára nincs igazi nagyságrendi követelmény. A "Generálás" gombbal a legkisebb, sorozat hosszánál nagyobb prímszámot adja vissza. A "Következő" gomb megkeresi az első jelenleginél nagyobb prímet.
 		\bfseries \item A konstrukcióhoz használt polinom fokszáma \\
 		\normalfont Hasonlóan a Legendre konstrukcióhoz, a fokszámtól elvárjuk, hogy ne legyen túl nagy vagy túl kicsi. Az alsó határ jelen megvalósításban 2-nek, a felső $5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$-nek lett megszabva, ahol p a használt prímszám. A "Generálás" gombbal egy fokszámot kapunk a fenti intervallumból.
 		\bfseries \item A polinom \\
@@ -178,11 +180,11 @@
 		\caption{Additív karakter menü}
 	\end{figure}
 	\subsubsection{ChaCha20 konstrukció}
-	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először \cite{salsa}, az eSTREAM projekt keretében belül. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen mint a Salsa. \cite{chacha}
+	A ChaCha20 egy stream cipher eljárás, mely a Salsa20 egy változata. Mindkét algoritmust Daniel J. Bernstein német-amerikai matematikus, kriptológus fejlesztette ki. A Salsa változatot 2005-ben tervezte, 2007-ben publikálták először \cite{salsa}, az eSTREAM projekt keretében. A ChaCha változat 1 évvel később, 2008-ban lett publikálva, célja az volt, hogy növelje a lavinahatást és ugyanolyan, vagy picit jobb teljesítményű legyen, mint a Salsa. \cite{chacha}
 	
-	Mindkét eljárás eszközei a bitenkénti XOR (kizáró vagy), a 32-bites összeadás $\textrm{mod}\ 2^{32}$, és a konstans távolságú forgatás egy belső állapoton, ahol az állapot 16 db 32-bites adatból (szóból) áll. Csak ezen műveletekkel az algoritmus kivédi az időzítéses támadásokat. Ez olyan támadás, ahol a támadó fél a futtató rendszer hiányosságait kihasználva (tehát nem a szoftver implementációja a baj) a kriptográfiai algoritmus futási idejéből próbálja feltörni a rendszert, mivel a bemenettől függhet a futási idő. Csak fix 32-bites műveleteket használva a futási idő megegyezik minden bemenetre, mivel az algoritmus fixen 20 menetben végzi fel a fenti műveleteket és a műveletek száma is fix minden menetben.
+	Mindkét eljárás eszközei a bitenkénti XOR (kizáró vagy), a 32-bites összeadás $\textrm{mod}\ 2^{32}$, és a konstans távolságú forgatás egy belső állapoton, ahol az állapot 16 db 32-bites adatból (szóból) áll. Csak ezen műveletekkel az algoritmus kivédi az időzítéses támadásokat. Ez olyan támadás, ahol a támadó fél a futtató rendszer hiányosságait kihasználva (tehát nem a szoftver implementációja a baj) a kriptográfiai algoritmus futási idejéből próbálja feltörni a rendszert, mivel a bemenettől függhet a futási idő. Csak fix 32-bites műveleteket használva a futási idő megegyezik minden bemenetre, mivel az algoritmus fixen 20 menetben végzi el a fenti műveleteket és a műveletek száma is fix minden menetben.
 	
-	A ChaCha algoritmus állapotrendszerének és algoritmusa részletes leírása a fejlesztői dokumentációban található. Jelen megvalósítás az RFC 8439-ben \cite{RFC} definiáltakat követi melyet az IRTF publikált 2018-ban, de ezen kívül több változata van az algoritmusnak, főként a körök számára vonatkozóan.
+	A ChaCha algoritmus állapotrendszerének és algoritmusa részletes leírása a fejlesztői dokumentációban található. Jelen megvalósítás az RFC 8439-ben \cite{RFC} definiáltakat követi, melyet az IRTF publikált 2018-ban, de ezen kívül több változata van az algoritmusnak, főként a körök számára vonatkozóan.
 	
 	A szükséges bemenetek:
 	\begin{enumerate}
@@ -196,7 +198,7 @@
 			{\itshape \item {Számláló}} \\
 			A jelen megvalósításban ez egy szót fed le (van verzió, ahol 64 bites a számláló, vagyis 2 szót foglal le), a megvalósításban ez minden "körében" az algoritmusnak növelődik, mondhatni számolja az iterációkat. Egy számot kell megadni a $[0, 2^{32}-1]$ intervallumban.
 			{\itshape \item {Egyszer használatos kulcs (nonce)}} \\ 
-			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
+			Ez a maradék 3 szót foglalja magában. Ez a kulcs azért van külön kategóriában, mert ezt a kulcsot csak egyszer lehet használni egy titkosított kommunikációban, hogy kivédje az újraküldéses támadásokat. Ez általában egy tetszőleges szám, de mindig más. Jelen megvalósításban ez 3 darab szám megadása a $[0,2^{32}-1]$ intervallumban. Generálhatunk ilyen egyszer használatos kulcsot a fenti intervallumból vett számokkal a "Generálás" gombra kattintva.
 		\end{enumerate}
 	\end{enumerate}
 	A fenti paraméterek megadása után megtekinthetjük az ChaCha20 konstrukció által generált sorozatot a "Sorozat generálása" gombbal.
@@ -208,7 +210,7 @@
 		\caption{ChaCha20 menü}
 	\end{figure}
 	\subsection{Mértékek}
-	Ezen része a programnak az átlagos felhasználónak nem feltétlenül tud sokat nyújtani. Ahhoz, hogy a mértékek eredményeit értelmezni tudjuk szükséges a formulákról és a jelentésükről való ismertség megszerzése. Ezen ismeretek alapjait a fejlesztői dokumentációban részletezem, a dokumentáció ezen részén csak röviden foglalom össze a program funkcióit.
+	Ezen része a programnak az átlagos felhasználónak nem feltétlenül tud sokat nyújtani. Ahhoz, hogy a mértékek eredményeit értelmezni tudjuk, szükséges a formulákról és a jelentésükről való ismeret megszerzése. Ezen ismeretek alapjait a fejlesztői dokumentációban részletezem, a dokumentáció ezen részén csak röviden foglalom össze a program funkcióit.
 	
 	Három fő mértékünk van:
 	\begin{enumerate}
@@ -216,7 +218,7 @@
 		\bfseries \item Normalitás 
 		\bfseries \item Korreláció
 	\end{enumerate}
-	Ezekből kettőt közvetlen ki tudunk számolni, de a harmadikra csak közelítő értéket ad a program, mivel a számolás műveletigénye olyan nagyságrendeket ér el, hogy ennek kivárása rengeteg időbe telne a szakdolgozat keretein belül.
+	Ezekből kettőt közvetlenül ki tudunk számolni, de a harmadikra csak közelítő értéket ad a program, mivel a számolás műveletigénye olyan nagyságrendeket ér el, hogy ennek kivárása rengeteg időbe telne a szakdolgozat keretein belül.
 	
 	A számolási paraméterek:
 	\begin{enumerate}
@@ -243,7 +245,7 @@
 		\bfseries \item Titkosítandó szöveg \\
 		\normalfont A szöveget amit titkosítani szeretnénk, a magyar billentyűzet legtöbb karakterét tartalmazhatja. Hosszúsága bármennyi lehet.
 		\bfseries \item Titkosító bitsorozat \\
-		\normalfont A bitsorozat mely a titkosítás kulcsaként szolgál. Betölthető korábban lementett sorozat a "Sorozat betöltése" gombbal, de magunk is írhatunk be sorozatot. Fontos, hogy a bitsorozat hossza legalább annyi legyen, mint a titkosítandó szöveg karakterszámának 7-szerese. A titkosítást különben nem lehet elvégezni. \\
+		\normalfont A bitsorozat, mely a titkosítás kulcsaként szolgál. Betölthető korábban lementett sorozat a "Sorozat betöltése" gombbal, de magunk is írhatunk be sorozatot. Fontos, hogy a bitsorozat hossza legalább annyi legyen, mint a titkosítandó szöveg karakterszámának 7-szerese. A titkosítást különben nem lehet elvégezni. \\
 		Ezután a "Szöveg titkosítása" gombra kattintva lefuttathatjuk a titkosítást és megtekinthetjük az eredményt a "A titkosított szöveg" fülnél. Ezt a szöveget visszafejthetjük az eredetivé, ha az eredeti kulcsként használt bitsorozattal újra lefuttatjuk a titkosítást a titkosított szövegen.
 	\end{enumerate}
 	\begin{figure}[h]
@@ -467,7 +469,7 @@
 	Ezzel egy bináris sorozat esetén a pszeudovéletlenségéhez támasztott tulajdonságokat követeljük meg, melyek a következők (a régi, klasszikus követelmények szerint):
 	\begin{enumerate}
 		\bfseries \item Normalitás:
-		\normalfont	Legyen $E: \mathbb{N} \to \{e_1, ..., e_N\}$, és $E(n) = e_{1+(n \mod N)}$, így $E$ egy végtelenített bináris sorozat, és tetszőleges $E_N$ esetén kiterjeszthető a végtelenítés. Ekkor $E$-t felfoghatjuk sorozatként is: $E=(e_1, ..., e_N, e_1, e_2, ..., e_N, e_1, ...)$, így ha a sorozatra:
+		\normalfont	Legyen $E: \mathbb{N} \to \{e_1, ..., e_N\}$, és $E(n) = e_{1+(n \mod N)}$, így $E$ egy végtelenített bináris sorozat, és tetszőleges $E_N$ esetén kiterjeszthető a végtelenítés. Ekkor $E$-t felfoghatjuk sorozatként is: $E=(e_1, ..., e_N)$, így ha a sorozatra:
 		$$\left|T(E, M, X) - \frac{M}{2^k}\right| = o(M)$$
 		minden rögzített $k$ és $X$ esetén, ahol $M \to \infty$, akkor $E$ \textbf{normális}.
 		\par
@@ -642,7 +644,7 @@ A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki
 \begin{enumerate}
 	\item Megnézzük, hogy $a$ páros-e, ezt gyorsan meghatározhatjuk, hogy $a$-nak a bitenkénti és műveletét vizsgáljuk az $1$-et reprezentáló bitsorozattal. Ebből következik, hogyha $a$ \& $1 = 0$, akkor $a$ páros, és ekkor a következő redukciót használjuk:
 	\begin{enumerate}
-		\item  Általánosan igaz, hogy $\left({\frac{ab}{p}}\right) = \left({\frac{a}{p}}\right)\left({\frac{b}{p}}\right)$ (úgymond a Legendre-szimbólum a felső változójában teljesen multiplikatív függvény). Mivel $a$ jelen esetben páros, ezért $\left({\frac{a}{p}}\right) = \left({\frac{a/2}{p}}\right)\left({\frac{2}{p}}\right)$. Rekurzív lépésként kiszámoljuk az $\left({\frac{a/2}{p}}\right)$ értékét.
+		\item  Általánosan igaz, hogy $\left({\frac{ab}{p}}\right) = \left({\frac{a}{p}}\right)\left({\frac{b}{p}}\right)$ (a Legendre-szimbólum a felső változójában teljesen multiplikatív függvény). Mivel $a$ jelen esetben páros, ezért $\left({\frac{a}{p}}\right) = \left({\frac{a/2}{p}}\right)\left({\frac{2}{p}}\right)$. Rekurzív lépésként kiszámoljuk az $\left({\frac{a/2}{p}}\right)$ értékét.
 		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-cal, így elég annyit ellenőrizni megint, hogy a 8-cal vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$ (ahol az \& a bitenkénti és művelet), akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
 	\end{enumerate}
 	\item Ha $a$ páratlan, akkor:
@@ -881,7 +883,7 @@ Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az összes 
 
 \textit{void generatePrimeButtonClicked()}
 
-Prímszám generálás slotja. Híváskor új prímszámot generál mely megfelel a Legendre-konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
+Prímszám generálás slotja. Híváskor prímszámot generál mely megfelel a Legendre-konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
 
 \textit{void nextPrimeButtonClicked()}
 
@@ -954,7 +956,7 @@ Polinom generálását kezelő slot. Meghíváskor begyűjti a fokszám és prí
 
 \textit{generateButtonClicked()}
 
-Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az osztály összes paramétert az Additív konstrukcióhoz és ez alapján generál, az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
+Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az összes szükséges paramétert az Additív konstrukcióhoz és ez alapján generál. Az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
 
 \textit{generatePrimeButtonClicked()}
 
@@ -992,7 +994,7 @@ Az inicializáláshoz használt private segédmetódusok.
 
 \textit{void generateButtonClicked()}
 
-Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az osztály az összes paramétert a ChaCha20 konstrukcióhoz és ez alapján generál, az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
+Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az osztály az összes paramétert a ChaCha20 konstrukcióhoz és ez alapján generál. Az eredmény a seqTextEdit-be kerül. Hiba esetén hibaüzenet kerül kiírásra.
 
 \textit{void keyGenButtonClicked()}
 
@@ -1162,7 +1164,7 @@ Létezik a kezdetleges implementációból egy függvény mely a definícióban 
 
 A normalitás mértéknél a legnagyobb kihívást az összes vizsgálandó részsorozat effektív legenerálása jelentette. Leegyszerűsítve arra kellett algoritmust írni, mely az összes max. $k \in \mathbb{N}$ hosszúságú bitsorozatot előállítja (kivéve a 0 hosszút). Erre egy $(k+1)^2$ méretű mátrixot használunk, hogy a prefixek letárolásával tudjuk előállítani mindig a következő részsorozatokat. Így a mátrixba megtalálható az összes vizsgálandó sorozat, és a generálás gyors. 0 hosszúságú sorozatról kezdünk, és minden lépésben a már meglévő prefixekhez fűzünk hozzá 0-kat és 1-eseket és ezeket behelyezzük a mátrixba. Az eljárás végén a mátrix megfelelő indexein az összes részsorozat megtalálható. Így viszont nincs különszedve a k-ad rendű normalitások számolása.
 
-A másik költséges dolog az volt, hogy hogyan keressük meg a részsorozatok előfordulásának számát. Bár itt bitekről van szó és vannak bitsorozatokra jobb matchelő algoritmusok melyek kihasználják, hogy nem csak egyesével tudunk biteket címezni. Ezt azonban a jelenlegi reprezentációval nem lehet megtenni, az std::vector<bool>-ban nem tudunk több bitre egyszerre hivatkozni. Emiatt inkább string-matchelésre vezetett vissza a probléma, ezért a Rabin-Karp algoritmust implementáltam a bitsorozatos reprezentációra.
+A másik költséges dolog az volt, hogy hogyan keressük meg a részsorozatok előfordulásának számát. Bár itt bitekről van szó és vannak bitsorozatokra jobb matchelő algoritmusok melyek kihasználják, hogy nem csak egyesével tudunk biteket címezni. Ezt azonban a jelenlegi reprezentációval nem lehet megtenni, az vector<bool>-ban nem tudunk több bitre egyszerre hivatkozni. Emiatt inkább string-matchelésre vezetett vissza a probléma, ezért a Rabin-Karp algoritmust implementáltam a bitsorozatos reprezentációra.
 
 A fenti optimalizálásokkal a számolást a következő függvény valósítja meg: \textit{long double normalityMeasure(const std::vector$<$bool$>$ \&seq)}.
 
