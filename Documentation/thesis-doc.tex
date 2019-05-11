@@ -225,8 +225,8 @@
 		\bfseries \item A vizsgálandó sorozat \\
 		\normalfont A sorozat, melyre ki szeretnénk számolni a mértékeket. Korábban mentett sorozat betölthető a "Sorozat betöltése" gombbal, de saját magunk is írhatunk be tetszőleges sorozatot. \\
 		A jól-eloszlás és a normalitás mértékek számolásához további paraméter nem szükséges, ezeket kiszámolhatjuk a "Számolás" gombbal. \\
-		\bfseries \item A k-ad rendű korreláció közelítésének rendje és menetszáma \\
-		\normalfont Ennek a mértéknek a számolása, mint fent említettem, túlságosan nagy műveletigényű a dolgozat keretein belül, ezért csak közelítő eredményt adunk a k-ad rendű korrelációra (gyakorlatilag ezeknek a maximuma a korreláció mérték). Meg kell adnunk, hogy hányad rendű korrelációt szeretnénk vizsgálni, és hogy hány menetes a számolás (hányszor próbálkozik új sorozattal). Hasonlóan a többi mértékhez, a "Számolás" gombbal tudjuk elkezdeni a műveletet.
+		\bfseries \item A \textit{k}-ad rendű korreláció közelítésének rendje és menetszáma \\
+		\normalfont Ennek a mértéknek a számolása, mint fent említettem, túlságosan nagy műveletigényű a dolgozat keretein belül, ezért csak közelítő eredményt adunk a $k$-ad rendű korrelációra (gyakorlatilag ezeknek a maximuma a korreláció mérték). Meg kell adnunk, hogy hányad rendű korrelációt szeretnénk vizsgálni, és hogy hány menetes a számolás (hányszor próbálkozik új sorozattal). Hasonlóan a többi mértékhez, a "Számolás" gombbal tudjuk elkezdeni a műveletet.
 	\end{enumerate}
 	\begin{figure}[h]
 		\centering
@@ -263,15 +263,15 @@
 	\textbf{Def.}: Ha $p$ egy prímszám, és $a \in \mathbb{Z}$, akkor az $\left({\frac{a}{p}}\right)$ Legendre-szimbólum értéke: \par
 	$$\left({\frac{a}{p}}\right) =
 	\begin{cases*}
-	1 & ha $a$ kvadratikus maradék modulo $p$ és $a \not\equiv 0\ (\textrm{mod}\ p)$ \\
-	-1       & ha $a$ nem kvadratikus maradék modulo $p$\\
-	0 & ha $a \equiv 0\ (\textrm{mod}\ p)$
+	1, & ha $a$ kvadratikus maradék modulo $p$ és $a \not\equiv 0\ (\textrm{mod}\ p)$ \\
+	-1,       & ha $a$ nem kvadratikus maradék modulo $p$\\
+	0, & ha $a \equiv 0\ (\textrm{mod}\ p)$
 	\end{cases*}$$
 	A Legendre-szimbólum véletlenségét már régóta vizsgálták, ez volt a motiváció a konstrukció megvalósítására.
 	\subsubsection*{Algoritmus}
 	\begin{enumerate}
 		\item Vegyünk egy olyan $p$ prímet, hogy a $2$ legyen primitív gyök modulo $p$
-		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy p-hez képest
+		\item Vegyünk egy olyan $f \in \mathbb{F}_p[x]$ polinomot, melynek csak egyszeres gyökei vannak, és foka nem túl nagy $p$-hez képest
 		\item $k$ hosszú sorozat esetén a ($e_0, e_1, ..., e_{k-1}$) sorozat $i$. tagja: $$e_i = 
 		\begin{cases*}
 		 \left({\frac{f(i)}{p}}\right) &, ha $p \nmid f(i)$  \\
@@ -280,14 +280,14 @@
 		$$
 	\end{enumerate}
 	\subsubsection*{Extra követelmények}
-	Ha egy $n$ hosszú sorozatot szeretnénk generálni, akkor a használt $p$ prímre legyen igaz, hogy $p > 2n$. A polinom fokszáma szeretnénk, ha nem lenne túl kicsi, és a felső határt $p$-hez viszonyítva kell megadni. Jelen megvalósításban ha $k$ a polinom fokszáma, akkor legyen $2 \leq k \leq 5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$.
+	Ha egy $n$ hosszú sorozatot szeretnénk generálni, akkor a használt $p$ prímre legyen igaz, hogy $p > 2n$. A polinom fokszáma szeretnénk, ha nem lenne túl kicsi, és a felső határt $p$-hez viszonyítva kell megadni. Jelen megvalósításban, ha $k$ a polinom fokszáma, akkor legyen $2 \leq k \leq 5\cdot\sqrt[\leftroot{-2}\uproot{2}10]{p}$.
 	\subsubsection{RC4 konstrukció}
 	\subsubsection*{Ismertető}
 	Az RC4 stream cipher algoritmus a bájt hosszúságú bitsorozatok egy permutációjának előállításával kezdődik, ami egy kulcssorozat segítségével történik. Ez a key-scheduling fázisa az algoritmusnak.
 	\par
 	Ez után következik a tényleges sorozat generálás. Ameddig kell a sorozatot generálni (pl. hossz alapján), addig az algoritmus lépésenként keveri a bájtok sorrendjét, és közben egy bájtnyi kimenetet generál.
 	\par
-	Ebben a megvalósításban a klasszikus, módosítások nélküli algoritmust valósítottam meg, hogy ez hogyan viszonyul a megvalósított mértékekhez.
+	Ebben a megvalósításban a klasszikus, módosítások nélküli algoritmust valósítottam meg, és ezt vizsgáltam, hogy a generált sorozatok hogyan viszonyulnak a megvalósított mértékekhez.
 	A módszernek több változata van, amik javíthatják a véletlenségét a generált sorozatnak.
 	\subsubsection*{Algoritmus}
 	\begin{enumerate}
@@ -311,7 +311,7 @@
 	Elvárjuk, hogy a kulcssorozat ne legyen túl rövid (általában 40 bit az alsó határ). Jelen megvalósításban: $n \geq 5$, vagyis legalább 5 karakter hosszú kulcs kell.
 	\subsubsection{Additív karakteres konstrukció}
 	\subsubsection*{Bevezető}
-	Az additív karakteres konstrukció a Legendre szimbólumoshoz áll legközelebb. A Legendre szimbólumos konstrukció jobb véletlenségi tulajdonságokat mutat. Az additív karakteres sorozat azonban nagyobb sorozatcsaládot képes előállítani, és implementációja egyszerűbb.
+	Az additív karakteres konstrukció a Legendre szimbólumoshoz áll legközelebb. A Legendre szimbólumos konstrukció jobb véletlenségi tulajdonságokat mutat (lásd pl.: \cite{vikitoth1}, \cite{vikitoth2}). Az additív karakteres sorozat azonban nagyobb sorozatcsaládot képes előállítani, és implementációja egyszerűbb.
 	
 	Nevét a konstrukció jó tulajdonságait bizonyító tételben használt additív karakterekről kapta.
 	\subsubsection*{Algoritmus}
@@ -353,7 +353,7 @@
 	
 	Az $a$ $^\wedge$= $b$ a bitenkéni XOR, vagyis kizáró vagy műveletet jelöli. Az eredmény az $a$ változóba kerül.
 	
-	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-vel való balra forgatás egy bitsorozat balra shiftelését (a magasabb helyi értékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
+	Az $a <<<$= $b$ az $a$ 32 bites változó balra forgatását jelöli $b$-vel. A $b$-vel való balra forgatás egy bitsorozat balra shiftelését (a magasabb helyiértékek felé shiftelünk) jelenti $b$-szer úgy, hogy a magas helyi értéken túlmenő bitek visszakerülnek a legkisebb helyi értékre (más néven: ciklikus shiftelés). A forgatás eredménye szintén az $a$ változóba kerül.
 	\subsubsection*{Algoritmus}
 	
 	Az algoritmus 20 kört hajt végre, egy körben 4 negyedkört csinálva, váltogatva a körök csoportját, hogy éppen melyik indexen hajtódnak végre a negyedkörök. Kétfajta csoport van, az egyik az oszlopos, másik a diagonális kör. Ha a 16 szavas állapot 4x4-es mátrixát az alábbiak szerint indexeljük:
@@ -369,7 +369,7 @@
 		\end{tabular}
 	\end{table}
 	\\
-	Akkor a két fajta negyedkör az alábbiak szerint hajtódik végre:
+	akkor a két fajta negyedkör az alábbiak szerint hajtódik végre:
 	\begin{enumerate}
 		\bfseries\item Oszlopos kör \\
 		\normalfont Mindegyik negyedkör az egyik oszlopban lévő elemeken hajtódik végre, sorban az 1. oszloptól kezdve, tehát a pszeudokódja (a fent definiált QR eljárással):
@@ -406,23 +406,23 @@
 		Ezzel előállítottuk a kimeneti $O$ bitsorozatot.
 		\item Növeljük az belső állapot számlálóját, vagyis inkrementáljuk $I[12]$-őt.
 	\end{enumerate}
-	Nyilvánvalóan a tetszőlegesen hosszú stream generáláshoz az $O$ bitsorozat nem elég. A fenti algoritmust $ChaChaRound()$-al jelölve a stream generálás algoritmusa a következőféleképpen alakul:
+	Nyilvánvalóan a tetszőlegesen hosszú stream generáláshoz az $O$ bitsorozat nem elég. A fenti algoritmust $ChaChaRound()$-dal jelölve a stream generálás algoritmusa a következőféleképpen alakul:
 	\begin{enumerate}
 		\item Legyen $l$ a generálandó sorozat mérete, ezt fogjuk használni az algoritmusban arra is, hogy számon tartsuk még mennyi bájtnyi adatot kell előállítani. A kimenetnek megfelelő bitsorozat legyen $O$.
 		\item Amíg $l \geq 64$, addig:
 		\begin{enumerate}
 			\item Hajtsuk végre a $ChaChaRound()$ eljárást. Az eljárás teljes kimenetét fűzzük az $O$ kimeneti bitsorozathoz.
-			\item Csökkentsük $l$-t 64-el, vagyis legyen $l := l - 64$.
+			\item Csökkentsük $l$-t 64-gyel, vagyis legyen $l := l - 64$.
 		\end{enumerate}
-		\item Ha $l > 0$: Még egyszer hajtsuk végre a $ChaChaRound()$ eljárást. A maradék $l$ bájtnyi kimenetet az eljárás eredményeként kapott első $l$ bájtjából állítjuk össze, a mátrixos indexeléssel élve. Ha már egy teljes szónyi adat nem fér bele $O$-ba, akkor az utolsó szóból ami benne van az első $l$ bájtban már csak az első $l \ \textrm{mod} \ 4$ bájtot fűzzük a kimenethez.
+		\item Ha $l > 0$: Még egyszer hajtsuk végre a $ChaChaRound()$ eljárást. A maradék $l$ bájtnyi kimenetet az eljárás eredményeként kapott első $l$ bájtjából állítjuk össze, a mátrixos indexeléssel élve. Ha már egy teljes szónyi adat nem fér bele $O$-ba, akkor az utolsó szóból, ami benne van az első $l$ bájtban már csak az első $l \ \textrm{mod} \ 4$ bájtot fűzzük a kimenethez.
 	\end{enumerate} 
-	Jelen körülmények között extra követelményt nem támasztunk az algoritmus felé, de a kezdeti állapotot kifejezetten kell ellenőrizni, ha sokat akarunk az algoritmussal generálni. Ha sok kört fut be ugyanaz az állapot, akkor a számláló körbeér, és ismétlődni fognak a generált értékek. Ekkor mindenképpen új állapotot kell választani, tehát maximálisan $2^{32}-1$ darab $ChaChaRound()$ hívás legyen mielőtt új állapotot készítünk.
+	Jelen körülmények között extra követelményt nem támasztunk az algoritmus felé, de a kezdeti állapotot kifejezetten kell ellenőrizni, ha sok sorozatot akarunk az algoritmussal generálni. Ha sok kört fut be ugyanaz az állapot, akkor a számláló körbeér, és ismétlődni fognak a generált értékek. Ekkor mindenképpen új állapotot kell választani, tehát maximálisan $2^{32}-1$ darab $ChaChaRound()$ hívás legyen mielőtt új állapotot készítünk.
 	
 	Ezen kívül a nonce részét az állapotnak minden titkosított adatvitel esetén csak egyszer használjuk egy adott kulccsal, hogy kikerüljük a visszajátszásos támadásokat.
 	
 	A ChaCha algoritmust még nem vizsgálták kimerítően kriptográfiailag, csak a Salsa változatot. A jelenlegi legjobb ismert támadás $2^{109}$ művelettel töri fel a 7 menetes, és $2^{250}$ művelettel a 8 menetes Salsa titkosítást. \cite{salsaattack}
 	
-	Azt is megmutatta 2013-ban Nicky Mouha és Bart Prencel, hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. \cite{salsadiffcrypt} Ezek olyan támadásokat jelentenek, mely a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
+	Azt is megmutatta 2013-ban Nicky Mouha és Bart Preneel, hogy a Salsa 128-bites biztonságot jelent a differenciális kriptoanalízises támadásokkal szemben. \cite{salsadiffcrypt} Ezek olyan támadásokat jelentenek, melyek a bemenet megváltoztatásából a kimenet változásaira próbálnak következtetéseket levonni.
 	\subsection{Mértékek}
 	\subsubsection*{Ismertető}
 	A régi próbálkozások a pszeudovéletlenség definiálására nem voltak elég jól alkalmazhatóak a gyakorlatban, mint pl.: Golomb véletlenségi posztulátumai vagy Knuth pszeudovéletlenségi definíciója \cite{knuth}. Ezek a definíciók ténylegesen jó pszeudovéletlen sorozatokat eredményeznek, de a tesztelés rendkívül költséges, és a kivitelezés is nehéz.
@@ -436,7 +436,7 @@
 	$$U(E_N, M, a, b) = \sum_{i=1}^{M}e_{a+i\cdot b}$$
 	Az $U$ függvény megadja, hogy a sorozatnak az $a$ kezdőponttól $b$ lépésközzel a számok összege mennyi a sorozat végéig.
 	
-	Ekkor az \textbf{jól-eloszlási mértéket} definiáljuk a következőféleképpen:
+	Ekkor a \textbf{jól-eloszlási mértéket} definiáljuk a következőféleképpen:
 	$$W(E_N) = \max_{a, b, t}{|U(E_N, t, a, b)|}$$
 	Ahol $a \in \mathbb{Z}$ és $t, b \in \mathbb{N}$ úgy, hogy $1 \leq a+b \leq a+t\cdot b \leq N$.
 	
@@ -447,7 +447,7 @@
 	$$T(E_N, M, X) = |\{n : 0 \leq n < M, (e_{n+1}, e_{n+2}, ..., e_{n+k}) = X\}|$$
 	Vagyis azon pozíciók száma az $M$. kezdőpozícióig, amiktől vett $k$ hosszú részsorozat megegyezik az $X$ részsorozattal. Gyakorlatilag az előfordulásait számolja meg $X$-nek, $M$-ig.
 	
-	Ekkor a \textbf{k-ad rendű normalitás mértéket} a következőképpen definiáljuk:
+	Ekkor a \textbf{\textit{k}-ad rendű normalitás mértéket} a következőképpen definiáljuk:
 	$$N_k(E_N) = \max_{x \in \{-1, 1\}^{k}}\max_{0 < M \leq N-k+1}{\left| T(E_N, M, x) - \frac{M}{2^k}\right|}$$
 	Vagyis a $k$ hosszú részsorozatok esetében az átlagos előfordulási számtól való legnagyobb eltérést fejezi ez ki. \par
 	Így már definiálható a \textbf{normalitás mérték}, mely a következőféleképpen alakul:
@@ -458,7 +458,7 @@
 	$$V(E_N, M, D) = \sum_{n=0}^{M-1}{\prod_{i=1}^{k}{e_{n+d_i}}}$$
 	Vagyis a $V$ függvény összegzi az összes lehetséges pozícióból kezdve a $d_1, ..., d_k$-val eltolt pozícióban lévő elemek szorzatát.
 	\par
-	Ekkor definiálhatjuk a \textbf{k-ad rendű korreláció mértéket} a következőféleképpen:
+	Ekkor definiálhatjuk a \textbf{\textit{k}-ad rendű korreláció mértéket} a következőféleképpen:
 	$$C_k(E_N) = \max_{M, D}{|V(E_N, M, D)|}$$
 	ahol $D \in \mathbb{N}^k$ és $M \in \mathbb{N}$ úgy ahogy előbb a $V$ függvény definiálásakor voltak állítva kritériumok, vagyis $D = (d_1, ..., d_k)$ esetén $0 \leq d_1 < d_2 < ... < d_k < M+d_k \leq N$. Ez a kifejezés azt keresi gyakorlatilag, hogy melyik az az ugrássorozat, amivel a legnagyobbnak tűnik az összefüggés mértéke. 
 	\par
@@ -486,12 +486,12 @@
 		\item A mértékeket jó tulajdonságú sorozatok esetén tudjuk becsülni.
 		\item Legyen értelmezve a mértékek alacsonyabb szintje is, vagyis a pszeudovéletlen jelleg kimutatható legyen. 
 	\end{enumerate}
-	A legfontosabb mértékek között vannak a fent tárgyalt jól-eloszlás-, k-ad rendű normalitás-, normalitás-, k-ad rendű korreláció- és korreláció-mértékek. Ezen kívül fontos még a \textbf{k-ad rendű kombinált mérték}, ez a jól-eloszlást és k-ad rendű korrelációt ötvözi és az ehhez tartozó \textbf{kombinált mérték}, mely a normalitáséhoz hasonlóan adódik a $k$-ad rendű mértékből.
+	A legfontosabb mértékek között vannak a fent tárgyalt jól-eloszlás-, $k$-ad rendű normalitás-, normalitás-, $k$-ad rendű korreláció- és korreláció-mértékek. Ezen kívül fontos még a \textbf{\textit{k}-ad rendű kombinált mérték}, ez a jól-eloszlást és $k$-ad rendű korrelációt ötvözi és az ehhez tartozó \textbf{kombinált mérték}, mely a normalitáséhoz hasonlóan adódik a $k$-ad rendű mértékből.
 	
-	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a k-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans. A legjobb $c$ kitevő értéket is meghatározta később Alon, Kohayakawa, Mauduit, Moreira és Rödl. \cite{cvalue} 
+	Adott $E_N$ sorozat esetén akkor beszélünk jó pszeudovéletlen tulajdonságú sorozatról, ha mind a jól-eloszlás és a $k$-ad rendű korreláció mérték kicsi $N$ függvényében. Mauduit, Sárközy és Cassiagne bebizonyították, hogy majdnem minden $E_N \in \{-1, 1\}^N$ sorozatra a fent említett érték $O(\sqrt{N}(\log{N})^c)$ nagyságrendű, ahol $c$ konstans. A legjobb $c$ kitevő értéket is meghatározta később Alon, Kohayakawa, Mauduit, Moreira és Rödl. \cite{cvalue} 
 	\subsection{One-time pad titkosítás}
 	\subsubsection*{Ismertető}
-	A One-time pad titkosítás működése kifejezetten egyszerű. Kapunk egy kódolandó bitsorozatot (üzenet), majd ezt egy titkosító kulcs bitsorozattal (mely ugyanolyan hosszú mint az üzenet hossza) bitenkénti kizáró vagy művelettel (XOR) titkosítjuk. Az eredményként kapott bitsorozat a titkosított üzenet. Ezt az üzenetet elküldhetjük a másik félnek, és ha ezen a másik fél elvégzi ugyanezt az eljárást ugyanazzal a kulccsal, akkor visszakapja az eredeti üzenetet.
+	A One-time pad titkosítás működése kifejezetten egyszerű. Kapunk egy kódolandó bitsorozatot (üzenet), majd ezt egy titkosító kulcs bitsorozattal (mely ugyanolyan hosszú, mint az üzenet) bitenkénti kizáró vagy művelettel (XOR) titkosítjuk. Az eredményként kapott bitsorozat a titkosított üzenet. Ezt az üzenetet elküldhetjük a másik félnek, és ha ezen a másik fél elvégzi ugyanezt az eljárást ugyanazzal a kulccsal, akkor visszakapja az eredeti üzenetet.
 	
 	Picivel formálisabban: Legyen $E_N = (e_1, e_2, ..., e_N)$ a kódolandó üzenetet reprezentáló bitsorozat, illetve $X_N = (x_1, x_2, ..., x_N)$ a titkosításhoz használt kulcs bitsorozata. Ekkor, a one-time pad titkosítás eredménye az a $B_N = (b_1, b_2, ..., b_N)$ bitsorozat, melyre:
 	$$B_N = E_N \oplus X_N$$
@@ -507,13 +507,13 @@
 	\end{center}
 	A továbbítandó, titkosított üzenet tehát a $B_7 = (1, 1, 0, 0, 1, 0, 0)$ bitsorozat.
 	 
-	A felhasználói dokumentációban már említve volt, hogy valamilyen karaktertábla segítségével kódolja a program a betűket, hogy a titkosításnak hétköznapi felhasználásban is lássuk az alkalmazást. A cél tehát, hogy a kapott üzenetet (szöveget) át kell alakítani bitsorozattá amivel aztán elvégezhető a titkosítás, majd a titkosított üzenetet is vissza kell tudni alakítani szöveges formába.
+	A felhasználói dokumentációban már említve volt, hogy valamilyen karaktertábla segítségével kódolja a program a betűket, hogy a titkosításnak hétköznapi felhasználásban is lássuk az alkalmazást. A cél tehát, hogy a kapott üzenetet (szöveget) át kell alakítani bitsorozattá, amivel aztán elvégezhető a titkosítás, majd a titkosított üzenetet is vissza kell tudni alakítani szöveges formába.
 	
-	A naiv elképzelés az volt, hogy valamilyen már létező fix hosszúságú karakterkódolást használjon a program, de ezt nem lehetett megvalósítani mivel mindenféle kódolásban vannak vezérlőkarakterek. Ezeket a képernyőn nem tudjuk szabályosan megjeleníteni, mivel ezeknek nem célja az olvasható szöveg reprezentációja. A bemenetben még ez nem is okoz gondot, de amikor lefut a titkosítás, akkor nincs garancia arra, hogy olyan karakter lesz az eredmény amely megjeleníthető. Sőt, minden karakterre van olyan bitsorozat, amellyel vett kizáró vagy eredménye vezérlőkarakter.
+	A naiv elképzelés az volt, hogy valamilyen már létező fix hosszúságú karakterkódolást használjon a program, de ezt nem lehetett megvalósítani, mivel mindenféle kódolásban vannak vezérlőkarakterek. Ezeket a képernyőn nem tudjuk szabályosan megjeleníteni, mivel ezeknek nem célja az olvasható szöveg reprezentációja. A bemenetben még ez nem is okoz gondot, de amikor lefut a titkosítás, akkor nincs garancia arra, hogy olyan karakter lesz az eredmény, amely megjeleníthető. Sőt, minden karakterre van olyan bitsorozat, amellyel vett kizáró vagy eredménye vezérlőkarakter.
 	
 	Kell tehát egy olyan karaktertábla, mely tartalmazza a magyar szövegekben széles körben használt karaktereket, így született meg a jelenlegi karakterkészlet, mely a magyar billentyűzettel leírható karakterek nagy részét tartalmazza. Összesen 128 karaktert tartalmaz a program, így fixen 7 biten tudunk kódolni minden használt karaktert. A kódolás bővíthető, de ekkor mindig valamilyen hatványát kell használni a 2-nek, hogy fix hosszúságú biten tudjuk kódolni, pl. a 128-ról az első lehetséges bővítés a 256 karakteres tábla lenne.
 	
-	Kód szintjén a karaktereket a Unicode kódolásból vett számukkal azonosítjuk, és ehhez rendeljük a 7 hosszúságú bitsorozatot. A program fájlból építi fel ezt a szótárat, szóval egyedi kódolás is megadható, a dictionary.txt fájl megfelelő módosításával (a program egyenlőre csak a 7 bites kódolást kezeli, tehát a karaktertábla méretét bővíteni csak a fájl módosításával nem lehet).
+	Kód szintjén a karaktereket a Unicode kódolásból vett számukkal azonosítjuk, és ehhez rendeljük a 7 hosszúságú bitsorozatot. A program fájlból építi fel ezt a szótárat, szóval egyedi kódolás is megadható, a dictionary.txt fájl megfelelő módosításával (a program egyelőre csak a 7 bites kódolást kezeli, tehát a karaktertábla méretét bővíteni csak a fájl módosításával nem lehet).
 	\begin{table}
 	\begin{center}
 		\begin{tabular}{|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|}
@@ -590,23 +590,23 @@
 \subsubsection*{Algoritmus}
 A fentiek figyelembevételével az általános algoritmus a következőképpen alakul:
 \begin{enumerate}
-	\item Hozzuk létre a kódolást reprezentáló adatszerkezetet. Ajánlott valamilyen formájú hash táblát használni, hogy az elemek elérése konstans műveletigényű legyen. Jelen megvalósításban ez két std::unordered\_map-al valósul meg, hogy mindkét irányból el tudjuk érni az adatokat.
+	\item Hozzuk létre a kódolást reprezentáló adatszerkezetet. Ajánlott valamilyen formájú hash táblát használni, hogy az elemek elérése konstans műveletigényű legyen. Jelen megvalósításban ez két std::unordered\_map-pal valósul meg, hogy mindkét irányból el tudjuk érni az adatokat.
 	\item Adjuk meg a titkosítandó üzenetet és a titkosításhoz kulcsként használt bitsorozatot.
-	\item Az így kapott két bitsorozattal végezzünk el egy bitenkénti kizáró vagy műveletet. Ha a kulcs hosszabb mint a titkosítandó sorozat, akkor a kulcsból vehetjük az első $l$ bitet, ahol $l$ a titkosítandó bitsorozat hossza. Az eredmény a titkosított üzenet bitsorozatos alakja.
+	\item Az így kapott két bitsorozattal végezzünk el egy bitenkénti kizáró vagy műveletet. Ha a kulcs hosszabb, mint a titkosítandó sorozat, akkor a kulcsból vehetjük az első $l$ bitet, ahol $l$ a titkosítandó bitsorozat hossza. Az eredmény a titkosított üzenet bitsorozatos alakja.
 	\item Az előbb kiszámított sorozatot alakítsuk vissza a kódolás szerint karakteres formába. Az eredmény a titkosított üzenet szöveges alakja.
 \end{enumerate}
 \subsubsection*{Extra követelmények}
-A titkosítandó szöveg nem tartalmazhat a kódolásban nem szereplő karaktert.  Ezen felül a titkosításhoz használt kulcssorozat hossza legalább akkora kell legyen mint a titkosítandó üzenet bitsorozatos alakban vett hossza.
+A titkosítandó szöveg nem tartalmazhat a kódolásban nem szereplő karaktert.  Ezen felül a titkosításhoz használt kulcssorozat hossza legalább akkora kell legyen, mint a titkosítandó üzenet bitsorozatos alakban vett hossza.
 
 \subsection{Implementáció}
-Ez a fejezet a program implementációs döntéseibe kíván betekintést adni. Az megvalósítás során tapasztalt nehézségekről és a program korlátairól is itt értekezem.
+Ez a fejezet a program implementációs döntéseibe kíván betekintést adni. A megvalósítás során tapasztalt nehézségekről és a program korlátairól is itt értekezem.
 \subsubsection{Fejlesztői környezet}
-A programot C++11-es szabvánnyal valósítottam meg a grafikus felülethez használva még a Qt 5.12.1-es keretrendszert. A forráskódot projektbe szerveztem a Qt Creator IDE-t használva, de emellett még használtam a CLion IDE-t is a megvalósítás során.
+A programot C++11-es szabvánnyal valósítottam meg, a grafikus felülethez használva még a Qt 5.12.1-es keretrendszert. A forráskódot projektbe szerveztem a Qt Creator IDE-t használva, de emellett még használtam a CLion IDE-t is a megvalósítás során.
 \subsubsection{A program szerkezete}
 A programban a feladatokat elvégző osztályokat csoportokra lehet bontani úgy, hogy közben minden részfeladatot más-más osztály oldjon meg. Vannak olyan függvények is, ahol az osztályba szervezés nem volt feltétlenül logikus, így ezek nem osztályszintű függvényként lettek megvalósítva. A csoportok a következőek:
 \begin{enumerate}
 	\item \bfseries Pszeudovéletlen generátorok \\
-	\normalfont A megvalósított pszeudovéletlen konstrukciókat osztályait soroljuk ide.
+	\normalfont A megvalósított pszeudovéletlen konstrukciók osztályait soroljuk ide.
 	\item \bfseries Grafika \\
 	\normalfont A grafikus megjelenítést végző osztályok. Ezek mindegyike egy olyan felületet valósít meg, ahol egy adott funkció használható ellenőrzött bevitellel és szabad paraméterezéssel karöltve.
 	\item \bfseries Titkosítás \\
@@ -616,11 +616,11 @@ A programban a feladatokat elvégző osztályokat csoportokra lehet bontani úgy
 	\item \bfseries Általános műveletek \\
 	\normalfont Vannak olyan függvények, melyeket több konstrukció megvalósításánál is használni kell. Az ilyen függvényeket, melyek nem köthetőek egyértelműen valamelyik részfeladathoz, külön kezeltem, hogy a kódban lévő redundanciát elkerüljem.
 	\item \bfseries Tesztelés \\
-	\normalfont Ez egy egységtesztelő környezet, mely a megfelelő működését ellenőrzi a műveleteknek.
+	\normalfont Ez egy egységtesztelő környezet, mely a műveletek megfelelő működését ellenőrzi.
 \end{enumerate}
 
 \subsubsection*{Adatok reprezentációja}
-A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez a megoldás gazdaságos a memóriával, hiszen minden elemet ténylegesen egy biten tárolunk. Sajnálatosan a műveletek aránylag lassabbak lehetnek, hiszen minden bitet csak egyenként tudunk elérni (az algoritmusok egy része ki tudná használni, hogy valójában blokkosan, pl. 32-64 bitenként tudunk hivatkozni adatokra, mely 1 műveletnek számít). Más alternatívák lehetségesek a memóriaigény növelésével, de a C++11 std::bitset reprezentációja nem volt megfelelő. Ez csakis olyan esetben használható, amikor fordítási időben ismert a bitsorozat mérete (mi esetünkben ez nem teljesül). Dinamikus méretű bitset nincs standard C++-ban, de használható a C++ boost könyvtár, ahol elérhető egy megvalósítás. Ez a program szempontjából egy újabb függőséget hozott volna be, amit nem szerettem volna, szóval inkább maradtam az std::vectoros tárolásnál. Egy másik ötlet ami felvetődött, hogy az vectorban tároljunk fix méretű bitseteket. Ezzel felgyorsítható néhány művelet, de körülményes megoldani azt, hogy a blokkok határán hogyan kezeljük le a vizsgálatokat, eredményképpen nem is lesz feltétlenül gazdaságosabb a számítás, így ezt az ötletet is elvetettem.
+A bitsorozatokat minden esetben std::vector$<$bool$>$-ként reprezentáljuk. Ez a megoldás gazdaságos a memóriával, hiszen minden elemet ténylegesen egy biten tárolunk. Sajnálatosan a műveletek aránylag lassabbak lehetnek, hiszen minden bitet csak egyenként tudunk elérni (az algoritmusok egy része ki tudná használni, hogy valójában blokkosan, pl. 32-64 bitenként tudunk hivatkozni adatokra, mely 1 műveletnek számít). Más alternatívák lehetségesek a memóriaigény növelésével, de a C++11 std::bitset reprezentációja nem volt megfelelő. Ez csakis olyan esetben használható, amikor fordítási időben ismert a bitsorozat mérete (mi esetünkben ez nem teljesül). Dinamikus méretű bitset nincs standard C++-ban, de használható a C++ boost könyvtár, ahol elérhető egy megvalósítás. Ez a program szempontjából egy újabb függőséget hozott volna be, amit nem szerettem volna, így inkább maradtam az std::vectoros tárolásnál. Egy másik ötlet ami felvetődött, hogy az vectorban tároljunk fix méretű bitseteket. Ezzel felgyorsítható néhány művelet, de körülményes megoldani azt, hogy a blokkok határán hogyan kezeljük le a vizsgálatokat, eredményképpen nem is lesz feltétlenül gazdaságosabb a számítás, így ezt az ötletet is elvetettem.
 
 A Legendre és Additív karakteres konstrukciónál a polinomokat std::set-ben tároljuk, hiszen olyan polinomokra van szükség, melyeknek nincs többszörös gyöke.
 \subsubsection{Osztályok}
@@ -642,15 +642,15 @@ A fenti definícióból, a $\left({\frac{a}{p}}\right)$ Legendre-szimbólum ért
 A gazdaságosabb számítás a Legendre-szimbólum tulajdonságait használja ki és rekurzív függvénnyel határozzuk meg az eredményt (ez a függvény később LegendreSymbol néven szerepel). A rekurzió akkor áll meg, ha $a$ 0 vagy 1, ha $a = 0$, akkor $\left({\frac{a}{p}}\right) = 0$, ha $a=1$, akkor $\left({\frac{a}{p}}\right) = 1$. Ha $a \not\in \{0,1\}$, akkor következőképpen állítjuk elő a következő rekurziós lépést:
 
 \begin{enumerate}
-	\item Megnézzük, hogy $a$ páros-e, ezt gyorsan meghatározhatjuk, hogy $a$-nak a bitenkénti és műveletét vizsgáljuk az $1$-et reprezentáló bitsorozattal. Ebből következik, hogyha $a$ \& $1 = 0$, akkor $a$ páros, és ekkor a következő redukciót használjuk:
+	\item Megnézzük, hogy $a$ páros-e, ezt gyorsan meghatározhatjuk, hogy $a$-nak a bitenkénti és műveletét vizsgáljuk az $1$-et reprezentáló bitsorozattal. Ebből következik, hogyha $a$ \& $1 = 0$ (ahol az \& a bitenkénti és művelet), akkor $a$ páros, és ekkor a következő redukciót használjuk:
 	\begin{enumerate}
 		\item  Általánosan igaz, hogy $\left({\frac{ab}{p}}\right) = \left({\frac{a}{p}}\right)\left({\frac{b}{p}}\right)$ (a Legendre-szimbólum a felső változójában teljesen multiplikatív függvény). Mivel $a$ jelen esetben páros, ezért $\left({\frac{a}{p}}\right) = \left({\frac{a/2}{p}}\right)\left({\frac{2}{p}}\right)$. Rekurzív lépésként kiszámoljuk az $\left({\frac{a/2}{p}}\right)$ értékét.
-		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-cal, így elég annyit ellenőrizni megint, hogy a 8-cal vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$ (ahol az \& a bitenkénti és művelet), akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
+		\item Ki kell még utólag számolni $\left({\frac{2}{p}}\right)$-t. Erre használható a $\left({\frac{2}{p}}\right) = (-1)^{\frac{p^2-1}{8}}$ formula (itt felhasználjuk, hogy a Legendre konstrukciónál $p > 2$, vagyis $p$ páratlan). Mivel $p$ páratlan, ezért könnyen ellenőrizhető, hogy $p^2-1$ mindenképpen osztható lesz 8-cal, így elég annyit ellenőrizni megint, hogy a 8-cal vett kvóciens páros, vagy páratlan. Ezt megint bitenkénti és művelettel ellenőrizzük, ha $p^2-1$ \& $8 \not= 0$, akkor a $\frac{p^2-1}{8}$ páratlan szám, tehát $\left({\frac{2}{p}}\right) = -1$, egyéb esetben 1.
 	\end{enumerate}
 	\item Ha $a$ páratlan, akkor:
 	\begin{enumerate}
 		\item A redukciós formula a következő (kihasználva, hogy $a$ és $p$ relatív prímek): $\left({\frac{a}{p}}\right) = \left({\frac{p}{a}}\right) (-1)^{\frac{p-1}{2}\cdot\frac{a-1}{2}}$. Ez a redukció a kvadratikus reciprocitás tételeként ismert. A rekurziós lépésként ki kell számolni $\left({\frac{p}{a}}\right)$-t itt már egyből $p$-nek az $a$-val vett osztási maradékát adjuk meg a rekurzív hívásba.
-		\item Utólag ki kell számolni $(-1)^{\frac{p-1}{2}\frac{a-1}{2}}$-t. Ez nyilvánvalóan akkor lesz $-1$, ha $\frac{p-1}{2}\frac{a-1}{2} = \frac{(p-1)(a-1)}{4}$ páratlan. Mivel $a$ és $p$ is páratlanok, ezért mindenképpen igaz, hogy ez a számláló osztható 4-el, így megint elég csak a 4-el vett kvócienst megnézni, tehát ha $(p-1)(a-1)$ \& $4 \not=0$, akkor a fenti kifejezés $-1$, egyébként 1.
+		\item Utólag ki kell számolni $(-1)^{\frac{p-1}{2}\frac{a-1}{2}}$-t. Ez nyilvánvalóan akkor lesz $-1$, ha $\frac{p-1}{2}\frac{a-1}{2} = \frac{(p-1)(a-1)}{4}$ páratlan. Mivel $a$ és $p$ is páratlanok, ezért mindenképpen igaz, hogy ez a számláló osztható 4-el, így megint elég csak a 4-gyel vett kvócienst megnézni, tehát ha $(p-1)(a-1)$ \& $4 \not=0$, akkor a fenti kifejezés $-1$, egyébként 1.
 	\end{enumerate}
 \end{enumerate}
 \textbf{\textit{Metódusok}}
@@ -667,7 +667,7 @@ Kiszámolja az $\left({\frac{a}{p}}\right)$ Legendre szimbólum értékét.
 
 \textit{uint64\_t GenerateValidPrime(uint64\_t p)}
 
-Olyan prímszám generálása, mely nagyobb egyenlő mint p és a 2 primitív gyöke.
+Olyan prímszám generálása, mely nagyobb egyenlő mint $p$ és a 2 primitív gyöke.
 
 \textit{uint64\_t GenerateDegree(const uint64\_t p)}
 
@@ -684,13 +684,13 @@ Ez az osztály az RC4 konstrukció megvalósítása.
 
 \textbf{\textit{Implementációs döntések}}
 
-Ennek a generátornak az implementálása kifejezetten egyszerű , nincs sok buktató dolog és a számolás is gyors, így itt nem kellett semmilyen trükköt bevetni. Az egyet dolog ami megoldásra szorult az outputként kapott számok bitsorozattá konvertálása, de ez is egyszerűen megoldható std::bitset-tel történő konverzióval.
+Ennek a generátornak az implementálása kifejezetten egyszerű, nincs sok buktató dolog és a számolás is gyors, így itt nem kellett semmilyen trükköt bevetni. Az egyetlen dolog, ami megoldásra szorult, az outputként kapott számok bitsorozattá konvertálása, de ez is egyszerűen megoldható std::bitset-tel történő konverzióval.
 
 \textbf{\textit{Metódusok}}
 
 \textit{RC4Construction()}
 
-Public metódus, de semmi érdemlegeset nem csinál, a kulcsot később módosítjuk a programban.
+Public metódus, inicializálja az adattagokat. Ezután még szükséges egy SetKey hívás, hogy megfelelően beállítsuk a kulcsot.
 
 \textit{void SetKey(const std::string\& s)}
 
@@ -748,7 +748,7 @@ Ez az osztály a ChaCha20 konstrukció megvalósítása.
 
 A ChaCha20 állapota 16 darab 32 bites szóból áll. A reprezentáció kérdéses volt, de úgy döntöttem, hogy a fixen 32 bites uint32\_t típussal felpopulált 16 méretű tömb megfelelő.
 
-Az algoritmus negyedköreinek futtatásánál szükséges a ciklikus shiftelés megvalósítása a 32 bites szavakon. C++-ban erre nincs beépített eszköz, csak sima shiftelésre, de mivel tudjuk, hogy minden szó 32 bites, ezért egy trükkel megvalósítható a ciklikus változat is. Ha van egy $b$ 32 bites szavunk és $n$-el szeretnénk ciklikusan balra shiftelni, akkor a következő kódrészletben vett kifejezésnek pontosan a $b$ $n$-el vett ciklikus balra shiftelése az eredménye (C++ stílusú pszeudokódként): $(b << n) | (b >> (32-n));$. Mivel a túlcsorduló biteket elvesztjük és így a shiftelés irányától függően a megfelelő helyi értékeken 0-ák szerepelnek (ahova ciklikusan át kéne kerülnie a túlcsorduló elemeknek). Így ha bitenként vagyot alkalmazunk a két bitsorozatra, akkor a 0-ás helyi értékek helyén pontosan a túlcsordult részlet lesz.
+Az algoritmus negyedköreinek futtatásánál szükséges a ciklikus shiftelés megvalósítása a 32 bites szavakon. C++-ban erre nincs beépített eszköz, csak sima shiftelésre, de mivel tudjuk, hogy minden szó 32 bites, ezért egy trükkel megvalósítható a ciklikus változat is. Ha van egy $b$ 32 bites szavunk és $n$-nel szeretnénk ciklikusan balra shiftelni, akkor a következő kódrészletben vett kifejezésnek pontosan a $b$ $n$-nel vett ciklikus balra shiftelése az eredménye (C++ stílusú pszeudokódként): $(b << n) | (b >> (32-n));$. Mivel a túlcsorduló biteket elvesztjük és így a shiftelés irányától függően a megfelelő helyiértékeken 0-ák szerepelnek (ahova ciklikusan át kéne kerülnie a túlcsorduló elemeknek). Így ha bitenként vagyot alkalmazunk a két bitsorozatra, akkor a 0-ás helyiértékek helyén pontosan a túlcsordult részlet lesz.
 
 Az állapot konstans részét bele lehetne égetni az állapottömbbe, de a felhasználói felület oldalon ellenőrzött adatbevitellel dolgozunk, így nem fordulhat elő, hogy hibás állapotot kapjunk. Emiatt itt nincs ellenőrzés az állapot helyességével kapcsolatban. Új állapot megadásánál std::vector-ban adódik át a kívánt érték, ennek első 16 elemét másoljuk be az állapottömbbe.
 
@@ -785,7 +785,7 @@ Ez az osztály a one-time pad titkosítást valósítja meg.
 
 A megfelelő karakterek reprezentáláshoz nem volt elég a klasszikus C++ string, mivel az ANSI kódolásban jeleníti meg a karaktereket. Unicode kódolású stringekkel lenne jobb dolgozni és a QT-ben található QString osztály pontosan egy ilyen string típust valósít meg. Emiatt ez az osztály kihasználja a QString ezen tulajdonságát.
 
-Ez az osztály implementálja a szótárat is melyben tároljuk a karakterkódolást. Olyan adatszerkezet lenne jó, mely kétoldalú lekérdezést valósít meg konstans időben, de egy ilyen implementálása dupla letárolás nélkül nem túl egyszerű. Dupla letárolással azonban nagyon könnyű a megoldás, két hashtáblát populálunk fel a megfelelő karakterek-bitsorozat párokkal. Mindegyik hashtábla a C++-os std::unordered\_map típussal valósul meg, mely konstans idejű lekérdezését biztosítja az elemeknek. Az inicializálás a dictionary.txt fájlból történik.
+Ez az osztály implementálja a szótárat is, melyben tároljuk a karakterkódolást. Olyan adatszerkezet lenne jó, mely kétoldalú lekérdezést valósít meg konstans időben, de egy ilyen implementálása dupla letárolás nélkül nem túl egyszerű. Dupla letárolással azonban nagyon könnyű a megoldás, két hashtáblát populálunk fel a megfelelő karakterek-bitsorozat párokkal. Mindegyik hashtábla a C++-os std::unordered\_map típussal valósul meg, mely konstans idejű lekérdezését biztosítja az elemeknek. Az inicializálás a dictionary.txt fájlból történik.
 
 \textit{\textbf{Metódusok}}
 
@@ -799,9 +799,9 @@ Publikus setter, átállítja a titkosítási kulcsot a \textit{newkey} sorozat�
 
 \textit{QString Encrypt(const QString \&inputText)}
 
-A titkosítást végző eljárás. Az eredmény és a paraméter is QString-ben tároljuk, hogy a karakterek Unicode-al legyenek továbbra is reprezentálva.
+A titkosítást végző eljárás. Az eredményt és a paramétert is QString-ben tároljuk, hogy a karakterek Unicode-dal legyenek továbbra is reprezentálva.
 \subsubsection*{mainWindow}
-Ez az osztály a grafikus felület fő vezérlését és megjelenítést valósítja meg. Szorosan együttműködik a többi ablak osztállyal az alkalmazás irányításában. A sorozatok lementését is ez az osztály végzi, a savedSeq adattagban lementhetünk egy bitsorozatot amit az alkalmazáson keresztül generáltunk.
+Ez az osztály a grafikus felület fő vezérlését és megjelenítést valósítja meg. Szorosan együttműködik a többi ablak osztállyal az alkalmazás irányításában. A sorozatok lementését is ez az osztály végzi, a savedSeq adattagban lementhetünk egy bitsorozatot, amit az alkalmazáson keresztül generáltunk.
 
 Ez az osztály a QMainWindow QT osztálynak gyermekosztálya.
 
@@ -883,11 +883,11 @@ Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az összes 
 
 \textit{void generatePrimeButtonClicked()}
 
-Prímszám generálás slotja. Híváskor prímszámot generál mely megfelel a Legendre-konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
+Prímszám generálás slotja. Híváskor prímszámot generál, mely megfelel a Legendre-konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
 
 \textit{void nextPrimeButtonClicked()}
 
-Következő prím slotja. Híváskor az első, a jelenleginél nagyobb, prímet állítja elő mely megfelel a Legendre konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
+Következő prím slotja. Híváskor az első, a jelenleginél nagyobb prímet állítja elő, mely megfelel a Legendre konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
 
 \textit{void seqSaveButtonClicked()}
 
@@ -960,11 +960,11 @@ Sorozatgenerálás eseményét kezelő slot. Meghíváskor begyűjti az összes 
 
 \textit{generatePrimeButtonClicked()}
 
-Prímszám generálás slotja. Híváskor új prímszámot generál mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
+Prímszám generálás slotja. Híváskor új prímszámot generál, mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás hossz bemenet esetén hibaüzenet kerül kiírásra.
 
 \textit{void nextPrimeButtonClicked()}
 
-Következő prím slotja. Híváskor az első, a jelenleginél nagyobb, prímet állítja elő mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
+Következő prím slotja. Híváskor az első, a jelenleginél nagyobb, prímet állítja elő, mely megfelel az Additív karakteres konstrukciónak, az eredmény a primeLineEdit-be kerül. Hibás prím bemenet esetén hibaüzenet kerül kiírásra.
 
 \textit{void seqSaveButtonClicked()}
 
@@ -1044,7 +1044,7 @@ A normalitás mérték számolásának slotja. Híváskor a seqTextEdit-ben lév
 
 \textit{void calculateCorrelationButtonClicked()}
 
-A k-ad rendű korreláció mérték számolásának slotja. Híváskor a seqTextEdit-ben lévő sorozatra közelíti a k-ad rendű korrelációt. A rendet a correlationDegLineEdit-ből, a menetek számát a correlationRoundsLineEdit-ből tölti be. Hibás adat esetén hibaüzenet kerül kiírásra a képernyőre.
+A $k$-ad rendű korreláció mérték számolásának slotja. Híváskor a seqTextEdit-ben lévő sorozatra közelíti a $k$-ad rendű korrelációt. A rendet a correlationDegLineEdit-ből, a menetek számát a correlationRoundsLineEdit-ből tölti be. Hibás adat esetén hibaüzenet kerül kiírásra a képernyőre.
 
 \textit{void backButtonClicked()}
 
@@ -1092,7 +1092,7 @@ Moduláris számításokkal kapcsolatos műveleteket tartalmaz.
 
 \textit{uint64\_t ModMul(uint64\_t a, uint64\_t b, const uint64\_t mod)}
 
-Ez a függvény \textit{a}*\textit{b}-t számolja ki a \textit{mod} 
+Ez a függvény a moduláris szorzást valósítja meg. \textit{a}$\cdot$\textit{b}-t számolja ki a \textit{mod} 
 maradékosztályban.
 
 \textit{uint64\_t ModPow(uint64\_t base, uint64\_t exp, const uint64\_t mod)}
@@ -1117,7 +1117,7 @@ Polinom helyettesítési értékének kiszámolása \textit{var} helyen és \tex
 
 \textit{std::vector$<$uint64\_t$>$ GetPrimeFactors(uint64\_t n)}
 
-Megkeresi az \textit{n} szám összes valós osztóját és ezeket egy std::vector-ba helyezve adja vissza (minden osztó csak egyszer szerepel benne).
+Megkeresi az \textit{n} szám összes valódi osztóját és ezeket egy std::vector-ba helyezve adja vissza (minden osztó csak egyszer szerepel benne).
 
 \subsubsection*{PrimeArithmetic}
 
@@ -1127,7 +1127,7 @@ Prímtesztet, prímekhez kapcsolható számításokat tartalmaz.
 
 \textit{bool IsPrimitiveRootOfPrime(const uint64\_t n, const uint64\_t p)}
 
-Kiszámolja, hogy \textit{n} primitív gyök-e \textit{p} maradékosztályban, ahol \textit{p} prím. Az algoritmus az alapján működik, hogy a primitív gyök tulajdonság ekvivalens azzal, hogy \textit{n} rendje \textit{p}$-1$-el a maradékosztályban, mivel prím a második paraméter, és a \textit{p}$-1$ osztóit kell megkeresni, ha minden $d$ osztóra $n^\frac{\textit{p}-1}{d} \not\equiv 1 (\textrm{mod}\ p)$, akkor n primitív gyök. Használja a GetPrimeFactors függvényt.
+Kiszámolja, hogy \textit{n} primitív gyök-e \textit{p} maradékosztályban, ahol \textit{p} prím. Az algoritmus az alapján működik, hogy a primitív gyök tulajdonság ekvivalens azzal, hogy \textit{n} rendje \textit{p}$-1$-gyel a maradékosztályban, mivel prím a második paraméter, és a \textit{p}$-1$ osztóit kell megkeresni, ha minden $d$ osztóra $n^\frac{\textit{p}-1}{d} \not\equiv 1 (\textrm{mod}\ p)$, akkor n primitív gyök. Használja a GetPrimeFactors függvényt.
 
 \textit{bool MillerRabinTest(const uint64\_t n, const int k)}
 
@@ -1152,31 +1152,31 @@ A mértékek kiszámolását végző függvények ebben a fejállományban helye
 
 \textit{\textbf{Jól-eloszlás}}
 
-A jól-eloszlás mérték kiszámolása a legegyszerűbb a 3 közül, itt is fontos volt azonban, hogy a megvalósításnál a matematikai definíciót ne pazarlóan valósítsuk meg. A jól-eloszlás ugyebár valamilyen $a$ kezdőpozíciótól számolja a $b$ eltolással vett indexeken lévő bitek összegét minden lehetséges $M$ végpozícióig (bővebben ld. a Mértékek fejezetet).
+A jól-eloszlás mérték kiszámolása a legegyszerűbb a 3 közül, itt is fontos volt azonban, hogy a megvalósításnál a matematikai definíciót ne pazarlóan valósítsuk meg. A jól-eloszlás valamilyen $a$ kezdőpozíciótól számolja a $b$ eltolással vett indexeken lévő bitek összegét minden lehetséges $M$ végpozícióig (bővebben ld. a Mértékek fejezetet).
 
-Itt igazából végpozícióval lehet úgy tenni, mintha nem létezne mint ciklusváltozó, az maximum keresését egybe lehet futtatni a bitek összegzésével. Tehát csak a lehetséges kezdőpozíciók és eltolások szerint keresünk maximumot, és az összegek között számolás közben frissítjük a maximális összeget. 
+Itt igazából végpozícióval lehet úgy tenni, mintha nem létezne mint ciklusváltozó, a maximum keresését egybe lehet futtatni a bitek összegzésével. Tehát csak a lehetséges kezdőpozíciók és eltolások szerint keresünk maximumot, és az összegek között számolás közben frissítjük a maximális összeget. 
 
 Ezzel az optimalizálással megvalósított függvény a következő: \textit{uint64\_t wellDistributionMeasure(const std::vector$<$bool$>$ \&seq)}. Ez a fenti módon határozza meg a seq-ben lévő sorozat jól-eloszlás mértékét.
 
-Létezik a kezdetleges implementációból egy függvény mely a definícióban szereplő $U(E_N, M, a, b)$ függvényt valósítja meg: \textit{int64\_t UMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t sum\_length, const uint32\_t start\_pos, const uint32\_t step)}.
+Létezik a kezdetleges implementációból egy függvény, mely a definícióban szereplő $U(E_N, M, a, b)$ függvényt valósítja meg: \textit{int64\_t UMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t sum\_length, const uint32\_t start\_pos, const uint32\_t step)}.
 
 \textit{\textbf{Normalitás}}
 
-A normalitás mértéknél a legnagyobb kihívást az összes vizsgálandó részsorozat effektív legenerálása jelentette. Leegyszerűsítve arra kellett algoritmust írni, mely az összes max. $k \in \mathbb{N}$ hosszúságú bitsorozatot előállítja (kivéve a 0 hosszút). Erre egy $(k+1)^2$ méretű mátrixot használunk, hogy a prefixek letárolásával tudjuk előállítani mindig a következő részsorozatokat. Így a mátrixba megtalálható az összes vizsgálandó sorozat, és a generálás gyors. 0 hosszúságú sorozatról kezdünk, és minden lépésben a már meglévő prefixekhez fűzünk hozzá 0-kat és 1-eseket és ezeket behelyezzük a mátrixba. Az eljárás végén a mátrix megfelelő indexein az összes részsorozat megtalálható. Így viszont nincs különszedve a k-ad rendű normalitások számolása.
+A normalitás mértéknél a legnagyobb kihívást az összes vizsgálandó részsorozat effektív legenerálása jelentette. Leegyszerűsítve arra kellett algoritmust írni, mely az összes maximum $k \in \mathbb{N}$ hosszúságú bitsorozatot előállítja (kivéve a 0 hosszút). Erre egy $(k+1)^2$ méretű mátrixot használunk, hogy a prefixek letárolásával tudjuk előállítani mindig a következő részsorozatokat. Így a mátrixban megtalálható az összes vizsgálandó sorozat, és a generálás gyors. 0 hosszúságú sorozatról kezdünk, és minden lépésben a már meglévő prefixekhez fűzünk hozzá 0-kat és 1-eseket és ezeket behelyezzük a mátrixba. Az eljárás végén a mátrix megfelelő indexein az összes részsorozat megtalálható. Így viszont nincs különszedve a $k$-ad rendű normalitások számolása.
 
 A másik költséges dolog az volt, hogy hogyan keressük meg a részsorozatok előfordulásának számát. Bár itt bitekről van szó és vannak bitsorozatokra jobb matchelő algoritmusok melyek kihasználják, hogy nem csak egyesével tudunk biteket címezni. Ezt azonban a jelenlegi reprezentációval nem lehet megtenni, az vector<bool>-ban nem tudunk több bitre egyszerre hivatkozni. Emiatt inkább string-matchelésre vezetett vissza a probléma, ezért a Rabin-Karp algoritmust implementáltam a bitsorozatos reprezentációra.
 
 A fenti optimalizálásokkal a számolást a következő függvény valósítja meg: \textit{long double normalityMeasure(const std::vector$<$bool$>$ \&seq)}.
 
-A definíció szerinti $T(E_N), M, X)$ függvényt, illetve a k-ad normalitást is implementáltam, ezeket sorban a \textit{uint64\_t TMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t max\_pos, const std::vector$<$bool$>$ \&subSeq)}, illetve a \textit{long double kNormality(std::vector$<$bool$>$ \&seq, const uint32\_t k)} függvények valósítják meg.
+A definíció szerinti $T(E_N), M, X)$ függvényt, illetve a $k$-ad normalitást is implementáltam, ezeket sorban a \textit{uint64\_t TMeasure(const std::vector$<$bool$>$ \&seq, const uint32\_t max\_pos, const std::vector$<$bool$>$ \&subSeq)}, illetve a \textit{long double kNormality(std::vector$<$bool$>$ \&seq, const uint32\_t k)} függvények valósítják meg.
 
 \textit{\textbf{Korreláció}}
 
-Ez a számítás a legköltségesebb a három mérték közül. A fő költséget a sorozat mérete alapján generálandó sorozatok száma. Az összes eltolássorozat számossága $N$ méretű sorozat és $k$-ad rendű korreláció esetén $\binom{N}{k}$. A teljes algoritmus költsége még ennél is több számítást igényel, a teljes korreláció esetén $k \leq log_2(N)$, így ezek a binomiális együtthatók már pl. $N=1000$-re is nagyon nagyok. 
+Ez a számítás a legköltségesebb a három mérték közül. A fő költség a sorozat mérete alapján generálandó sorozatok száma. Az összes eltolássorozat számossága $N$ méretű sorozat és $k$-ad rendű korreláció esetén $\binom{N}{k}$. A teljes algoritmus költsége még ennél is több számítást igényel, a teljes korreláció esetén $k \leq log_2(N)$, így ezek a binomiális együtthatók már pl. $N=1000$-re is nagyon nagyok. 
 
-A k-ad rendű korreláció pontos számolásra a jelenleg legjobban teljesítő megoldás egy rekurzív algoritmus lett. Az összes kellő eltolássorozat legenerálása így a leggyorsabb. Próbálkoztam iteratív módon is leprogramozni a számítást, de a teljesítmény picivel rosszabb volt a rekurzívnál. Az iteratív módszereknél az is nehéz feladat, hogy a sorozatokat hogyan soroljuk fel. A rekurzív megoldás egy tömbbe tárolja a felsorolandó sorozatokat, mely ha egy k hosszú sorozat lesz a rekurzióban, akkor vizsgáljuk meg. Ezt a megoldást a \textit{uint64\_t kCorrelation(const std::vector$<$bool$>$ \&seq, const uint32\_t k)} valósítja meg, mely a \textit{seq}-ben kapott sorozatra számolja ki a \textit{k}-ad rendű korreláció mértéket.
+A $k$-ad rendű korreláció pontos számolására a jelenleg legjobban teljesítő megoldás egy rekurzív algoritmus lett. Az összes kellő eltolássorozat legenerálása így a leggyorsabb. Próbálkoztam iteratív módon is leprogramozni a számítást, de a teljesítmény picivel rosszabb volt a rekurzívnál. Az iteratív módszereknél az is nehéz feladat, hogy a sorozatokat hogyan soroljuk fel. A rekurzív megoldás egy tömbben tárolja a felsorolandó sorozatokat, mely ha egy k hosszú sorozat lesz a rekurzióban, akkor vizsgáljuk meg az értékét a definícióban szereplő $V(E_N, M, D)$ függvény szerint és maximumot keresünk. Ezt a megoldást a \textit{uint64\_t kCorrelation(const std::vector$<$bool$>$ \&seq, const uint32\_t k)} valósítja meg, mely a \textit{seq}-ben kapott sorozatra számolja ki a \textit{k}-ad rendű korreláció mértéket.
 
-Mivel ezen mérték számolása ilyen hosszú már kisebb sorozatokra is, ezért a jelenlegi programban egy közelítő megoldást implementáltam. Véletlen kiválasztott sorozatok között keresünk csak maximumot, ezzel alsó becslést tudunk adni a k-ad rendű és ezzel egyben a teljes korrelációra. Ezt a megoldást a \textit{uint64\_t kCorrelationApprox(const std::vector$<$bool$>$ \&seq, const uint32\_t k, const uint32\_t rounds)} függvény valósítja meg, a \textit{seq}-benk apott sorozatra \textit{rounds} darab véletlen kiválasztott \textit{k} hosszúságú sorozatra kiszámolva a definícióban szereplő $V(E_N, M, D)$ mennyiséget minden megfelelő $M$ kezdőpozícióval.
+Mivel ezen mérték számolása ilyen hosszú már kisebb sorozatokra is, ezért a jelenlegi programban egy közelítő megoldást implementáltam. Véletlen kiválasztott sorozatok között keresünk csak maximumot, ezzel alsó becslést tudunk adni a $k$-ad rendű és ezzel egyben a teljes korrelációra. Ezt a megoldást a \textit{uint64\_t kCorrelationApprox(const std::vector$<$bool$>$ \&seq, const uint32\_t k, const uint32\_t rounds)} függvény valósítja meg, a \textit{seq}-benk adott sorozatra \textit{rounds} darab véletlen kiválasztott \textit{k} hosszúságú sorozatra kiszámolva a definícióban szereplő $V(E_N, M, D)$ mennyiséget minden megfelelő $M$ kezdőpozícióval.
 \subsection{Tesztelés}
 Az eddig tárgyalt programrészletek tesztelésére létrehoztam egy tesztelő környezetet a Catch keretrendszer használatával. Ebben a fejezetben felsorolom az elvégzett tesztelést. A program mindegyik tárgyalt tesztesetnek megfelelt. A tesztelő megtalálható a Testing mappában.
 
@@ -1228,7 +1228,7 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 		\item $a=138, b=217, m=13$, $a-b=12$
 	\end{enumerate}
 	\item \bfseries Moduláris polinom helyettesítési értéke:
-	\normalfont $m$ maradékosztályban $f \in Z_m[x]$, $x \in Z_m$ helyen. Vizsgált esetek és várt eredmények:
+	\normalfont $m$ maradékosztályban \\ $f \in \mathbb{Z}_m[x], x \in \mathbb{Z}_m$ helyen. Vizsgált esetek és várt eredmények:
 	\begin{enumerate}
 		\item $f(x)=(x-5)(x-7)(x-10)$:
 		\\ $m=13$, $x=5$, $f(x) = 0$ 
@@ -1252,11 +1252,11 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 		\item $n = 20000$, $p = 20029$
 	\end{enumerate}
 	\item  \bfseries Legendre-sorozat generálás teszt:
-	\normalfont Legendre-konstrukció szerinti generálás, 10 hosszú sorozat, $p = 101$, $f \in Z_p[x], f(x) = (x-1)(x-5)$, várt eredmény:	$1101011010$.
+	\normalfont Legendre-konstrukció szerinti generálás, 10 hosszú sorozat, $p = 101$, $f \in \mathbb{Z}_p[x], f(x) = (x-1)(x-5)$, várt eredmény:	$1101011010$.
 	\item \bfseries RC4-sorozat generálás teszt:
 	\normalfont RC4 szerinti generálás, 10 hosszú sorozat, kulcs értéke (idézőjelek nélkül): "This is a good key". Várt eredmény: $0001111100$
 	\item \bfseries Additív karakteres-sorozat generálás teszt:
-	\normalfont Additív karakteres generálás, 10 hosszú sorozat, $p = 23$, $f \in Z_p[x], f(x) = (x-1)(x-5)$. Várt eredmény: 1100011001
+	\normalfont Additív karakteres generálás, 10 hosszú sorozat, $p = 23$, $f \in \mathbb{Z}_p[x], f(x) = (x-1)(x-5)$. Várt eredmény: 1100011001
 	\item \bfseries ChaCha20 tesztje:
 	\normalfont  A ChaCha20 negyedkört és a teljes kört az IRTF által publikált RFC 8439-ben specifikált teszt vektorok szerint teszteltem.
 	\\ A stream generálás egy tesztjét még elvégeztem:
@@ -1279,47 +1279,51 @@ A teszteseteket próbáltam úgy elkészíteni, hogy elég általánosak legyene
 \subsection{Fejlesztési lehetőségek}
 A program még továbbfejleszthető több módon is. A legkézenfekvőbb újabb generátor konstrukciók implementálása és vizsgálata a mértékekkel, ez a felhasználói oldalról sokat jelent. Lehetséges megvalósítani újabb mértékeket is, pl. szimmetria mértéket \cite{symmetry}. 
 
-Grafikonok megjelenítése és statisztikák számolásának implementálása a számolt mértékekből. Ezekkel tovább lehet elemezni a megvalósított konstrukciókat.
+Grafikonok megjelenítése és statisztikák számolásának implementálása a számolt mértékekből is egy célszerű kiegészítési lehetőség. Ezekkel tovább lehet elemezni a megvalósított konstrukciókat.
 \section{Összefoglaló}
 A dolgozatban kitértem mind a matematikai, mind az ipari alkalmazások szempontjából készített pszeudovéletlen generátorokra. Megvalósított és bemutatott konstrukciók voltak a Legendre-szimbólumos, RC4, additív karakteres és ChaCha20 konstrukciók. A megvalósított generátoroknak a vizsgálatára és alkalmazására is kitértem, a statisztikai mértékekkel illetve a One-time pad titkosítással.
 
-A programmal tett vizsgálataim során azt tapasztaltam, hogy a Legendre és additív karakteres konstrukció az eddig belátott tulajdonságok szerint (lásd:  \cite{additive} és \cite{largefam}) jó eredményeket ad a megvalósított mértékekkel.
+A programmal tett vizsgálataim során azt tapasztaltam, hogy a Legendre és additív karakteres konstrukció az eddig belátott tulajdonságok szerint (lásd:  \cite{largefam} és \cite{additive}) jó eredményeket ad a megvalósított mértékekkel.
 
 Saját vizsgálataim alapján az RC4 konstrukciónál a mértékek eredménye nagyobb szórású mint a többi generátornak. A kulcsoktól függően az eredmények kiugróan nagyok és alacsonyak is voltak, ez lehet további vizsgálódás tárgya.
 
-A ChaCha20 konstrukció jól teljesített a mértékekkel, átlagosan jó eredmények születtek. Ez alátámasztja azt, hogy az eddigi vizsgálatok alapján (lásd: \cite{salsaattack} és \cite{salsadiffcrypt}) a Salsa/ChaCha család elég jó tulajdonságokkal rendelkező generátorcsoport.
+A ChaCha20 konstrukció jól teljesített a mértékekkel, átlagosan jó eredmények születtek. Ez alátámasztja azt, hogy az eddigi vizsgálatok alapján (lásd: \cite{salsadiffcrypt} és \cite{salsaattack}) a Salsa/ChaCha család elég jó tulajdonságokkal rendelkező generátorcsoport.
 \section{Irodalomjegyzék}
 	\renewcommand\refname{}
 \begin{thebibliography}{3}
-	\bibitem{shannon}
-	Shannon, C.E.: \textit{Communication Theory of Secrecy Systems}, Bell System Technical Journal, 28 (4), 1949, [656–715].
+	\bibitem{cvalue}
+	N. Alon, Y. Kohayakawa, C. Mauduit, C. G. Moreira, V. Rödl: \textit{Measures of pseudorandomness for finite sequences: minimal values}, Combin. Prob. Comput., 15, 2005, [1-29]
 	\bibitem{borel}
 	E. Borel: \textit{Leçons sur la théorie des fonctions}, 2nd ed. (1914), [850-864].
+	\bibitem{shannon}
+	Shannon, C.E.: \textit{Communication Theory of Secrecy Systems}, Bell System Technical Journal, 28 (4), 1949, [656–715].
 	\bibitem{knuth}
 	D. E. Knuth: \textit{A számítógép-programozás művészete}, Műszaki Könyvkiadó, Budapest, 1994.
-	\bibitem{kolmogorov}
-	A. Kolmogorov: \textit{Three Approaches to the Quantitative Definition of Information}, Problemy Peredachi Informatsii 1, 1965, [3-11].
-	\bibitem{sarkozymauduit}
-	C.Mauduit, A.Sárközy: \textit{On finite pseudorandom binary sequences I:The measures of pseudorandomness, the Legendre symbol}, Acta Arith, 82, 1997, 365-377.
-	\bibitem{rcleak}
-	"Thank you Bob Anderson", Cypherpunks (levelezői lista), 1994, Archiválva: \url{http://cypherpunks.venona.com/date/1994/09/msg00304.html}, 2019.04.29.
-	\bibitem{additive}
-	C.Mauduit, J.Rivat, A.Sárközy: \textit{Construction of pseudorandom binary sequences using additive characters}, Monatshefte Math, 141, 2004, [197-208].
+	\bibitem{largefam}
+	L. Goubin, C. Mauduit, A. Sárközy: \textit{Construction of large families of pseudorandom binary sequences}, J. Number Theory, 106, 2004, [56-59]
+	\bibitem{symmetry}
+	Katalin Gyarmati: \textit{On a pseudorandom property of binary sequences}, The Ramanujan Journal, 8, 2004, [289-302]
 	\bibitem{salsa}
 	Daniel J. Bernstein: \textit{The Salsa20 family of stream ciphers}, \url{https://cr.yp.to/snuffle/salsafamily-20071225.pdf}, 2019.04.29.
 	\bibitem{chacha}
 	Daniel J. Bernstein: \textit{The ChaCha family of stream ciphers}, \url{https://cr.yp.to/chacha.html}, 2019.04.29.
+	\bibitem{kolmogorov}
+	A. Kolmogorov: \textit{Three Approaches to the Quantitative Definition of Information}, Problemy Peredachi Informatsii 1, 1965, [3-11].
+	\bibitem{sarkozymauduit}
+	C. Mauduit, A. Sárközy: \textit{On finite pseudorandom binary sequences I:The measures of pseudorandomness, the Legendre symbol}, Acta Arith, 82, 1997, [365-377].
+	\bibitem{additive}
+	C. Mauduit, J. Rivat, A. Sárközy: \textit{Construction of pseudorandom binary sequences using additive characters}, Monatshefte Math, 141, 2004, [197-208].
+	\bibitem{salsadiffcrypt}
+	Nicky Mouha, Bart Preneel: \textit{Towards Finding Optimal Differential Characteristics for ARX: Application to Salsa20}, 2013,  \url{https://eprint.iacr.org/2013/328.pdf}, 2019.04.29.
 	\bibitem{RFC}
 	Y. Nir, Dell EMC, A. Langley, Google, Inc.: \textit{ChaCha20 and Poly1305 for IETF Protocols}, RFC, 8439, 2018, \url{https://tools.ietf.org/html/rfc8439}, 2019.04.29.
 	\bibitem{salsaattack}
 	Zhenqing Shi, Bin Zhang, Dengguo Feng, Wenling Wu: \textit{Improved Key Recovery Attacks on Reduced-Round Salsa20 and ChaCha. ICISC'12 Proceedings of the 15th International Conference on Information Security and Cryptology}, Lecture Notes in Computer Science, 7839, 2012, [337–351], ISBN-978-3-642-37681-8
-	\bibitem{salsadiffcrypt}
-	Nicky Mouha, Bart Preneel: \textit{Towards Finding Optimal Differential Characteristics for ARX: Application to Salsa20}, 2013,  \url{https://eprint.iacr.org/2013/328.pdf}, 2019.04.29.
-	\bibitem{cvalue}
-	N. Alon, Y. Kohayakawa, C. Mauduit, C. G. Moreira, V. Rödl: \textit{Measures of pseudorandomness for finite sequences: minimal values}, Combin. Prob. Comput., 15, 2005, [1-29]
-	\bibitem{symmetry}
-	Katalin Gyarmati: \textit{On a pseudorandom property of binary sequences}, The Ramanujan Journal, 8, 2004, [289-302]
-	\bibitem{largefam}
-	L. Goubin, C. Mauduit, A. Sárközy: \textit{Construction of large families of pseudorandom binary sequences}, J. Number Theory, 106, 2004, [56-59]
+	\bibitem{vikitoth1}
+	V. Tóth: \textit{The study of collision and avalanche effect in a family of pseudorandom binary sequences}, Periodica Math. Hungar., 59, 2009, [1-8].
+	\bibitem{vikitoth2}
+	V. Tóth: \textit{Ütközés és lavinahatás vizsgálata véges pszeudovéletlen sorozatokban}, Doktori értékezés, ELTE, Informatika Doktori Iskola, 2014
+	\bibitem{rcleak}
+	"Thank you Bob Anderson", Cypherpunks (levelezői lista), 1994, Archiválva: \url{http://cypherpunks.venona.com/date/1994/09/msg00304.html}, 2019.04.29.
 \end{thebibliography}
 \end{document}
