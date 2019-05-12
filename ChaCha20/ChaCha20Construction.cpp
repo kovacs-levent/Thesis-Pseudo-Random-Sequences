@@ -108,7 +108,6 @@ std::vector<bool> ChaCha20Construction::GenerateStream(uint64_t length)
         if(length)
         {
             bit_seq = tmp[j];
-            std::cout << bit_seq << std::endl;
             for(uint8_t z = 0; z < length; z++)
             {
                 output[i] = bit_seq[31-z];

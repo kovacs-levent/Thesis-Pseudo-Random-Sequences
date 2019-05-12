@@ -1,0 +1,1 @@
+g++ -std=c++11 -o tests TestApp.cpp ../Arithmetics/ModArithmetic.cpp ../Arithmetics/PrimeArithmetic.cpp ../GeneralPRNG/SeedGenerator.cpp ../LegendreConstruction/LegendreConstruction.cpp ../RC4/RC4_PRG.cpp ../AdditiveConstruction/AdditiveConstruction.cpp ../ChaCha20/ChaCha20Construction.cpp ../Measurements/measure.cpp ../"QT App"/oneTimePad.cpp
